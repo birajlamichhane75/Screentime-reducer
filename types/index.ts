@@ -41,7 +41,9 @@ export type RewardEventType =
   | 'project_created'
   | 'challenge_completed'
   | 'milestone_reached'
-  | 'streak_bonus';
+  | 'streak_bonus'
+  | 'reward_claimed'
+  | 'work_selected';
 
 export type NotificationType =
   | 'achievement'
@@ -50,6 +52,71 @@ export type NotificationType =
   | 'challenge'
   | 'verification'
   | 'system';
+
+export type RatingTier = 'Platinum' | 'Gold' | 'Silver' | 'Bronze';
+export type RatingCheckpointTitle = RatingTier;
+
+export interface RatingCheckpoint {
+  tier: RatingTier;
+  level: number;
+  title: RatingTier;
+  badge: string;
+  minScore: number;
+  icon: string;
+  perk: string;
+}
+
+export const RATING_CHECKPOINTS: RatingCheckpoint[] = [
+  {
+    tier: 'Platinum',
+    level: 4,
+    title: 'Platinum',
+    badge: '💎 Platinum (95-100)',
+    minScore: 95,
+    icon: 'Diamond',
+    perk: '#1 Rank',
+  },
+  {
+    tier: 'Gold',
+    level: 3,
+    title: 'Gold',
+    badge: '🥇 Gold (80-94)',
+    minScore: 80,
+    icon: 'Award',
+    perk: 'Top 3',
+  },
+  {
+    tier: 'Silver',
+    level: 2,
+    title: 'Silver',
+    badge: '🥈 Silver (65-79)',
+    minScore: 65,
+    icon: 'Shield',
+    perk: 'Priority',
+  },
+  {
+    tier: 'Bronze',
+    level: 1,
+    title: 'Bronze',
+    badge: '🥉 Bronze (<65)',
+    minScore: 0,
+    icon: 'Circle',
+    perk: 'Standard',
+  },
+];
+
+export interface CreatorConsistencyRating {
+  score: number; // 0 - 100 DoorDash style score
+  tier: RatingTier;
+  checkpoint: RatingCheckpoint;
+  streak_days: number;
+  last_uploaded_at: string;
+  avg_interval_hours: number;
+  hours_since_last_upload: number;
+  total_uploads: number;
+  is_daily_active: boolean;
+  next_checkpoint_hint: string;
+}
 
 export interface Profile {
   id: string;
@@ -66,6 +133,10 @@ export interface Profile {
   is_discoverable: boolean;
   allow_org_contact: boolean;
   baseline_screen_time_mins: number;
+  consistency_rating?: number;
+  rating_checkpoint?: RatingCheckpointTitle;
+  upload_streak_days?: number;
+  last_uploaded_at?: string;
   created_at: string;
   updated_at: string;
 }
@@ -333,6 +404,7 @@ export interface VideoPost {
   creator: {
     username: string;
     full_name: string;
+    email?: string;
     avatar_url?: string;
     is_verified?: boolean;
     bio?: string;
@@ -340,22 +412,69 @@ export interface VideoPost {
     followers_count?: number;
     following_count?: number;
     videos_count?: number;
+    selected_works_count?: number;
     location?: string;
+    consistency_rating?: number;
+    rating_checkpoint?: RatingCheckpointTitle;
+    upload_streak_days?: number;
+    last_uploaded_at?: string;
   };
   video_url: string;
   thumbnail_url: string;
   title?: string;
   caption: string;
   category: string;
-  likes_count: number;
-  comments_count: number;
-  shares_count: number;
+  likes_count?: number;
+  comments_count?: number;
+  shares_count?: number;
   views_count: number;
   duration_seconds?: number;
   duration_formatted?: string;
   is_liked?: boolean;
   is_saved?: boolean;
+  is_selected_by_org?: boolean;
+  selections_count?: number;
+  selected_by?: Array<{
+    org_id: string;
+    org_name: string;
+    selected_at: string;
+    email_sent_to?: string;
+  }>;
   created_at: string;
+}
+
+export interface SelectedWork {
+  id: string;
+  org_id: string;
+  org_name: string;
+  video_id: string;
+  creator_id: string;
+  creator_name: string;
+  creator_email: string;
+  work_title: string;
+  work_category: string;
+  video_url: string;
+  thumbnail_url: string;
+  selected_at: string;
+  email_id?: string;
+  notes?: string;
+}
+
+export interface WorkSelectionEmail {
+  id: string;
+  recipient_email: string;
+  recipient_name: string;
+  recipient_id: string;
+  org_id: string;
+  org_name: string;
+  org_email?: string;
+  work_id: string;
+  work_title: string;
+  work_category: string;
+  subject: string;
+  body_text: string;
+  sent_at: string;
+  status: 'delivered' | 'sent';
 }
 
 export interface SavedCreator {
@@ -380,4 +499,18 @@ export interface ContactRequest {
   message: string;
   status: 'pending' | 'accepted' | 'declined';
   created_at: string;
+}
+
+export interface CreatorReward {
+  id: string;
+  title: string;
+  category: string;
+  icon: string;
+  requiredTier: RatingTier;
+  minScore: number;
+  perkDescription: string;
+  valueTag: string;
+  status: 'unlocked' | 'claimed' | 'locked';
+  claimedAt?: string;
+  claimCode?: string;
 }

@@ -12,9 +12,13 @@ import {
   CheckCircle2,
   Sparkles,
   X,
+  Star,
+  Flame,
+  Trophy,
 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
+import { CreatorConsistencyRating } from '@/types';
 
 export default function UploadVideoPage() {
   const router = useRouter();
@@ -33,9 +37,12 @@ export default function UploadVideoPage() {
   const [isCustomCategoryModalOpen, setIsCustomCategoryModalOpen] = useState(false);
   const [customCategoryInput, setCustomCategoryInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userRating, setUserRating] = useState<CreatorConsistencyRating | null>(null);
 
   useEffect(() => {
     setCategories(DataStore.getCategories().filter((c) => c !== 'All'));
+    const user = DataStore.getCurrentUser();
+    setUserRating(DataStore.getCreatorRating(user.id));
   }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,6 +104,29 @@ export default function UploadVideoPage() {
             </h1>
             <div className="w-8" />
           </div>
+
+          {/* Daily Rating Incentive Pill - Icon-Driven */}
+          {userRating && (
+            <div className="px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between text-xs shadow-2xs">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex items-center gap-1 font-bold text-slate-900 dark:text-white">
+                  <span>💎</span>
+                  <span className="text-[#0E0830] dark:text-[#c4bbf0] font-bold">{userRating.score}</span>
+                  <span className="text-[10px] text-slate-400 uppercase font-semibold">{userRating.tier}</span>
+                </span>
+                <span className="text-slate-200 dark:text-slate-800">|</span>
+                <span className="inline-flex items-center gap-1 text-[11px] text-slate-600 dark:text-slate-300 font-medium">
+                  <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                  <span>+1d Streak</span>
+                </span>
+                <span className="text-slate-200 dark:text-slate-800">|</span>
+                <span className="inline-flex items-center gap-1 text-[11px] text-slate-600 dark:text-slate-300 font-medium">
+                  <Trophy className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0]" />
+                  <span>#1 in {selectedCategory}</span>
+                </span>
+              </div>
+            </div>
+          )}
 
           {/* Video Preview & File Upload Box */}
           <div
@@ -211,7 +241,7 @@ export default function UploadVideoPage() {
             type="button"
             onClick={handlePostVideo}
             disabled={isSubmitting || !caption.trim()}
-            className="w-full py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-98 text-white font-semibold text-xs tracking-wide shadow-md shadow-indigo-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full py-3.5 px-4 rounded-xl bg-[#0E0830] hover:bg-[#1a1147] active:scale-98 text-white font-semibold text-xs tracking-wide shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isSubmitting ? (
               <span>Uploading & Processing...</span>
@@ -245,7 +275,7 @@ export default function UploadVideoPage() {
                 value={customCategoryInput}
                 onChange={(e) => setCustomCategoryInput(e.target.value)}
                 placeholder="e.g. Beatboxing, Woodworking"
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-hidden"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-[#0E0830] outline-hidden"
                 autoFocus
               />
 
@@ -260,7 +290,7 @@ export default function UploadVideoPage() {
                 <button
                   type="button"
                   onClick={handleAddCustomCategory}
-                  className="flex-1 py-2 rounded-xl bg-indigo-600 text-white text-xs font-semibold"
+                  className="flex-1 py-2 rounded-xl bg-[#0E0830] hover:bg-[#1a1147] text-white text-xs font-semibold transition-colors"
                 >
                   Add
                 </button>

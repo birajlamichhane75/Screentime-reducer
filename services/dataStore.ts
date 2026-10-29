@@ -22,8 +22,16 @@ import {
   VideoPost,
   SavedCreator,
   ContactRequest,
+  SelectedWork,
+  WorkSelectionEmail,
+  RatingCheckpoint,
+  CreatorConsistencyRating,
+  RATING_CHECKPOINTS,
+  RatingCheckpointTitle,
+  CreatorReward,
 } from '@/types';
 import { createClient } from '@/lib/supabase/client';
+import { EmailService } from './emailService';
 import {
   INITIAL_PROFILES,
   INITIAL_HOBBIES,
@@ -45,6 +53,8 @@ import {
   INITIAL_VIDEOS,
   INITIAL_SAVED_CREATORS,
   INITIAL_CONTACT_REQUESTS,
+  INITIAL_SELECTED_WORKS,
+  INITIAL_CREATOR_REWARDS,
 } from './mockData';
 import {
   REWARD_CONFIG,
@@ -74,7 +84,9 @@ const STORAGE_KEYS = {
   VIDEOS: 'sb_videos',
   CATEGORIES: 'sb_categories',
   SAVED_CREATORS: 'sb_saved_creators',
+  SELECTED_WORKS: 'sb_selected_works',
   CONTACT_REQUESTS: 'sb_contact_requests',
+  CREATOR_REWARDS: 'sb_creator_rewards',
 };
 
 const memoryFallback: Record<string, any> = {};
@@ -131,7 +143,20 @@ export class DataStore {
 
   // Profiles
   static getProfiles(): Profile[] {
-    return getStorageItem<Profile[]>(STORAGE_KEYS.PROFILES, INITIAL_PROFILES);
+    const rawProfiles = getStorageItem<Profile[]>(STORAGE_KEYS.PROFILES, INITIAL_PROFILES);
+    return rawProfiles.map((p) => {
+      if (p.role === 'student') {
+        const rating = this.getCreatorRating(p.id);
+        return {
+          ...p,
+          consistency_rating: rating.score,
+          rating_checkpoint: rating.checkpoint.title,
+          upload_streak_days: rating.streak_days,
+          last_uploaded_at: rating.last_uploaded_at,
+        };
+      }
+      return p;
+    });
   }
 
   static getProfileById(userId: string): Profile | undefined {
@@ -327,6 +352,63 @@ export class DataStore {
     all.unshift(newEvent);
     setStorageItem(STORAGE_KEYS.REWARD_EVENTS, all);
     return newEvent;
+  }
+
+  static getCreatorRewards(userId: string): CreatorReward[] {
+    const userStorageKey = `${STORAGE_KEYS.CREATOR_REWARDS}_${userId}`;
+    const rawRewards = getStorageItem<CreatorReward[]>(userStorageKey, INITIAL_CREATOR_REWARDS);
+    const rewards: CreatorReward[] = JSON.parse(JSON.stringify(rawRewards));
+    const userRating = this.getCreatorRating(userId);
+    const score = userRating.score;
+
+    return rewards.map((r) => {
+      if (r.status === 'claimed') return r;
+      if (score >= r.minScore) {
+        return { ...r, status: 'unlocked' as const };
+      }
+      return { ...r, status: 'locked' as const };
+    });
+  }
+
+  static claimCreatorReward(
+    userId: string,
+    rewardId: string
+  ): { success: boolean; reward?: CreatorReward; error?: string } {
+    const userStorageKey = `${STORAGE_KEYS.CREATOR_REWARDS}_${userId}`;
+    const rawRewards = getStorageItem<CreatorReward[]>(userStorageKey, INITIAL_CREATOR_REWARDS);
+    const rewards: CreatorReward[] = JSON.parse(JSON.stringify(rawRewards));
+    const index = rewards.findIndex((r) => r.id === rewardId);
+    if (index === -1) {
+      return { success: false, error: 'Reward not found' };
+    }
+
+    const currentReward = rewards[index];
+    const userRating = this.getCreatorRating(userId);
+    if (userRating.score < currentReward.minScore && currentReward.status !== 'unlocked') {
+      return { success: false, error: `Score ${currentReward.minScore} required to claim` };
+    }
+
+    const claimCode = `SKILL-${currentReward.category.toUpperCase().slice(0, 4)}-${Math.floor(1000 + Math.random() * 9000)}`;
+    const updatedReward: CreatorReward = {
+      ...currentReward,
+      status: 'claimed',
+      claimedAt: new Date().toISOString(),
+      claimCode,
+    };
+
+    rewards[index] = updatedReward;
+    setStorageItem(userStorageKey, rewards);
+
+    // Record reward redemption in Reward Ledger
+    this.addRewardEvent(
+      userId,
+      50,
+      'reward_claimed',
+      updatedReward.id,
+      `Claimed ${updatedReward.title} (Code: ${claimCode})`
+    );
+
+    return { success: true, reward: updatedReward };
   }
 
   static getUserAchievements(userId: string): UserAchievement[] {
@@ -786,17 +868,177 @@ export class DataStore {
     return categories;
   }
 
-  static getVideos(): VideoPost[] {
-    const vids = getStorageItem<VideoPost[]>(STORAGE_KEYS.VIDEOS, INITIAL_VIDEOS);
-    return vids.map((v) => {
-      if (v.thumbnail_url && v.thumbnail_url.includes('1579783902614')) {
-        return {
-          ...v,
-          thumbnail_url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&auto=format&fit=crop&q=80',
-        };
+  /**
+   * Calculates a creator's consistency rating and checkpoint level based on upload intervals.
+   * Daily uploads award top Checkpoint 5 (★ 5.0 Daily Master).
+   * Infrequent uploads reduce the rating to lower checkpoints.
+   */
+  static getCreatorRating(creatorId: string): CreatorConsistencyRating {
+    const rawProfiles = getStorageItem<Profile[]>(STORAGE_KEYS.PROFILES, INITIAL_PROFILES);
+    const profile = rawProfiles.find((p) => p.id === creatorId);
+    const rawVideos = getStorageItem<VideoPost[]>(STORAGE_KEYS.VIDEOS, INITIAL_VIDEOS);
+    const creatorVideos = rawVideos
+      .filter((v) => v.creator_id === creatorId)
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+    // If no videos, return default initial rating
+    if (creatorVideos.length === 0) {
+      const baseScore = profile?.consistency_rating ?? 50;
+      const cp =
+        RATING_CHECKPOINTS.find((c) => baseScore >= c.minScore) ||
+        RATING_CHECKPOINTS[RATING_CHECKPOINTS.length - 1];
+      return {
+        score: baseScore,
+        tier: cp.tier,
+        checkpoint: cp,
+        streak_days: profile?.upload_streak_days ?? 0,
+        last_uploaded_at: profile?.last_uploaded_at ?? new Date(0).toISOString(),
+        avg_interval_hours: 168,
+        hours_since_last_upload: 999,
+        total_uploads: 0,
+        is_daily_active: false,
+        next_checkpoint_hint: 'Upload daily for 💎 Platinum',
+      };
+    }
+
+    const latestVideo = creatorVideos[0];
+    const latestTime = new Date(latestVideo.created_at).getTime();
+    const now = Date.now();
+    const hoursSinceLast = Math.max(0, (now - latestTime) / (3600 * 1000));
+
+    // Calculate intervals between consecutive uploads (in hours)
+    let avgIntervalHours = 24;
+    if (creatorVideos.length > 1) {
+      const intervals: number[] = [];
+      const sampleSize = Math.min(creatorVideos.length - 1, 5);
+      for (let i = 0; i < sampleSize; i++) {
+        const t1 = new Date(creatorVideos[i].created_at).getTime();
+        const t2 = new Date(creatorVideos[i + 1].created_at).getTime();
+        const diff = (t1 - t2) / (3600 * 1000);
+        if (diff > 0) intervals.push(diff);
       }
-      return v;
+      if (intervals.length > 0) {
+        avgIntervalHours = intervals.reduce((acc, curr) => acc + curr, 0) / intervals.length;
+      }
+    } else {
+      avgIntervalHours = Math.max(24, hoursSinceLast);
+    }
+
+    // Determine daily streak
+    let streakDays = profile?.upload_streak_days ?? 1;
+    if (hoursSinceLast > 48) {
+      // Streak broken if more than 48 hours without upload
+      streakDays = 0;
+    }
+
+    // Calculate 0-100 score based on upload interval & recency (DoorDash style)
+    let score = 50;
+    if (hoursSinceLast <= 24) {
+      // Uploaded within the last 24h: active daily creator!
+      if (streakDays >= 3 || avgIntervalHours <= 28) {
+        score = Math.min(100, 95 + Math.min(5, streakDays)); // 95 - 100: Platinum
+      } else if (streakDays >= 1 || avgIntervalHours <= 48) {
+        score = Math.min(94, 85 + Math.min(7, streakDays)); // 85 - 94: Gold
+      } else if (avgIntervalHours <= 72) {
+        score = 75; // Silver
+      } else {
+        score = 68; // Silver
+      }
+    } else if (hoursSinceLast <= 48) {
+      // Uploaded yesterday
+      if (streakDays >= 2 || avgIntervalHours <= 36) {
+        score = 88; // Gold
+      } else {
+        score = 80; // Gold
+      }
+    } else if (hoursSinceLast <= 72) {
+      // 2-3 days interval
+      score = 74; // Silver
+    } else if (hoursSinceLast <= 168) {
+      // 4-7 days interval
+      score = 65; // Silver
+    } else {
+      // > 7 days: rare uploader
+      score = Math.max(20, Math.min(60, 60 - Math.round((hoursSinceLast - 168) / 24))); // Bronze (<65)
+    }
+
+    // Respect seeded profile consistency rating if available and user is within active period
+    if (profile?.consistency_rating && hoursSinceLast <= 36) {
+      score = Math.max(score, profile.consistency_rating);
+    }
+
+    score = Math.min(100, Math.max(0, Math.round(score)));
+
+    const checkpoint =
+      RATING_CHECKPOINTS.find((c) => score >= c.minScore) ||
+      RATING_CHECKPOINTS[RATING_CHECKPOINTS.length - 1];
+
+    let nextHint = '';
+    if (checkpoint.tier === 'Platinum') {
+      nextHint = '💎 Platinum (#1 Priority)';
+    } else if (checkpoint.tier === 'Gold') {
+      nextHint = 'Upload today for 💎 Platinum';
+    } else {
+      nextHint = 'Upload daily for 🥇 Gold & 💎 Platinum';
+    }
+
+    return {
+      score,
+      tier: checkpoint.tier,
+      checkpoint,
+      streak_days: streakDays,
+      last_uploaded_at: latestVideo.created_at,
+      avg_interval_hours: Math.round(avgIntervalHours),
+      hours_since_last_upload: Math.round(hoursSinceLast),
+      total_uploads: creatorVideos.length,
+      is_daily_active: hoursSinceLast <= 24,
+      next_checkpoint_hint: nextHint,
+    };
+  }
+
+  static getVideos(category?: string, sortByRating = true): VideoPost[] {
+    const rawVids = getStorageItem<VideoPost[]>(STORAGE_KEYS.VIDEOS, INITIAL_VIDEOS);
+    let mapped = rawVids.map((v) => {
+      const rating = this.getCreatorRating(v.creator_id);
+      let thumb = v.thumbnail_url;
+      if (thumb && thumb.includes('1579783902614')) {
+        thumb = 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&auto=format&fit=crop&q=80';
+      }
+      return {
+        ...v,
+        thumbnail_url: thumb,
+        creator: {
+          ...v.creator,
+          consistency_rating: rating.score,
+          rating_checkpoint: rating.checkpoint.title,
+          upload_streak_days: rating.streak_days,
+          last_uploaded_at: rating.last_uploaded_at,
+        },
+      };
     });
+
+    if (category && category !== 'All') {
+      mapped = mapped.filter(
+        (v) =>
+          v.category.toLowerCase() === category.toLowerCase() ||
+          v.creator.categories?.some((c) => c.toLowerCase() === category.toLowerCase())
+      );
+    }
+
+    if (sortByRating) {
+      // Primary sort: Creator Consistency Rating descending (daily uploaders rank at the top)
+      // Secondary sort: created_at descending
+      mapped.sort((a, b) => {
+        const ratingA = a.creator?.consistency_rating ?? 2.0;
+        const ratingB = b.creator?.consistency_rating ?? 2.0;
+        if (ratingB !== ratingA) {
+          return ratingB - ratingA;
+        }
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
+    }
+
+    return mapped;
   }
 
   static async syncFromSupabase(): Promise<boolean> {
@@ -869,13 +1111,17 @@ export class DataStore {
     category: string;
     video_url: string;
     thumbnail_url: string;
+    title?: string;
     duration_seconds?: number;
   }): VideoPost {
-    const videos = this.getVideos();
+    const rawVideos = getStorageItem<VideoPost[]>(STORAGE_KEYS.VIDEOS, INITIAL_VIDEOS);
     const creatorProfile = this.getProfileById(data.creator_id) || this.getCurrentUser();
     
     // Ensure category exists
     this.addCategory(data.category);
+
+    const nowISO = new Date().toISOString();
+    const newStreak = (creatorProfile.upload_streak_days || 0) + 1;
 
     const newVideo: VideoPost = {
       id: `vid-${Date.now()}`,
@@ -883,6 +1129,7 @@ export class DataStore {
       creator: {
         username: creatorProfile.username,
         full_name: creatorProfile.full_name,
+        email: creatorProfile.email,
         avatar_url: creatorProfile.avatar_url,
         is_verified: true,
         bio: creatorProfile.bio,
@@ -890,9 +1137,14 @@ export class DataStore {
         followers_count: 12400,
         following_count: 256,
         videos_count: (creatorProfile as any).videos_count ? (creatorProfile as any).videos_count + 1 : 1,
+        consistency_rating: 98, // Immediately boost to 98 (Platinum) on upload
+        rating_checkpoint: 'Platinum',
+        upload_streak_days: newStreak,
+        last_uploaded_at: nowISO,
       },
       video_url: data.video_url,
       thumbnail_url: data.thumbnail_url,
+      title: data.title || data.caption.slice(0, 30),
       caption: data.caption,
       category: data.category,
       likes_count: 0,
@@ -902,11 +1154,24 @@ export class DataStore {
       duration_seconds: data.duration_seconds || 15,
       is_liked: false,
       is_saved: false,
-      created_at: new Date().toISOString(),
+      created_at: nowISO,
     };
 
-    videos.unshift(newVideo);
-    setStorageItem(STORAGE_KEYS.VIDEOS, videos);
+    rawVideos.unshift(newVideo);
+    setStorageItem(STORAGE_KEYS.VIDEOS, rawVideos);
+
+    // Update creator profile consistency rating & streak
+    try {
+      this.updateProfile(data.creator_id, {
+        consistency_rating: 98,
+        rating_checkpoint: 'Platinum',
+        upload_streak_days: newStreak,
+        last_uploaded_at: nowISO,
+      });
+    } catch {
+      // Ignore if profile update in isolated test environment
+    }
+
     return newVideo;
   }
 
@@ -919,6 +1184,112 @@ export class DataStore {
     video.likes_count = video.is_liked ? video.likes_count + 1 : Math.max(0, video.likes_count - 1);
     setStorageItem(STORAGE_KEYS.VIDEOS, videos);
     return { isLiked: video.is_liked, likesCount: video.likes_count };
+  }
+
+  // ==========================================
+  // ORGANIZATION WORK SELECTION & EMAIL NOTIFICATION
+  // ==========================================
+
+  static getSelectedWorks(orgId?: string): SelectedWork[] {
+    const all = getStorageItem<SelectedWork[]>(STORAGE_KEYS.SELECTED_WORKS, INITIAL_SELECTED_WORKS);
+    if (!orgId) return all;
+    return all.filter((s) => s.org_id === orgId);
+  }
+
+  static isWorkSelected(orgId: string, videoId: string): boolean {
+    const all = this.getSelectedWorks(orgId);
+    return all.some((s) => s.video_id === videoId);
+  }
+
+  /**
+   * Organization selects or considers work they like.
+   * Dispatches an email notification to the creator's account email.
+   */
+  static selectWork(params: {
+    orgId: string;
+    orgName: string;
+    videoId: string;
+    notes?: string;
+  }): { selected: boolean; emailSent?: WorkSelectionEmail } {
+    const selectedWorks = this.getSelectedWorks();
+    const existingIndex = selectedWorks.findIndex(
+      (s) => s.org_id === params.orgId && s.video_id === params.videoId
+    );
+
+    // If already selected, toggle off
+    if (existingIndex >= 0) {
+      selectedWorks.splice(existingIndex, 1);
+      setStorageItem(STORAGE_KEYS.SELECTED_WORKS, selectedWorks);
+      return { selected: false };
+    }
+
+    // Lookup video and creator
+    const video = this.getVideoById(params.videoId);
+    const creatorProfile = video ? this.getProfileById(video.creator_id) : undefined;
+    const creatorEmail =
+      video?.creator?.email ||
+      creatorProfile?.email ||
+      EmailService.getRecipientEmail({ username: video?.creator?.username || 'creator' });
+    const creatorName = video?.creator?.full_name || creatorProfile?.full_name || 'Creator';
+    const creatorId = video?.creator_id || 'usr-student-001';
+    const workTitle = video?.title || video?.caption || 'Talent Showcase Video';
+
+    // 1. Dispatch official email notification to creator's registered email
+    const emailSent = EmailService.sendWorkSelectionEmail({
+      creator: {
+        id: creatorId,
+        full_name: creatorName,
+        username: video?.creator?.username || 'creator',
+        email: creatorEmail,
+      },
+      organization: {
+        id: params.orgId,
+        name: params.orgName,
+      },
+      work: {
+        id: params.videoId,
+        title: workTitle,
+        caption: video?.caption || '',
+        category: video?.category || 'General',
+      },
+      notes: params.notes,
+    });
+
+    // 2. Add an in-app notification for the creator
+    this.addNotification(
+      creatorId,
+      `${params.orgName} selected your work!`,
+      `${params.orgName} shortlisted your work "${workTitle}". An email has been sent to your account (${creatorEmail}).`,
+      'opportunity',
+      '/notifications'
+    );
+
+    // 3. Persist into selected works list
+    const newSelection: SelectedWork = {
+      id: `sel-${Date.now()}`,
+      org_id: params.orgId,
+      org_name: params.orgName,
+      video_id: params.videoId,
+      creator_id: creatorId,
+      creator_name: creatorName,
+      creator_email: creatorEmail,
+      work_title: workTitle,
+      work_category: video?.category || 'General',
+      video_url: video?.video_url || '',
+      thumbnail_url: video?.thumbnail_url || '',
+      selected_at: new Date().toISOString(),
+      email_id: emailSent.id,
+      notes: params.notes,
+    };
+
+    selectedWorks.unshift(newSelection);
+    setStorageItem(STORAGE_KEYS.SELECTED_WORKS, selectedWorks);
+
+    return { selected: true, emailSent };
+  }
+
+  static getEmailsForUser(userEmailOrId: string): WorkSelectionEmail[] {
+    return EmailService.getEmailsForUser(userEmailOrId);
   }
 
   // ==========================================

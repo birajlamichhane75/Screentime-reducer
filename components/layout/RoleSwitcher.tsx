@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DataStore } from '@/services/dataStore';
 import { Profile, UserRole } from '@/types';
-import { Shield, Briefcase, GraduationCap, ChevronDown } from 'lucide-react';
+import { Building2, GraduationCap, ChevronDown, Check } from 'lucide-react';
 
 export function RoleSwitcher() {
   const router = useRouter();
@@ -21,90 +21,76 @@ export function RoleSwitcher() {
     setIsOpen(false);
 
     if (role === 'student') {
-      router.push('/dashboard');
+      router.push('/feed');
     } else if (role === 'organization') {
       router.push('/org-dashboard');
-    } else if (role === 'admin') {
-      router.push('/admin');
     }
   };
 
   if (!currentUser) return null;
+
+  const isOrg = currentUser.role === 'organization';
 
   return (
     <div className="relative inline-block text-left">
       <button
         onClick={() => setIsOpen(!isOpen)}
         id="role-switcher-dropdown"
-        className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:border-indigo-800 dark:text-indigo-300 transition-colors shadow-xs"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors"
         aria-expanded={isOpen}
       >
-        {currentUser.role === 'student' && <GraduationCap className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />}
-        {currentUser.role === 'organization' && <Briefcase className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />}
-        {currentUser.role === 'admin' && <Shield className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />}
-        <span className="capitalize font-medium tracking-wide">
-          Role: <strong className="font-bold">{currentUser.role}</strong> ({currentUser.full_name.split(' ')[0]})
+        {isOrg ? (
+          <Building2 className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0]" />
+        ) : (
+          <GraduationCap className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
+        )}
+        <span className="capitalize">
+          {isOrg ? 'Organization' : 'Creator'}
         </span>
         <ChevronDown className="w-3 h-3 text-slate-400" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl z-50 p-2 animate-in fade-in zoom-in-95">
-          <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Switch Active Persona
+        <div className="absolute right-0 mt-1.5 w-60 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg z-50 p-1.5 animate-in fade-in">
+          <div className="px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-100 dark:border-slate-800 mb-1">
+            Switch Perspective
           </div>
-          <div className="py-1 flex flex-col gap-1">
-            <button
-              onClick={() => handleRoleSelect('student')}
-              className={`flex items-center gap-3 w-full px-3 py-2 text-xs rounded-xl text-left transition-colors ${
-                currentUser.role === 'student'
-                  ? 'bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 font-semibold'
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-              }`}
-            >
-              <div className="p-1.5 rounded-lg bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300">
-                <GraduationCap className="w-4 h-4" />
-              </div>
-              <div>
-                <p className="font-semibold">Student / Talent</p>
-                <p className="text-[11px] text-slate-400">Alex Morgan (Hobbyist)</p>
-              </div>
-            </button>
 
-            <button
-              onClick={() => handleRoleSelect('organization')}
-              className={`flex items-center gap-3 w-full px-3 py-2 text-xs rounded-xl text-left transition-colors ${
-                currentUser.role === 'organization'
-                  ? 'bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300 font-semibold'
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-              }`}
-            >
-              <div className="p-1.5 rounded-lg bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-300">
-                <Briefcase className="w-4 h-4" />
-              </div>
+          <button
+            onClick={() => handleRoleSelect('student')}
+            className={`flex items-center justify-between w-full px-2.5 py-2 text-xs rounded-lg text-left transition-colors ${
+              currentUser.role === 'student'
+                ? 'bg-slate-100 dark:bg-slate-800 text-[#0E0830] dark:text-white font-semibold'
+                : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <GraduationCap className="w-4 h-4 text-slate-500" />
               <div>
-                <p className="font-semibold">Verified Organization</p>
-                <p className="text-[11px] text-slate-400">Apex Tech Guild</p>
+                <p className="font-medium text-xs">Talent Creator</p>
+                <p className="text-[10px] text-slate-400">Share work peacefully, no vanity stats</p>
               </div>
-            </button>
+            </div>
+            {currentUser.role === 'student' && <Check className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0]" />}
+          </button>
 
-            <button
-              onClick={() => handleRoleSelect('admin')}
-              className={`flex items-center gap-3 w-full px-3 py-2 text-xs rounded-xl text-left transition-colors ${
-                currentUser.role === 'admin'
-                  ? 'bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 font-semibold'
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-              }`}
-            >
-              <div className="p-1.5 rounded-lg bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-300">
-                <Shield className="w-4 h-4" />
-              </div>
+          <button
+            onClick={() => handleRoleSelect('organization')}
+            className={`flex items-center justify-between w-full px-2.5 py-2 text-xs rounded-lg text-left transition-colors ${
+              currentUser.role === 'organization'
+                ? 'bg-slate-100 dark:bg-slate-800 text-[#0E0830] dark:text-white font-semibold'
+                : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Building2 className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
               <div>
-                <p className="font-semibold">Administrator</p>
-                <p className="text-[11px] text-slate-400">Jordan Vance (Safety & Ops)</p>
+                <p className="font-medium text-xs">Organization Scout</p>
+                <p className="text-[10px] text-slate-400">Select work & notify creators via email</p>
               </div>
-            </button>
-          </div>
+            </div>
+            {currentUser.role === 'organization' && <Check className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0]" />}
+          </button>
         </div>
       )}
     </div>

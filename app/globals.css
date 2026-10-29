@@ -1,69 +1,98 @@
 @import "tailwindcss";
 
+/* 
+ * SkillBridge — Clean, Simple, Relaxing Big-Tech UI System
+ * Pure White & Crisp Slate Palette with Obsidian Midnight Accent (#0E0830)
+ */
+
+@theme {
+  --color-blue-50: #f4f3f8;
+  --color-blue-100: #e8e6f1;
+  --color-blue-200: #d4d0e5;
+  --color-blue-300: #b3abd2;
+  --color-blue-400: #887eb5;
+  --color-blue-500: #0E0830;
+  --color-blue-600: #0E0830;
+  --color-blue-700: #1a1147;
+  --color-blue-800: #140d38;
+  --color-blue-900: #0E0830;
+  --color-blue-950: #090520;
+  --color-brand: #0E0830;
+  --color-brand-hover: #1a1147;
+  --color-brand-muted: #2d2460;
+  --color-brand-subtle: #f4f3f8;
+}
+
 :root {
-  --background: #f8fafc;
+  --background: #ffffff;
   --foreground: #0f172a;
   --card: #ffffff;
   --card-foreground: #0f172a;
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
+  --primary: #0E0830;
+  --primary-hover: #1a1147;
   --primary-foreground: #ffffff;
-  --secondary: #0d9488;
+  --primary-subtle: #f4f3f8;
+  --secondary: #334155;
   --secondary-foreground: #ffffff;
-  --accent: #f59e0b;
-  --accent-foreground: #ffffff;
-  --muted: #f1f5f9;
+  --muted: #f8fafc;
   --muted-foreground: #64748b;
   --border: #e2e8f0;
-  --ring: #4f46e5;
+  --ring: #0E0830;
   --radius: 0.75rem;
 }
 
 .dark {
-  --background: #0f172a;
+  --background: #0b0f17;
   --foreground: #f8fafc;
-  --card: #1e293b;
+  --card: #111827;
   --card-foreground: #f8fafc;
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
+  --primary: #0E0830;
+  --primary-hover: #1a1147;
   --primary-foreground: #ffffff;
-  --secondary: #14b8a6;
+  --primary-subtle: #1e1938;
+  --secondary: #94a3b8;
   --secondary-foreground: #ffffff;
-  --accent: #fbbf24;
-  --accent-foreground: #0f172a;
-  --muted: #1e293b;
+  --muted: #111827;
   --muted-foreground: #94a3b8;
-  --border: #334155;
-  --ring: #6366f1;
+  --border: #1f2937;
+  --ring: #0E0830;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.011em;
   min-height: 100vh;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glassmorphism & Custom Elements */
+/* Big-Tech Clean Minimal Card & Panels */
+.clean-panel {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
 .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
 }
 
 .dark .glass-panel {
-  background: rgba(30, 41, 59, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.8);
+  background-color: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(31, 41, 55, 0.85);
 }
 
-/* Custom Scrollbars */
+/* Subtle, Calm Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -73,16 +102,14 @@ body {
   border-radius: 9999px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: #334155;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
-
-/* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

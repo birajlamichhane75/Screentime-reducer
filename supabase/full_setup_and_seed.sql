@@ -18,11 +18,17 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     categories TEXT[] DEFAULT '{}',
     location TEXT,
     is_verified BOOLEAN DEFAULT false,
+    consistency_rating INTEGER DEFAULT 50,
+    rating_checkpoint TEXT DEFAULT 'Bronze',
+    upload_streak_days INTEGER DEFAULT 0,
+    last_uploaded_at TIMESTAMPTZ,
     followers_count INTEGER DEFAULT 0,
     following_count INTEGER DEFAULT 0,
     created_at TIMESTAMPTZ DEFAULT now(),
     updated_at TIMESTAMPTZ DEFAULT now()
 );
+
+CREATE INDEX IF NOT EXISTS idx_profiles_rating ON public.profiles(consistency_rating DESC);
 
 -- 2. Talent Categories Table
 CREATE TABLE IF NOT EXISTS public.talent_categories (
@@ -65,7 +71,34 @@ CREATE TABLE IF NOT EXISTS public.video_likes (
     UNIQUE(video_id, user_id)
 );
 
--- 5. Saved Talent (Organizations bookmarking Creators)
+-- 5. Selected Works (Organizations selecting/shortlisting student work)
+CREATE TABLE IF NOT EXISTS public.selected_works (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    org_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    video_id UUID NOT NULL REFERENCES public.videos(id) ON DELETE CASCADE,
+    creator_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    creator_email TEXT NOT NULL,
+    work_title TEXT NOT NULL,
+    work_category TEXT NOT NULL,
+    notes TEXT,
+    selected_at TIMESTAMPTZ DEFAULT now(),
+    UNIQUE(org_id, video_id)
+);
+
+-- 6. Sent Email Notifications (Logged when organizations select work)
+CREATE TABLE IF NOT EXISTS public.sent_emails (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    recipient_email TEXT NOT NULL,
+    recipient_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+    org_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+    work_id TEXT NOT NULL,
+    subject TEXT NOT NULL,
+    body_text TEXT NOT NULL,
+    sent_at TIMESTAMPTZ DEFAULT now(),
+    status TEXT DEFAULT 'delivered'
+);
+
+-- 7. Saved Talent (Organizations bookmarking Creators)
 CREATE TABLE IF NOT EXISTS public.saved_creators (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     org_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Sparkles, Menu, X, ArrowRight, ShieldCheck, Compass, Briefcase, HelpCircle } from 'lucide-react';
+import { Menu, X, ArrowRight, ShieldCheck, Compass, Briefcase, HelpCircle } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { RoleSwitcher } from './RoleSwitcher';
 
@@ -12,18 +12,15 @@ export function PublicNavbar() {
   return (
     <nav className="sticky top-0 z-50 w-full glass-panel border-b border-slate-200/80 dark:border-slate-800/80 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-15">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-teal-400 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-8 h-8 rounded-lg bg-[#0E0830] flex items-center justify-center text-white font-bold text-sm shadow-xs">
+              S
             </div>
             <div>
-              <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
-                Skill<span className="text-indigo-600 dark:text-indigo-400">Bridge</span>
-              </span>
-              <span className="hidden sm:inline-block ml-2 px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase rounded-md bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-800">
-                MVP
+              <span className="text-base font-bold tracking-tight text-slate-900 dark:text-white">
+                Skill<span className="text-[#0E0830] dark:text-[#c4bbf0]">Bridge</span>
               </span>
             </div>
           </Link>
@@ -32,30 +29,26 @@ export function PublicNavbar() {
           <div className="hidden md:flex items-center gap-6">
             <Link
               href="/#how-it-works"
-              className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5"
+              className="text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-[#0E0830] dark:hover:text-[#c4bbf0] transition-colors"
             >
-              <HelpCircle className="w-4 h-4 text-slate-400" />
               How It Works
             </Link>
             <Link
-              href="/#explore-skills"
-              className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5"
+              href="/feed"
+              className="text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-[#0E0830] dark:hover:text-[#c4bbf0] transition-colors"
             >
-              <Compass className="w-4 h-4 text-slate-400" />
-              Explore Skills
+              Talent Showcase
             </Link>
             <Link
-              href="/#opportunities"
-              className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5"
+              href="/explore"
+              className="text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-[#0E0830] dark:hover:text-[#c4bbf0] transition-colors"
             >
-              <Briefcase className="w-4 h-4 text-slate-400" />
-              Opportunities
+              Explore Work
             </Link>
             <Link
               href="/#for-organizations"
-              className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5"
+              className="text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-[#0E0830] dark:hover:text-[#c4bbf0] transition-colors"
             >
-              <ShieldCheck className="w-4 h-4 text-slate-400" />
               For Organizations
             </Link>
           </div>
@@ -66,17 +59,16 @@ export function PublicNavbar() {
             <ThemeToggle />
             <Link
               href="/login"
-              className="text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-lg transition-colors"
+              className="text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#0E0830] dark:hover:text-[#c4bbf0] px-3 py-1.5 rounded-lg transition-colors"
             >
               Sign In
             </Link>
             <Link
-              href="/register"
-              id="nav-get-started-btn"
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/25 transition-all hover:scale-102"
+              href="/feed"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-[#0E0830] hover:bg-[#1a1147] text-white shadow-xs transition-colors"
             >
-              Get Started
-              <ArrowRight className="w-4 h-4" />
+              View Feed
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
@@ -86,10 +78,10 @@ export function PublicNavbar() {
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -97,49 +89,42 @@ export function PublicNavbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 pt-3 pb-6 space-y-3">
+        <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 pt-3 pb-5 space-y-2 text-xs">
           <Link
-            href="/#how-it-works"
+            href="/feed"
+            className="block py-2 text-slate-700 dark:text-slate-200 hover:text-[#0E0830] dark:hover:text-[#c4bbf0] font-medium"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
           >
-            How It Works
+            Talent Showcase Feed
           </Link>
           <Link
-            href="/#explore-skills"
+            href="/explore"
+            className="block py-2 text-slate-700 dark:text-slate-200 hover:text-[#0E0830] dark:hover:text-[#c4bbf0] font-medium"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
           >
-            Explore Skills
+            Explore Directory
           </Link>
           <Link
-            href="/#opportunities"
+            href="/saved"
+            className="block py-2 text-slate-700 dark:text-slate-200 hover:text-[#0E0830] dark:hover:text-[#c4bbf0] font-medium"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
           >
-            Opportunities
+            Selected Works
           </Link>
-          <Link
-            href="/#for-organizations"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
-          >
-            For Organizations
-          </Link>
-          <div className="pt-2 flex flex-col gap-2">
+          <div className="pt-2 flex items-center gap-2">
             <Link
               href="/login"
+              className="flex-1 text-center py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-medium"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-center w-full py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold text-sm text-slate-800 dark:text-slate-200"
             >
               Sign In
             </Link>
             <Link
-              href="/register"
+              href="/feed"
+              className="flex-1 text-center py-2 rounded-lg bg-[#0E0830] hover:bg-[#1a1147] text-white font-medium"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-center w-full py-2.5 rounded-xl bg-indigo-600 font-semibold text-sm text-white shadow-md shadow-indigo-600/30"
             >
-              Get Started Free
+              Get Started
             </Link>
           </div>
         </div>

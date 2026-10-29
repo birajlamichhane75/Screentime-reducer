@@ -40,8 +40,22 @@ export default function RootLayout({
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var theme = localStorage.getItem('sb_theme');
+                if (theme === 'dark') {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
       </head>
-      <body className="min-h-screen bg-[#F8FAFC] dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
+      <body className="min-h-screen bg-white dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 antialiased selection:bg-[#0E0830] selection:text-white">
         {children}
       </body>
     </html>

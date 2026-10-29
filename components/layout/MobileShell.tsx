@@ -4,12 +4,18 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  Home,
-  Search,
-  Plus,
+  Compass,
+  BookmarkCheck,
+  Bell,
   User,
-  Sparkles,
+  Layers,
+  Building2,
+  GraduationCap,
+  Plus,
+  Trophy,
+  Gift,
 } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 import { DataStore } from '@/services/dataStore';
 import { Profile } from '@/types';
 
@@ -19,7 +25,7 @@ interface MobileShellProps {
   darkFeed?: boolean;
 }
 
-export function MobileShell({ children, hideBottomNav = false, darkFeed = false }: MobileShellProps) {
+export function MobileShell({ children, hideBottomNav = false }: MobileShellProps) {
   const pathname = usePathname();
   const [currentUser, setCurrentUser] = useState<Profile | null>(null);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -39,142 +45,168 @@ export function MobileShell({ children, hideBottomNav = false, darkFeed = false 
     window.location.reload();
   };
 
-  return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-indigo-500 selection:text-white flex flex-col">
-      {/* Responsive Shell: 100% width on Mobile, 60% Centered on Desktop */}
-      <main
-        className={`w-full lg:w-[60%] mx-auto min-h-screen flex flex-col relative border-x-0 lg:border-x border-slate-200/80 dark:border-slate-800/80 shadow-xs ${
-          darkFeed ? 'bg-black text-white' : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100'
-        }`}
-      >
-        {/* Top Demo Helper Bar */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-2 text-xs border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/80 dark:bg-slate-900/80 text-slate-500">
-          <div className="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
-            <span className="text-[11px]">SkillBridge</span>
-          </div>
+  const isOrg = currentUser?.role === 'organization';
 
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] text-slate-400 hidden sm:inline">Role:</span>
-            <select
-              value={currentUser?.id || 'usr-student-001'}
-              onChange={(e) => handleRoleSwitch(e.target.value)}
-              className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-md px-2 py-0.5 text-[11px] focus:ring-1 focus:ring-indigo-500 outline-hidden font-medium"
+  return (
+    <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 selection:bg-[#0E0830] selection:text-white flex flex-col antialiased">
+      {/* Responsive Shell: 100% width on Mobile, 60% Centered on Desktop */}
+      <main className="w-full lg:w-[60%] mx-auto min-h-screen flex flex-col relative border-x-0 lg:border-x border-slate-200/70 dark:border-slate-800/80 shadow-xs bg-white dark:bg-[#111827] text-slate-900 dark:text-slate-100">
+        {/* Top Minimal Role, Status Bar & Theme Toggle */}
+        <header className="flex items-center justify-between px-3 sm:px-6 py-2.5 text-xs border-b border-slate-100 dark:border-slate-800/80 bg-white/95 dark:bg-[#111827]/95 backdrop-blur-md sticky top-0 z-40">
+          <Link href="/feed" className="flex items-center gap-2 group">
+            <div className="w-6 h-6 rounded-md bg-[#0E0830] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+              S
+            </div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-semibold text-slate-900 dark:text-white text-sm tracking-tight">
+                SkillBridge
+              </span>
+              <span className="text-[10px] text-slate-400 font-normal hidden sm:inline">
+                {isOrg ? 'Organization Portal' : 'Creative Studio'}
+              </span>
+            </div>
+          </Link>
+
+          {/* Right Controls: Role Switcher, Quick Links & Theme Toggle */}
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-[11px] font-medium text-slate-700 dark:text-slate-300">
+              {isOrg ? (
+                <Building2 className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0] shrink-0" />
+              ) : (
+                <GraduationCap className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
+              )}
+              <select
+                value={currentUser?.id || 'usr-student-001'}
+                onChange={(e) => handleRoleSwitch(e.target.value)}
+                className="bg-transparent border-none text-[11px] font-medium text-slate-800 dark:text-slate-200 focus:outline-hidden cursor-pointer"
+                title="Switch persona"
+              >
+                <option value="usr-student-001">Sarah (Creator)</option>
+                <option value="usr-student-002">Emma (Creator)</option>
+                <option value="usr-student-003">Mike (Creator)</option>
+                <option value="usr-org-001">Creative Arts (Org)</option>
+              </select>
+            </div>
+
+            {/* Quick Explore Icon */}
+            <Link
+              href="/explore"
+              className={`p-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${
+                pathname === '/explore' ? 'text-[#0E0830] dark:text-[#c4bbf0]' : 'text-slate-500'
+              }`}
+              title="Explore directory"
             >
-              <option value="usr-student-001">Sarah Music (@sarahmusic - Creator)</option>
-              <option value="usr-student-002">Emma Dance (@emmadance)</option>
-              <option value="usr-student-003">Mike Soccer (@mikesoccer)</option>
-              <option value="usr-org-001">Creative Arts University (Org)</option>
-            </select>
+              <Compass className="w-4 h-4" />
+            </Link>
+
+            {/* Updates Bell */}
+            <Link
+              href="/notifications"
+              className={`p-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors relative ${
+                pathname === '/notifications' ? 'text-[#0E0830] dark:text-[#c4bbf0]' : 'text-slate-500'
+              }`}
+              title="Updates & Notifications"
+            >
+              <Bell className="w-4 h-4" />
+              {unreadCount > 0 && (
+                <span className="absolute 0.5 top-0.5 right-0.5 w-3 h-3 bg-[#0E0830] text-white rounded-full text-[8px] flex items-center justify-center font-bold">
+                  {unreadCount}
+                </span>
+              )}
+            </Link>
+
+            {!isOrg && (
+              <Link
+                href="/upload"
+                className="px-2.5 py-1 rounded-md bg-[#0E0830] hover:bg-[#1a1147] text-white font-medium text-[11px] flex items-center gap-1 shadow-xs transition-colors"
+                title="Upload daily craft to increase rating"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Upload</span>
+              </Link>
+            )}
+
+            {/* Quick 1-Click Theme Toggle Button */}
+            <ThemeToggle className="border border-slate-200/70 dark:border-slate-700/70 bg-slate-50 dark:bg-slate-800/80" />
           </div>
-        </div>
+        </header>
 
         {/* Page Content Body */}
         <div className="flex-1 pb-20">
           {children}
         </div>
 
-        {/* Responsive Sticky Bottom Navigation Bar (Centered within 60% container) */}
+        {/* Relaxing Big-Tech Bottom Navigation Bar */}
         {!hideBottomNav && (
           <nav
-            className="sticky bottom-0 z-40 border-t bg-white/95 dark:bg-slate-900/95 border-slate-100 dark:border-slate-800/80 text-slate-400 dark:text-slate-500 backdrop-blur-md px-6 py-2 flex items-center justify-around"
+            aria-label="Bottom Navigation"
+            className="sticky bottom-0 z-40 border-t bg-white/95 dark:bg-[#111827]/95 border-slate-200/80 dark:border-slate-800/80 text-slate-500 dark:text-slate-400 backdrop-blur-md px-4 sm:px-8 py-2 flex items-center justify-around"
           >
-            {/* 1. Home */}
+            {/* 1. Feed / Showcase */}
             <Link
               href="/feed"
               className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
                 pathname === '/feed' || pathname === '/'
-                  ? 'text-indigo-600 dark:text-indigo-400 font-bold'
+                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Home
-                className={`w-5 h-5 ${
-                  pathname === '/feed' || pathname === '/'
-                    ? 'fill-indigo-600 dark:fill-indigo-400 text-indigo-600 dark:text-indigo-400'
-                    : 'stroke-[1.8]'
-                }`}
-              />
-              <span className="text-[10px] tracking-tight">Home</span>
+              <Layers className="w-5 h-5 stroke-[1.9]" />
+              <span className="text-[11px] tracking-tight">Work</span>
             </Link>
 
-            {/* 2. Explore */}
+            {/* 2. Rating Page */}
             <Link
-              href="/explore"
+              href="/rating"
               className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
-                pathname === '/explore'
-                  ? 'text-indigo-600 dark:text-indigo-400 font-bold'
+                pathname === '/rating'
+                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Search
-                className={`w-5 h-5 ${
-                  pathname === '/explore' ? 'stroke-[2.8]' : 'stroke-[1.8]'
-                }`}
-              />
-              <span className="text-[10px] tracking-tight">Explore</span>
+              <Trophy className="w-5 h-5 stroke-[1.9]" />
+              <span className="text-[11px] tracking-tight">Rating</span>
             </Link>
 
-            {/* 3. Elevated Purple Plus Button */}
+            {/* 3. Rewards Page (Replaces message page) */}
             <Link
-              href="/upload"
-              prefetch={false}
-              className="flex items-center justify-center -mt-6 p-1 group"
-            >
-              <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/35 group-active:scale-95 transition-transform ring-4 ring-white dark:ring-slate-900">
-                <Plus className="w-6 h-6 stroke-[3]" />
-              </div>
-            </Link>
-
-            {/* 4. Messages */}
-            <Link
-              href="/notifications"
-              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors relative ${
-                pathname === '/notifications'
-                  ? 'text-indigo-600 dark:text-indigo-400 font-bold'
+              href="/rewards"
+              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
+                pathname === '/rewards' || pathname === '/messages'
+                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <div className="relative">
-                <svg
-                  className={`w-5 h-5 ${
-                    pathname === '/notifications'
-                      ? 'stroke-indigo-600 dark:stroke-indigo-400 fill-indigo-50 dark:fill-indigo-950/40'
-                      : 'stroke-current fill-none'
-                  }`}
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.8"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a.75.75 0 01-.84-.84c.14-.94.46-1.84.94-2.64A7.857 7.857 0 013 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
-                  />
-                </svg>
-                {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1.5 w-4 h-4 bg-red-500 text-white rounded-full text-[9px] flex items-center justify-center font-bold">
-                    {unreadCount}
-                  </span>
-                )}
-              </div>
-              <span className="text-[10px] tracking-tight">Messages</span>
+              <Gift className="w-5 h-5 stroke-[1.9]" />
+              <span className="text-[11px] tracking-tight">Rewards</span>
             </Link>
 
-            {/* 5. Profile */}
+            {/* 4. Selected Work / Shortlist */}
+            <Link
+              href="/saved"
+              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
+                pathname === '/saved'
+                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
+                  : 'hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <BookmarkCheck className="w-5 h-5 stroke-[1.9]" />
+              <span className="text-[11px] tracking-tight">
+                {isOrg ? 'Shortlist' : 'Selected'}
+              </span>
+            </Link>
+
+            {/* 5. Profile & Settings */}
             <Link
               href="/profile"
               className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
                 pathname === '/profile'
-                  ? 'text-indigo-600 dark:text-indigo-400 font-bold'
+                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <User
-                className={`w-5 h-5 ${
-                  pathname === '/profile' ? 'stroke-[2.5]' : 'stroke-[1.8]'
-                }`}
-              />
-              <span className="text-[10px] tracking-tight">Profile</span>
+              <User className="w-5 h-5 stroke-[1.9]" />
+              <span className="text-[11px] tracking-tight">Profile</span>
             </Link>
           </nav>
         )}
