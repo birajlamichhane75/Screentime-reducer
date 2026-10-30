@@ -34,8 +34,8 @@ export default function AdminOverviewPage() {
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-xs font-semibold mb-3">
-          <ShieldAlert className="w-3.5 h-3.5" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold mb-3">
+          <ShieldAlert className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0]" />
           <span>System Administration & Ecosystem Safety</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -48,21 +48,21 @@ export default function AdminOverviewPage() {
 
       {/* Pending Verification Notice */}
       {pendingVerifications.length > 0 && (
-        <div className="p-5 rounded-3xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 flex items-center justify-between gap-4">
+        <div className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0" />
+            <AlertTriangle className="w-6 h-6 text-[#0E0830] dark:text-[#c4bbf0] shrink-0" />
             <div>
-              <h2 className="text-sm font-bold text-amber-900 dark:text-amber-200">
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white">
                 {pendingVerifications.length} Organization Verification Request Awaiting Decision
               </h2>
-              <p className="text-xs text-amber-700 dark:text-amber-300 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Review official business credentials before partner opportunities become public.
               </p>
             </div>
           </div>
           <Link
             href="/admin/verification-requests"
-            className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-xs shrink-0"
+            className="px-4 py-2 rounded-xl bg-[#0E0830] hover:bg-[#1a1147] text-white font-bold text-xs shadow-xs shrink-0"
           >
             Review Now &rarr;
           </Link>
@@ -78,7 +78,7 @@ export default function AdminOverviewPage() {
           <p className="text-2xl font-black text-slate-900 dark:text-white mt-2">
             {users.length}
           </p>
-          <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
+          <p className="text-[10px] text-slate-500 font-semibold mt-1">
             +100% organic growth
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function AdminOverviewPage() {
           <p className="text-2xl font-black text-slate-900 dark:text-white mt-2">
             {opportunities.length}
           </p>
-          <p className="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold mt-1">
+          <p className="text-[10px] text-slate-500 font-semibold mt-1">
             Published listings
           </p>
         </div>
@@ -114,7 +114,7 @@ export default function AdminOverviewPage() {
           <p className="text-2xl font-black text-slate-900 dark:text-white mt-2">
             0
           </p>
-          <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
+          <p className="text-[10px] text-slate-500 font-semibold mt-1">
             All clear
           </p>
         </div>
@@ -124,12 +124,12 @@ export default function AdminOverviewPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Link
           href="/admin/verification-requests"
-          className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-300 dark:hover:border-amber-700 transition-all shadow-xs group"
+          className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-400 transition-all shadow-xs group"
         >
-          <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-            <CheckCircle2 className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-[#0E0830] dark:text-[#c4bbf0] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+            <CheckCircle2 className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />
           </div>
-          <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-600">
+          <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-[#0E0830]">
             Verification Requests
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -139,12 +139,12 @@ export default function AdminOverviewPage() {
 
         <Link
           href="/admin/opportunities"
-          className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all shadow-xs group"
+          className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-400 transition-all shadow-xs group"
         >
-          <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-            <Building className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-[#0E0830] dark:text-[#c4bbf0] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+            <Building className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />
           </div>
-          <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-indigo-600">
+          <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-[#0E0830]">
             Opportunities Moderation
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -154,12 +154,12 @@ export default function AdminOverviewPage() {
 
         <Link
           href="/admin/analytics"
-          className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-teal-300 dark:hover:border-teal-700 transition-all shadow-xs group"
+          className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-400 transition-all shadow-xs group"
         >
-          <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-950 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-            <BarChart3 className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-[#0E0830] dark:text-[#c4bbf0] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+            <BarChart3 className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />
           </div>
-          <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-teal-600">
+          <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-[#0E0830]">
             Ecosystem Analytics
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">

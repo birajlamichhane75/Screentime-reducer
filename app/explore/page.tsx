@@ -115,7 +115,7 @@ export default function ExplorePage() {
         {selectedWorkNotice && (
           <div className="mb-3 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-200 flex items-center justify-between animate-in fade-in shadow-xs">
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0] shrink-0" />
               <span>{selectedWorkNotice}</span>
             </div>
             <button onClick={() => setSelectedWorkNotice(null)} className="text-slate-400 hover:text-slate-600">

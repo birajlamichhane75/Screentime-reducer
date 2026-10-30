@@ -22,6 +22,7 @@ import {
   Lock,
   ChevronRight,
   X,
+  ShieldCheck,
 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
@@ -92,15 +93,15 @@ export default function RewardsPage() {
   const getHistoryIcon = (type: string) => {
     switch (type) {
       case 'work_selected':
-        return <BookmarkCheck className="w-5 h-5 text-emerald-600" />;
+        return <BookmarkCheck className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
       case 'milestone_reached':
         return <Award className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
       case 'streak_bonus':
-        return <Flame className="w-5 h-5 text-amber-500 fill-amber-500" />;
+        return <Flame className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
       case 'reward_claimed':
-        return <Gift className="w-5 h-5 text-purple-600" />;
+        return <Gift className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
       case 'challenge_completed':
-        return <Trophy className="w-5 h-5 text-amber-500" />;
+        return <Trophy className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
       default:
         return <Sparkles className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
     }
@@ -126,16 +127,16 @@ export default function RewardsPage() {
             className="p-1.5 -mr-1.5 rounded-lg text-slate-500 hover:text-[#0E0830] dark:hover:text-white transition-colors"
             title="Rating"
           >
-            <Trophy className="w-4 h-4" />
+            <Trophy className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
           </Link>
         </div>
 
         {/* Work Status Summary Bar (High Visual / Big Icons) */}
         <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex items-center justify-around text-center">
           <Link href="/rating" className="flex flex-col items-center group">
-            <span className="text-xl">
-              {userRating?.tier === 'Platinum' ? '💎' : userRating?.tier === 'Gold' ? '🥇' : '🥈'}
-            </span>
+            <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-0.5">
+              <ShieldCheck className="w-4 h-4 text-[#0E0830] dark:text-white" />
+            </div>
             <span className="text-xs font-bold text-slate-900 dark:text-white mt-0.5 group-hover:text-[#0E0830]">
               {userRating?.score ?? 98}/100
             </span>
@@ -147,7 +148,9 @@ export default function RewardsPage() {
           <div className="w-px h-8 bg-slate-200/80 dark:bg-slate-800" />
 
           <div className="flex flex-col items-center">
-            <Flame className="w-5 h-5 text-amber-500 fill-amber-500" />
+            <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-0.5">
+              <Flame className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
+            </div>
             <span className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">
               {userRating?.streak_days ?? 7}d
             </span>
@@ -159,7 +162,9 @@ export default function RewardsPage() {
           <div className="w-px h-8 bg-slate-200/80 dark:bg-slate-800" />
 
           <div className="flex flex-col items-center">
-            <Trophy className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />
+            <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-0.5">
+              <Trophy className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
+            </div>
             <span className="text-xs font-bold text-[#0E0830] dark:text-[#c4bbf0] mt-0.5">
               {totalPoints}
             </span>
@@ -267,8 +272,8 @@ export default function RewardsPage() {
                         )}
 
                         {isClaimed && (
-                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold">
-                            <CheckCircle2 className="w-3 h-3" />
+                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-[10px] font-bold">
+                            <CheckCircle2 className="w-3 h-3 text-[#0E0830] dark:text-slate-200" />
                             <span>Claimed</span>
                           </div>
                         )}
@@ -327,7 +332,7 @@ export default function RewardsPage() {
                   <span className="text-xs font-black text-[#0E0830] dark:text-[#c4bbf0]">
                     +{event.points} pts
                   </span>
-                  <p className="text-[9px] text-emerald-600 font-semibold">
+                  <p className="text-[9px] text-slate-500 font-medium">
                     Verified
                   </p>
                 </div>
@@ -340,8 +345,8 @@ export default function RewardsPage() {
         {claimedSuccessModal && claimedSuccessModal.show && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in">
             <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-xl text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-[#0E0830]/10 text-[#0E0830] dark:text-[#c4bbf0] flex items-center justify-center mx-auto text-2xl">
-                🎁
+              <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 text-[#0E0830] dark:text-[#c4bbf0] flex items-center justify-center mx-auto">
+                <Gift className="w-8 h-8 text-[#0E0830] dark:text-[#c4bbf0]" />
               </div>
 
               <div className="space-y-1">
@@ -368,7 +373,7 @@ export default function RewardsPage() {
                     title="Copy Code"
                   >
                     {copiedCode ? (
-                      <Check className="w-4 h-4 text-emerald-600" />
+                      <Check className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}

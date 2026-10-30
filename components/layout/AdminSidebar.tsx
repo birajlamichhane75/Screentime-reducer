@@ -40,14 +40,14 @@ export function AdminSidebar() {
     <aside className="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col h-screen sticky top-0 z-40 select-none">
       <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
         <Link href="/admin" className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-rose-500 flex items-center justify-center text-white shadow-sm shadow-amber-500/20">
-            <ShieldAlert className="w-5 h-5" />
+          <div className="w-9 h-9 rounded-xl bg-[#0E0830] flex items-center justify-center text-white shadow-xs">
+            <ShieldAlert className="w-5 h-5 text-white" />
           </div>
           <div>
             <span className="font-extrabold text-lg text-slate-900 dark:text-white tracking-tight">
-              Skill<span className="text-amber-600 dark:text-amber-400">Bridge</span>
+              Skill<span className="text-[#0E0830] dark:text-[#c4bbf0]">Bridge</span>
             </span>
-            <p className="text-[10px] text-amber-600 dark:text-amber-400 font-bold uppercase tracking-wider">
+            <p className="text-[10px] text-[#0E0830] dark:text-[#c4bbf0] font-bold uppercase tracking-wider">
               Admin Ops
             </p>
           </div>
@@ -82,7 +82,7 @@ export function AdminSidebar() {
                   className={`px-1.5 py-0.5 text-[10px] font-bold rounded-md ${
                     isActive
                       ? 'bg-white/20 text-white'
-                      : 'bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
                   }`}
                 >
                   {badgeText}

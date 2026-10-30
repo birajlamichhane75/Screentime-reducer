@@ -251,7 +251,7 @@ export default function CreatorHomePage() {
               <span className="text-slate-200 dark:text-slate-800">|</span>
 
               <div className="inline-flex items-center gap-1 text-[11px] text-slate-600 dark:text-slate-300 font-medium">
-                <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                <Flame className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0]" />
                 <span>{userRating.streak_days}d</span>
               </div>
 
@@ -281,11 +281,11 @@ export default function CreatorHomePage() {
         {isOrg && (
           <div className="mb-3 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
             <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-700 dark:text-slate-300">
-              <Trophy className="w-3.5 h-3.5 text-amber-500" />
+              <Trophy className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0]" />
               <span>Ranked by Upload Ratio (0–100)</span>
             </div>
             <span className="text-[10px] font-bold text-[#0E0830] dark:text-[#c4bbf0]">
-              💎 Platinum First
+              Platinum Priority
             </span>
           </div>
         )}
@@ -294,7 +294,7 @@ export default function CreatorHomePage() {
         {selectedWorkNotice && selectedWorkNotice.show && (
           <div className="mb-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-start justify-between gap-3 animate-in fade-in shadow-xs">
             <div className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0] shrink-0 mt-0.5" />
               <div className="text-xs text-slate-900 dark:text-slate-100 space-y-0.5">
                 <p className="font-semibold">
                   Work Selected! Notification Email Sent.
@@ -536,7 +536,7 @@ export default function CreatorHomePage() {
               </p>
               <p>
                 <strong className="text-slate-800 dark:text-slate-200">Status:</strong>{' '}
-                <span className="text-emerald-600 font-semibold">Delivered</span>
+                <span className="text-slate-900 dark:text-white font-semibold">Delivered</span>
               </p>
             </div>
 

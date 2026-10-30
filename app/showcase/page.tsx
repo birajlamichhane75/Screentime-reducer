@@ -161,7 +161,7 @@ export default function ShowcasePage() {
             {showEmailToast && (
               <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 text-xs">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <CheckCircle2 className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
                   <span>
                     Email delivered to <strong>sarah@dance.skillbridge.dev</strong>
                   </span>

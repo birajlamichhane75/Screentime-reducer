@@ -210,7 +210,7 @@ export default function MobileSettingsPage() {
 
               {emailSavedToast && (
                 <p className="text-[11px] text-[#0E0830] dark:text-[#c4bbf0] font-medium flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                  <CheckCircle2 className="w-3 h-3 text-[#0E0830] dark:text-[#c4bbf0]" />
                   Email preference updated!
                 </p>
               )}

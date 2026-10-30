@@ -17,6 +17,8 @@ import {
   TrendingUp,
   Shield,
   Zap,
+  ShieldCheck,
+  Award,
 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
@@ -43,16 +45,16 @@ export default function RatingPage() {
   const score = userRating?.score ?? 98;
   const tier = userRating?.tier ?? 'Platinum';
 
-  const getTierIcon = (t: string) => {
+  const renderTierIcon = (t: string, className: string = 'w-10 h-10 text-[#0E0830] dark:text-white') => {
     switch (t) {
       case 'Platinum':
-        return '💎';
+        return <ShieldCheck className={className} />;
       case 'Gold':
-        return '🥇';
+        return <Award className={className} />;
       case 'Silver':
-        return '🥈';
+        return <Trophy className={className} />;
       default:
-        return '🥉';
+        return <Shield className={className} />;
     }
   };
 
@@ -86,8 +88,8 @@ export default function RatingPage() {
           <div className="absolute -top-12 -right-12 w-36 h-36 bg-[#0E0830]/5 dark:bg-[#0E0830]/30 rounded-full blur-2xl pointer-events-none" />
 
           {/* Huge Tier Emblem */}
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-[#0E0830]/5 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-4xl mb-3 shadow-2xs">
-            {getTierIcon(tier)}
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 mb-3 shadow-2xs">
+            {renderTierIcon(tier, 'w-10 h-10 text-[#0E0830] dark:text-white')}
           </div>
 
           {/* Big DoorDash-Style 0-100 Score */}
@@ -101,7 +103,7 @@ export default function RatingPage() {
             <h2 className="text-base font-bold text-slate-900 dark:text-white">
               {tier} Creator
             </h2>
-            <p className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+            <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
               ● Top 1% Upload Consistency
             </p>
           </div>
@@ -116,9 +118,9 @@ export default function RatingPage() {
             </div>
             <div className="flex justify-between text-[10px] text-slate-400 font-medium mt-1">
               <span>0</span>
-              <span>🥈 65</span>
-              <span>🥇 80</span>
-              <span>💎 95</span>
+              <span>65</span>
+              <span>80</span>
+              <span>95</span>
               <span>100</span>
             </div>
           </div>
@@ -128,7 +130,7 @@ export default function RatingPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           {/* Metric 1: Upload Interval */}
           <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center mb-2">
+            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2">
               <Clock className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />
             </div>
             <span className="text-base font-black text-slate-900 dark:text-white">
@@ -141,8 +143,8 @@ export default function RatingPage() {
 
           {/* Metric 2: Streak Days */}
           <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center mb-2">
-              <Flame className="w-5 h-5 text-amber-500 fill-amber-500" />
+            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2">
+              <Flame className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />
             </div>
             <span className="text-base font-black text-slate-900 dark:text-white">
               {userRating?.streak_days ?? 7}d
@@ -154,7 +156,7 @@ export default function RatingPage() {
 
           {/* Metric 3: Search Priority */}
           <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/30 flex items-center justify-center mb-2">
+            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2">
               <Trophy className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />
             </div>
             <span className="text-base font-black text-[#0E0830] dark:text-[#c4bbf0]">
@@ -167,10 +169,10 @@ export default function RatingPage() {
 
           {/* Metric 4: Shortlisted Works */}
           <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center mb-2">
-              <BookmarkCheck className="w-5 h-5 text-emerald-600" />
+            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2">
+              <BookmarkCheck className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />
             </div>
-            <span className="text-base font-black text-emerald-600 dark:text-emerald-400">
+            <span className="text-base font-black text-slate-900 dark:text-white">
               {selectedWorksCount || 3}
             </span>
             <span className="text-[10px] uppercase font-semibold text-slate-400">
@@ -200,7 +202,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="text-2xl">💎</span>
+                <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-5 h-5 text-[#0E0830] dark:text-white" />
+                </div>
                 <div>
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-bold text-slate-900 dark:text-white">
@@ -219,7 +223,7 @@ export default function RatingPage() {
                 <span className="px-2 py-0.5 rounded-md bg-[#0E0830] text-white text-[10px] font-bold">
                   #1 Search Rank
                 </span>
-                <p className="text-[9px] text-emerald-600 font-medium mt-0.5">
+                <p className="text-[9px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                   $250 Gear Grant
                 </p>
               </div>
@@ -236,7 +240,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="text-2xl">🥇</span>
+                <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                  <Award className="w-5 h-5 text-[#0E0830] dark:text-white" />
+                </div>
                 <div>
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-bold text-slate-900 dark:text-white">
@@ -252,10 +258,10 @@ export default function RatingPage() {
                 </div>
               </div>
               <div className="text-right">
-                <span className="px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-700 dark:text-amber-300 text-[10px] font-bold">
+                <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-[10px] font-bold">
                   Top 3 Rank
                 </span>
-                <p className="text-[9px] text-slate-400 font-medium mt-0.5">
+                <p className="text-[9px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                   1-on-1 Scouting
                 </p>
               </div>
@@ -272,7 +278,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="text-2xl">🥈</span>
+                <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                  <Trophy className="w-5 h-5 text-[#0E0830] dark:text-white" />
+                </div>
                 <div>
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-bold text-slate-900 dark:text-white">
@@ -291,7 +299,7 @@ export default function RatingPage() {
                 <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px] font-bold">
                   Priority Search
                 </span>
-                <p className="text-[9px] text-slate-400 font-medium mt-0.5">
+                <p className="text-[9px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                   Pro Studio Suite
                 </p>
               </div>
@@ -308,7 +316,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="text-2xl">🥉</span>
+                <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                  <Shield className="w-5 h-5 text-[#0E0830] dark:text-white" />
+                </div>
                 <div>
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-bold text-slate-900 dark:text-white">

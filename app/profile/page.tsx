@@ -178,7 +178,7 @@ export default function MobileProfilePage() {
             {/* 3 Metric Pills with Icons */}
             <div className="grid grid-cols-3 gap-2 text-center pt-0.5">
               <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col items-center">
-                <Flame className="w-4 h-4 text-amber-500 fill-amber-500 mb-0.5" />
+                <Flame className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0] mb-0.5" />
                 <span className="text-xs font-bold text-slate-900 dark:text-white">{userRating.streak_days}d</span>
                 <span className="text-[9px] text-slate-400 uppercase font-medium">Streak</span>
               </div>
@@ -188,7 +188,7 @@ export default function MobileProfilePage() {
                 <span className="text-[9px] text-slate-400 uppercase font-medium">Interval</span>
               </div>
               <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col items-center">
-                <Trophy className="w-4 h-4 text-amber-500 mb-0.5" />
+                <Trophy className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0] mb-0.5" />
                 <span className="text-xs font-bold text-[#0E0830] dark:text-[#c4bbf0]">{userRating.checkpoint.perk}</span>
                 <span className="text-[9px] text-slate-400 uppercase font-medium">Search Rank</span>
               </div>
@@ -201,16 +201,16 @@ export default function MobileProfilePage() {
                   ? 'border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
                   : 'border-slate-200/60 dark:border-slate-800 opacity-50'
               }`}>
-                <span>🥈 Silver</span>
+                <span className="font-semibold">Silver</span>
                 <span className="text-[9px] font-mono text-slate-400">65-79</span>
               </div>
 
               <div className={`p-1.5 rounded-lg border flex flex-col items-center gap-0.5 ${
                 userRating.score >= 80
-                  ? 'border-amber-400/80 bg-amber-50/50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-300'
+                  ? 'border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'
                   : 'border-slate-200/60 dark:border-slate-800 opacity-50'
               }`}>
-                <span>🥇 Gold</span>
+                <span className="font-semibold">Gold</span>
                 <span className="text-[9px] font-mono text-slate-400">80-94</span>
               </div>
 
@@ -219,7 +219,7 @@ export default function MobileProfilePage() {
                   ? 'border-[#0E0830] bg-[#0E0830]/5 dark:bg-[#0E0830]/30 text-[#0E0830] dark:text-[#c4bbf0] font-semibold shadow-2xs'
                   : 'border-slate-200/60 dark:border-slate-800 opacity-50'
               }`}>
-                <span>💎 Platinum</span>
+                <span className="font-semibold">Platinum</span>
                 <span className="text-[9px] font-mono text-slate-400">95-100</span>
               </div>
             </div>
