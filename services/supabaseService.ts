@@ -16,12 +16,40 @@ const MOCK_TO_UUID_MAP: Record<string, string> = {
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-function toValidUUID(id: string): string {
-  if (UUID_REGEX.test(id)) return id;
-  if (MOCK_TO_UUID_MAP[id]) return MOCK_TO_UUID_MAP[id];
-  // Deterministic pseudo-UUID from string
-  const cleaned = id.replace(/[^a-zA-Z0-9]/g, '').padEnd(32, '0').slice(0, 32);
-  return `${cleaned.slice(0, 8)}-${cleaned.slice(8, 12)}-4${cleaned.slice(13, 16)}-a${cleaned.slice(17, 20)}-${cleaned.slice(20, 32)}`;
+function toValidUUID(id?: string): string {
+  if (!id) {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return '00000000-0000-4000-a000-000000000000';
+  }
+
+  const trimmed = id.trim();
+  if (UUID_REGEX.test(trimmed)) return trimmed.toLowerCase();
+  if (MOCK_TO_UUID_MAP[trimmed]) return MOCK_TO_UUID_MAP[trimmed];
+
+  // Deterministic valid hexadecimal RFC-4122 v4 UUID from any arbitrary string
+  let h1 = 0xdeadbeef;
+  let h2 = 0x41c64e6d;
+  let h3 = 0x9e3779b9;
+  let h4 = 0x85ebca6b;
+
+  for (let i = 0; i < trimmed.length; i++) {
+    const ch = trimmed.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ (ch + i), 1597334677);
+    h3 = Math.imul(h3 ^ (ch * 31), 3847562849);
+    h4 = Math.imul(h4 ^ (ch + 13), 2246822507);
+  }
+
+  const hex = [
+    (h1 >>> 0).toString(16).padStart(8, '0'),
+    (h2 >>> 0).toString(16).padStart(8, '0'),
+    (h3 >>> 0).toString(16).padStart(8, '0'),
+    (h4 >>> 0).toString(16).padStart(8, '0'),
+  ].join('');
+
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-4${hex.slice(13, 16)}-a${hex.slice(17, 20)}-${hex.slice(20, 32)}`;
 }
 
 export class SupabaseService {
@@ -79,6 +107,25 @@ export class SupabaseService {
       const creatorUuid = toValidUUID(video.creator_id);
       const videoUuid = toValidUUID(video.id);
 
+      // Ensure creator profile row exists in Supabase so foreign key constraint never fails
+      if (video.creator) {
+        try {
+          await supabase.from('profiles').upsert({
+            id: creatorUuid,
+            username: video.creator.username || 'creator',
+            full_name: video.creator.full_name || 'Creator',
+            avatar_url: video.creator.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+            role: 'student',
+            is_verified: true,
+            consistency_rating: video.creator.consistency_rating || 98,
+            upload_streak_days: video.creator.upload_streak_days || 1,
+            updated_at: new Date().toISOString(),
+          }, { onConflict: 'id' });
+        } catch {
+          // ignore if already present or handled
+        }
+      }
+
       const payload = {
         id: videoUuid,
         creator_id: creatorUuid,
@@ -100,7 +147,7 @@ export class SupabaseService {
 
       const { data, error } = await supabase
         .from('videos')
-        .insert(payload)
+        .upsert(payload, { onConflict: 'id' })
         .select()
         .single();
 

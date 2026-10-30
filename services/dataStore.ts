@@ -1124,8 +1124,12 @@ export class DataStore {
     const nowISO = new Date().toISOString();
     const newStreak = (creatorProfile.upload_streak_days || 0) + 1;
 
+    const newVideoId = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `vid-${Date.now()}`;
+
     const newVideo: VideoPost = {
-      id: `vid-${Date.now()}`,
+      id: newVideoId,
       creator_id: data.creator_id,
       creator: {
         username: creatorProfile.username,
