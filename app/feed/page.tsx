@@ -120,13 +120,13 @@ export default function CreatorHomePage() {
             <span>Daily Practice Record</span>
           </div>
 
-          {/* Animated Big Icon Area (User's uploaded icons changing every 3 seconds) */}
+          {/* Animated Big Icon Area (User's uploaded icons changing every 3 seconds with gentle movement animation) */}
           <div className="my-auto flex flex-col items-center justify-center space-y-3">
             <div className="w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center overflow-hidden">
               <img
                 src={currentActivity.image}
                 alt={currentActivity.title}
-                className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen transition-all duration-300 transform group-hover:scale-105"
+                className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen transition-all duration-300 transform animate-gentle-float group-hover:scale-105"
               />
             </div>
 

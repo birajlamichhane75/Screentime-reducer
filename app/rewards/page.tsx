@@ -3,390 +3,270 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  ArrowLeft,
-  Gift,
-  Camera,
-  Sparkles,
-  Users,
-  Award,
-  Building2,
-  CheckCircle2,
-  Flame,
-  Clock,
-  Trophy,
-  BookmarkCheck,
-  Check,
-  Copy,
-  ExternalLink,
-  Lock,
-  ChevronRight,
-  X,
-  ShieldCheck,
-} from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
-import { Profile, CreatorConsistencyRating, CreatorReward, RewardEvent } from '@/types';
+import { Profile, Opportunity } from '@/types';
 
 export default function RewardsPage() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<Profile | null>(null);
-  const [userRating, setUserRating] = useState<CreatorConsistencyRating | null>(null);
-  const [rewards, setRewards] = useState<CreatorReward[]>([]);
-  const [history, setHistory] = useState<RewardEvent[]>([]);
-  const [activeTab, setActiveTab] = useState<'available' | 'history'>('available');
-  const [claimedSuccessModal, setClaimedSuccessModal] = useState<{
-    show: boolean;
-    reward?: CreatorReward;
-    code?: string;
-  } | null>(null);
-  const [copiedCode, setCopiedCode] = useState(false);
+  const [shortlistedOpps, setShortlistedOpps] = useState<Opportunity[]>([]);
+  const [otherOpps, setOtherOpps] = useState<Opportunity[]>([]);
+  const [userInterestsLabel, setUserInterestsLabel] = useState<string>('');
+  const [appliedMap, setAppliedMap] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const user = DataStore.getCurrentUser();
     setCurrentUser(user);
-    setUserRating(DataStore.getCreatorRating(user.id));
-    setRewards(DataStore.getCreatorRewards(user.id));
-    setHistory(DataStore.getRewardEvents(user.id));
+
+    // Get user's uploaded videos and their categories
+    const allVideos = DataStore.getVideos();
+    const myVideos = allVideos.filter((v) => v.creator_id === user.id);
+    const uploadedCats = myVideos.map((v) => v.category.toLowerCase().trim());
+
+    // Get user's selected hobbies / interests
+    const userHobbies = DataStore.getUserHobbies(user.id);
+    const hobbyNames = userHobbies.map((uh) => uh.hobby?.name.toLowerCase().trim() || '');
+
+    // Combine distinct user signals
+    const allSignals = Array.from(new Set([...uploadedCats, ...hobbyNames].filter(Boolean)));
+    setUserInterestsLabel(
+      allSignals.length > 0
+        ? allSignals.map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')
+        : 'Creative Practice'
+    );
+
+    // Get all opportunities from organizations
+    const allOpps = DataStore.getOpportunities();
+
+    // Shortlist opportunities matching the user's uploaded work or selected interests
+    const shortlisted: Opportunity[] = [];
+    const others: Opportunity[] = [];
+
+    allOpps.forEach((opp) => {
+      const skillsStr = (opp.required_skills || []).join(' ').toLowerCase();
+      const titleStr = opp.title.toLowerCase();
+      const descStr = opp.description.toLowerCase();
+      const fullText = `${skillsStr} ${titleStr} ${descStr}`;
+
+      const isMatch = allSignals.some((signal) => {
+        if (!signal) return false;
+        if (fullText.includes(signal)) return true;
+        if (signal.includes('art') || signal.includes('draw') || signal.includes('paint')) {
+          return (
+            fullText.includes('art') ||
+            fullText.includes('paint') ||
+            fullText.includes('draw') ||
+            fullText.includes('visual')
+          );
+        }
+        if (signal.includes('dance')) {
+          return fullText.includes('dance') || fullText.includes('choreograph');
+        }
+        if (signal.includes('sport') || signal.includes('soccer')) {
+          return (
+            fullText.includes('soccer') ||
+            fullText.includes('sport') ||
+            fullText.includes('athlet')
+          );
+        }
+        if (signal.includes('cook') || signal.includes('food')) {
+          return (
+            fullText.includes('cook') ||
+            fullText.includes('culinary') ||
+            fullText.includes('food')
+          );
+        }
+        if (signal.includes('music') || signal.includes('sing')) {
+          return (
+            fullText.includes('music') ||
+            fullText.includes('sing') ||
+            fullText.includes('song') ||
+            fullText.includes('vocal')
+          );
+        }
+        if (signal.includes('code') || signal.includes('tech')) {
+          return (
+            fullText.includes('code') ||
+            fullText.includes('tech') ||
+            fullText.includes('developer')
+          );
+        }
+        return false;
+      });
+
+      if (isMatch) {
+        shortlisted.push(opp);
+      } else {
+        others.push(opp);
+      }
+    });
+
+    if (allSignals.length === 0) {
+      setShortlistedOpps(allOpps);
+      setOtherOpps([]);
+    } else {
+      setShortlistedOpps(shortlisted.length > 0 ? shortlisted : allOpps);
+      setOtherOpps(shortlisted.length > 0 ? others : []);
+    }
+
+    // Check existing applications
+    const apps = DataStore.getApplications(user.id);
+    const appMap: Record<string, boolean> = {};
+    apps.forEach((a) => {
+      appMap[a.opportunity_id] = true;
+    });
+    setAppliedMap(appMap);
   }, []);
 
-  const totalPoints = history.reduce((sum, h) => sum + (h.points || 0), 0);
-
-  const handleClaimReward = (reward: CreatorReward) => {
+  const handleApply = (oppId: string) => {
     if (!currentUser) return;
-    const result = DataStore.claimCreatorReward(currentUser.id, reward.id);
-    if (result.success && result.reward) {
-      setRewards(DataStore.getCreatorRewards(currentUser.id));
-      setHistory(DataStore.getRewardEvents(currentUser.id));
-      setClaimedSuccessModal({
-        show: true,
-        reward: result.reward,
-        code: result.reward.claimCode,
-      });
-    }
-  };
-
-  const handleCopyCode = (code?: string) => {
-    if (!code) return;
-    navigator.clipboard?.writeText(code);
-    setCopiedCode(true);
-    setTimeout(() => setCopiedCode(false), 2000);
-  };
-
-  const getRewardIcon = (iconName: string) => {
-    switch (iconName.toLowerCase()) {
-      case 'camera':
-        return <Camera className="w-6 h-6 text-[#0E0830] dark:text-[#c4bbf0]" />;
-      case 'sparkles':
-        return <Sparkles className="w-6 h-6 text-[#0E0830] dark:text-[#c4bbf0]" />;
-      case 'users':
-        return <Users className="w-6 h-6 text-[#0E0830] dark:text-[#c4bbf0]" />;
-      case 'award':
-        return <Award className="w-6 h-6 text-[#0E0830] dark:text-[#c4bbf0]" />;
-      case 'building2':
-        return <Building2 className="w-6 h-6 text-slate-400" />;
-      default:
-        return <Gift className="w-6 h-6 text-[#0E0830] dark:text-[#c4bbf0]" />;
-    }
-  };
-
-  const getHistoryIcon = (type: string) => {
-    switch (type) {
-      case 'work_selected':
-        return <BookmarkCheck className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
-      case 'milestone_reached':
-        return <Award className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
-      case 'streak_bonus':
-        return <Flame className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
-      case 'reward_claimed':
-        return <Gift className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
-      case 'challenge_completed':
-        return <Trophy className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
-      default:
-        return <Sparkles className="w-5 h-5 text-[#0E0830] dark:text-[#c4bbf0]" />;
+    try {
+      DataStore.submitApplication(
+        currentUser.id,
+        oppId,
+        'I am consistently practicing this craft daily.'
+      );
+      setAppliedMap((prev) => ({ ...prev, [oppId]: true }));
+    } catch {
+      setAppliedMap((prev) => ({ ...prev, [oppId]: true }));
     }
   };
 
   return (
-    <MobileShell hideBottomNav={false}>
-      <div className="flex flex-col min-h-full px-4 pt-3 pb-8 space-y-4">
-        {/* Top Header */}
-        <div className="flex items-center justify-between pb-1">
+    <MobileShell hideBottomNav={true}>
+      <div className="flex flex-col min-h-full px-5 py-6 space-y-6">
+        {/* Navigation Bar */}
+        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
           <button
             onClick={() => router.back()}
-            className="p-1.5 -ml-1.5 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="text-base font-bold text-slate-700 dark:text-slate-200 hover:text-[#0E0830] dark:hover:text-white"
           >
-            <ArrowLeft className="w-4 h-4" />
+            Back
           </button>
-          <div className="flex items-center gap-1.5 font-bold text-xs text-slate-900 dark:text-white">
-            <Gift className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0]" />
-            <span>Creator Rewards</span>
-          </div>
+          <span className="text-base font-bold text-slate-900 dark:text-white">
+            Opportunities
+          </span>
           <Link
             href="/rating"
-            className="p-1.5 -mr-1.5 rounded-lg text-slate-500 hover:text-[#0E0830] dark:hover:text-white transition-colors"
-            title="Rating"
+            className="text-base font-bold text-slate-700 dark:text-slate-200 hover:text-[#0E0830] dark:hover:text-white"
           >
-            <Trophy className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
+            Rating
           </Link>
         </div>
 
-        {/* Work Status Summary Bar (High Visual / Big Icons) */}
-        <div className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex items-center justify-around text-center">
-          <Link href="/rating" className="flex flex-col items-center group">
-            <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-0.5">
-              <ShieldCheck className="w-4 h-4 text-[#0E0830] dark:text-white" />
-            </div>
-            <span className="text-xs font-bold text-slate-900 dark:text-white mt-0.5 group-hover:text-[#0E0830]">
-              {userRating?.score ?? 98}/100
-            </span>
-            <span className="text-[9px] uppercase font-semibold text-slate-400">
-              {userRating?.tier ?? 'Platinum'}
-            </span>
-          </Link>
-
-          <div className="w-px h-8 bg-slate-200/80 dark:bg-slate-800" />
-
-          <div className="flex flex-col items-center">
-            <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-0.5">
-              <Flame className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
-            </div>
-            <span className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">
-              {userRating?.streak_days ?? 7}d
-            </span>
-            <span className="text-[9px] uppercase font-semibold text-slate-400">
-              Daily Streak
-            </span>
-          </div>
-
-          <div className="w-px h-8 bg-slate-200/80 dark:bg-slate-800" />
-
-          <div className="flex flex-col items-center">
-            <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-0.5">
-              <Trophy className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
-            </div>
-            <span className="text-xs font-bold text-[#0E0830] dark:text-[#c4bbf0] mt-0.5">
-              {totalPoints}
-            </span>
-            <span className="text-[9px] uppercase font-semibold text-slate-400">
-              Reward Points
-            </span>
-          </div>
+        {/* Shortlist Hero Header */}
+        <div className="space-y-2">
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white">
+            Opportunities For You
+          </h1>
+          <p className="text-base text-slate-700 dark:text-slate-300">
+            Shortlisted based on your uploaded videos and practice in {userInterestsLabel}.
+          </p>
         </div>
 
-        {/* Clean Segmented Tab Switcher */}
-        <div className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-xs font-semibold">
-          <button
-            onClick={() => setActiveTab('available')}
-            className={`py-2 rounded-lg transition-all ${
-              activeTab === 'available'
-                ? 'bg-white dark:bg-slate-900 text-[#0E0830] dark:text-white shadow-xs'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900'
-            }`}
-          >
-            Available Rewards ({rewards.filter((r) => r.status !== 'locked').length})
-          </button>
-          <button
-            onClick={() => setActiveTab('history')}
-            className={`py-2 rounded-lg transition-all ${
-              activeTab === 'history'
-                ? 'bg-white dark:bg-slate-900 text-[#0E0830] dark:text-white shadow-xs'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900'
-            }`}
-          >
-            Reward History ({history.length})
-          </button>
-        </div>
+        {/* Shortlisted Opportunities List */}
+        <div className="space-y-5">
+          {shortlistedOpps.map((opp) => {
+            const orgName = opp.organization?.name || 'Partner Organization';
+            const isApplied = appliedMap[opp.id];
 
-        {/* TAB 1: Available Rewards Right Now Based On Work */}
-        {activeTab === 'available' && (
-          <div className="space-y-3">
-            <div className="flex items-center justify-between px-1">
-              <span className="text-xs font-bold text-slate-900 dark:text-white">
-                Earned from Your Creative Craft
-              </span>
-              <span className="text-[10px] text-slate-400 font-medium">
-                {userRating?.tier} Level
-              </span>
-            </div>
-
-            {rewards.map((reward) => {
-              const isUnlocked = reward.status === 'unlocked';
-              const isClaimed = reward.status === 'claimed';
-              const isLocked = reward.status === 'locked';
-
-              return (
-                <div
-                  key={reward.id}
-                  className={`p-4 rounded-2xl border transition-all ${
-                    isClaimed
-                      ? 'bg-slate-50/80 dark:bg-slate-900/60 border-slate-200/70 dark:border-slate-800'
-                      : isUnlocked
-                      ? 'bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 shadow-xs'
-                      : 'bg-white dark:bg-slate-900/40 border-slate-200/50 dark:border-slate-800/50 opacity-60'
-                  }`}
-                >
-                  <div className="flex items-start gap-3.5">
-                    {/* Big Icon Container */}
-                    <div
-                      className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
-                        isClaimed
-                          ? 'bg-slate-100 dark:bg-slate-800'
-                          : isUnlocked
-                          ? 'bg-[#0E0830]/5 dark:bg-[#0E0830]/40 border border-[#0E0830]/20'
-                          : 'bg-slate-100 dark:bg-slate-800'
-                      }`}
-                    >
-                      {getRewardIcon(reward.icon)}
-                    </div>
-
-                    {/* Content Details */}
-                    <div className="flex-1 min-w-0 space-y-1">
-                      <div className="flex items-center justify-between gap-1">
-                        <h3 className="text-xs font-bold text-slate-900 dark:text-white truncate">
-                          {reward.title}
-                        </h3>
-                        <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-[#0E0830] text-white shrink-0">
-                          {reward.valueTag}
-                        </span>
-                      </div>
-
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                        {reward.perkDescription}
-                      </p>
-
-                      {/* Requirement & Action Row */}
-                      <div className="flex items-center justify-between pt-1.5">
-                        <span className="text-[10px] text-slate-400 font-medium">
-                          Requires {reward.requiredTier} (Score {reward.minScore}+)
-                        </span>
-
-                        {isUnlocked && (
-                          <button
-                            onClick={() => handleClaimReward(reward)}
-                            className="px-3 py-1.5 rounded-lg bg-[#0E0830] hover:bg-[#1a1147] text-white text-[11px] font-bold shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
-                          >
-                            <span>Claim</span>
-                            <ChevronRight className="w-3 h-3" />
-                          </button>
-                        )}
-
-                        {isClaimed && (
-                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-[10px] font-bold">
-                            <CheckCircle2 className="w-3 h-3 text-[#0E0830] dark:text-slate-200" />
-                            <span>Claimed</span>
-                          </div>
-                        )}
-
-                        {isLocked && (
-                          <div className="flex items-center gap-1 text-[10px] font-medium text-slate-400">
-                            <Lock className="w-3 h-3" />
-                            <span>Locked</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {/* TAB 2: Reward History */}
-        {activeTab === 'history' && (
-          <div className="space-y-2.5">
-            <div className="flex items-center justify-between px-1">
-              <span className="text-xs font-bold text-slate-900 dark:text-white">
-                Redemptions & Earned Milestones
-              </span>
-              <span className="text-[10px] text-slate-400 font-medium">
-                {history.length} Events
-              </span>
-            </div>
-
-            {history.map((event) => (
+            return (
               <div
-                key={event.id}
-                className="p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-3 shadow-2xs"
+                key={opp.id}
+                className="p-6 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 space-y-4 shadow-sm"
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center shrink-0">
-                    {getHistoryIcon(event.event_type)}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs font-semibold text-slate-900 dark:text-white truncate">
-                      {event.description}
-                    </p>
-                    <p className="text-[10px] text-slate-400">
-                      {new Date(event.created_at).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
-                    </p>
-                  </div>
+                {/* Organization Name */}
+                <div className="space-y-1">
+                  <span className="text-base font-bold text-[#0E0830] dark:text-indigo-400 block">
+                    {orgName}
+                  </span>
+                  <h2 className="text-2xl font-black text-slate-900 dark:text-white leading-snug">
+                    {opp.title}
+                  </h2>
                 </div>
 
-                <div className="text-right shrink-0">
-                  <span className="text-xs font-black text-[#0E0830] dark:text-[#c4bbf0]">
-                    +{event.points} pts
+                {/* What the organization is looking for */}
+                <div className="space-y-1">
+                  <span className="text-base font-bold text-slate-900 dark:text-white block">
+                    What they are looking for:
                   </span>
-                  <p className="text-[9px] text-slate-500 font-medium">
-                    Verified
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    {opp.description}
                   </p>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
 
-        {/* Claimed Reward Success Modal */}
-        {claimedSuccessModal && claimedSuccessModal.show && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in">
-            <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-xl text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 text-[#0E0830] dark:text-[#c4bbf0] flex items-center justify-center mx-auto">
-                <Gift className="w-8 h-8 text-[#0E0830] dark:text-[#c4bbf0]" />
-              </div>
-
-              <div className="space-y-1">
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                  Reward Unlocked!
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  You claimed &quot;{claimedSuccessModal.reward?.title}&quot; based on your Platinum upload streak.
-                </p>
-              </div>
-
-              {/* Redemption Voucher Box */}
-              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-1.5">
-                <span className="text-[10px] uppercase font-bold text-slate-400">
-                  Your Voucher Code
-                </span>
-                <div className="flex items-center justify-center gap-2">
-                  <span className="font-mono text-base font-black text-[#0E0830] dark:text-[#c4bbf0] tracking-wider">
-                    {claimedSuccessModal.code}
-                  </span>
+                {/* Simple Action */}
+                <div className="pt-2">
                   <button
-                    onClick={() => handleCopyCode(claimedSuccessModal.code)}
-                    className="p-1 rounded text-slate-500 hover:text-slate-900"
-                    title="Copy Code"
+                    type="button"
+                    onClick={() => handleApply(opp.id)}
+                    disabled={isApplied}
+                    className={`w-full py-4 rounded-2xl text-base font-bold transition-all ${
+                      isApplied
+                        ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-default'
+                        : 'bg-[#0E0830] hover:bg-[#1a1147] text-white shadow-md active:scale-98'
+                    }`}
                   >
-                    {copiedCode ? (
-                      <Check className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
-                    ) : (
-                      <Copy className="w-4 h-4" />
-                    )}
+                    {isApplied ? 'Application Submitted' : 'Apply Now'}
                   </button>
                 </div>
               </div>
+            );
+          })}
+        </div>
 
-              <button
-                onClick={() => setClaimedSuccessModal(null)}
-                className="w-full py-2.5 rounded-xl bg-[#0E0830] hover:bg-[#1a1147] text-white text-xs font-bold transition-colors shadow-xs"
-              >
-                Done
-              </button>
+        {/* Additional Opportunities (if any others exist) */}
+        {otherOpps.length > 0 && (
+          <div className="space-y-4 pt-4">
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white">
+              More Opportunities
+            </h2>
+            <div className="space-y-5">
+              {otherOpps.map((opp) => {
+                const orgName = opp.organization?.name || 'Partner Organization';
+                const isApplied = appliedMap[opp.id];
+
+                return (
+                  <div
+                    key={opp.id}
+                    className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm"
+                  >
+                    <div className="space-y-1">
+                      <span className="text-base font-bold text-slate-500 dark:text-slate-400 block">
+                        {orgName}
+                      </span>
+                      <h3 className="text-2xl font-black text-slate-900 dark:text-white leading-snug">
+                        {opp.title}
+                      </h3>
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="text-base font-bold text-slate-900 dark:text-white block">
+                        What they are looking for:
+                      </span>
+                      <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                        {opp.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-2">
+                      <button
+                        type="button"
+                        onClick={() => handleApply(opp.id)}
+                        disabled={isApplied}
+                        className={`w-full py-4 rounded-2xl text-base font-bold transition-all ${
+                          isApplied
+                            ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-default'
+                            : 'bg-[#0E0830] hover:bg-[#1a1147] text-white shadow-md active:scale-98'
+                        }`}
+                      >
+                        {isApplied ? 'Application Submitted' : 'Apply Now'}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
@@ -394,4 +274,3 @@ export default function RewardsPage() {
     </MobileShell>
   );
 }
-

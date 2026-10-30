@@ -29,17 +29,17 @@ export default function RatingPage() {
   const score = userRating?.score ?? 98;
   const tier = userRating?.tier ?? 'Platinum';
 
-  // Single sign (Shield) with colors for Platinum, Gold, Silver, Bronze
-  const getTierColor = (t: string) => {
+  // Single sign (Shield) filled with tier color and specular shine
+  const getTierFillAndColor = (t: string) => {
     switch (t) {
       case 'Platinum':
-        return 'text-indigo-400';
+        return 'text-indigo-400 fill-indigo-400';
       case 'Gold':
-        return 'text-amber-400';
+        return 'text-amber-400 fill-amber-400';
       case 'Silver':
-        return 'text-slate-400';
+        return 'text-slate-400 fill-slate-300';
       default:
-        return 'text-amber-700';
+        return 'text-amber-700 fill-amber-700';
     }
   };
 
@@ -55,7 +55,7 @@ export default function RatingPage() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-1.5 font-bold text-sm text-slate-900 dark:text-white">
-            <Shield className={`w-4 h-4 ${getTierColor(tier)}`} />
+            <Shield className={`w-4 h-4 ${getTierFillAndColor(tier)}`} />
             <span>Consistency Rating</span>
           </div>
           <Link
@@ -69,10 +69,11 @@ export default function RatingPage() {
 
         {/* Big Hero Card: Only 2 font sizes (text-2xl and text-sm) */}
         <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 text-center space-y-3">
-          {/* Single Sign with Tier Color */}
+          {/* Single Sign Filled with Tier Color with Shining Inside */}
           <div className="flex items-center justify-center">
-            <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shadow-xs">
-              <Shield className={`w-9 h-9 ${getTierColor(tier)}`} />
+            <div className="relative w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shadow-xs overflow-hidden">
+              <Shield className={`w-9 h-9 ${getTierFillAndColor(tier)} drop-shadow-xs`} />
+              <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
             </div>
           </div>
 
@@ -100,19 +101,19 @@ export default function RatingPage() {
 
               {/* Silver Checkpoint Sign */}
               <div className="flex items-center gap-1 text-slate-400">
-                <Shield className="w-3.5 h-3.5 text-slate-400" />
+                <Shield className="w-3.5 h-3.5 text-slate-400 fill-slate-300" />
                 <span className="font-bold">65</span>
               </div>
 
               {/* Gold Checkpoint Sign */}
               <div className="flex items-center gap-1 text-amber-400">
-                <Shield className="w-3.5 h-3.5 text-amber-400" />
+                <Shield className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
                 <span className="font-bold">80</span>
               </div>
 
               {/* Platinum Checkpoint Sign */}
               <div className="flex items-center gap-1 text-indigo-400">
-                <Shield className="w-3.5 h-3.5 text-indigo-400" />
+                <Shield className="w-3.5 h-3.5 text-indigo-400 fill-indigo-400" />
                 <span className="font-bold">95</span>
               </div>
 
@@ -166,8 +167,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-indigo-400" />
+                <div className="relative w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden shadow-inner">
+                  <Shield className="w-6 h-6 text-indigo-400 fill-indigo-400 drop-shadow-xs" />
+                  <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
                 </div>
                 <div>
                   <span className="text-2xl font-black text-indigo-400 block">
@@ -178,9 +180,9 @@ export default function RatingPage() {
                   </span>
                 </div>
               </div>
-              {/* Uploads interval in big font (text-2xl) */}
-              <span className="text-2xl font-black text-slate-900 dark:text-white font-mono">
-                &le; 24h
+              {/* Descriptive 2 Words on Right in Big Font */}
+              <span className="text-2xl font-black text-slate-900 dark:text-white text-right">
+                Daily Practice
               </span>
             </div>
           </div>
@@ -195,8 +197,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-amber-400" />
+                <div className="relative w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden shadow-inner">
+                  <Shield className="w-6 h-6 text-amber-400 fill-amber-400 drop-shadow-xs" />
+                  <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
                 </div>
                 <div>
                   <span className="text-2xl font-black text-amber-400 block">
@@ -207,9 +210,9 @@ export default function RatingPage() {
                   </span>
                 </div>
               </div>
-              {/* Uploads interval in big font (text-2xl) */}
-              <span className="text-2xl font-black text-slate-900 dark:text-white font-mono">
-                &le; 48h
+              {/* Descriptive 2 Words on Right in Big Font */}
+              <span className="text-2xl font-black text-slate-900 dark:text-white text-right">
+                Alternate Days
               </span>
             </div>
           </div>
@@ -224,8 +227,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-slate-400" />
+                <div className="relative w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden shadow-inner">
+                  <Shield className="w-6 h-6 text-slate-400 fill-slate-300 drop-shadow-xs" />
+                  <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
                 </div>
                 <div>
                   <span className="text-2xl font-black text-slate-400 block">
@@ -236,9 +240,9 @@ export default function RatingPage() {
                   </span>
                 </div>
               </div>
-              {/* Uploads interval in big font (text-2xl) */}
-              <span className="text-2xl font-black text-slate-900 dark:text-white font-mono">
-                &le; 72h
+              {/* Descriptive 2 Words on Right in Big Font */}
+              <span className="text-2xl font-black text-slate-900 dark:text-white text-right">
+                Weekly Practice
               </span>
             </div>
           </div>
@@ -253,8 +257,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-amber-700" />
+                <div className="relative w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden shadow-inner">
+                  <Shield className="w-6 h-6 text-amber-700 fill-amber-700 drop-shadow-xs" />
+                  <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
                 </div>
                 <div>
                   <span className="text-2xl font-black text-amber-700 block">
@@ -265,9 +270,9 @@ export default function RatingPage() {
                   </span>
                 </div>
               </div>
-              {/* Uploads interval in big font (text-2xl) */}
-              <span className="text-2xl font-black text-slate-900 dark:text-white font-mono">
-                &gt; 72h
+              {/* Descriptive 2 Words on Right in Big Font */}
+              <span className="text-2xl font-black text-slate-900 dark:text-white text-right">
+                Occasional Practice
               </span>
             </div>
           </div>

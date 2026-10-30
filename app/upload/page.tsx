@@ -21,6 +21,17 @@ import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
 import { CreatorConsistencyRating } from '@/types';
 
+const CATEGORY_ICONS: Record<string, string> = {
+  Cooking: '/creative-icons/cooking.jpg',
+  Sports: '/creative-icons/soccer.jpg',
+  Soccer: '/creative-icons/soccer.jpg',
+  Art: '/creative-icons/drawing.jpg',
+  Drawing: '/creative-icons/drawing.jpg',
+  Dance: '/creative-icons/dancing.jpg',
+  Dancing: '/creative-icons/dancing.jpg',
+  Painting: '/creative-icons/painting.jpg',
+};
+
 export default function UploadVideoPage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -157,11 +168,15 @@ export default function UploadVideoPage() {
                 </span>
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center p-6 text-slate-400 space-y-2">
-                <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-200">
-                  <Upload className="w-6 h-6" />
+              <div className="flex flex-col items-center justify-center p-6 text-slate-400 space-y-3">
+                <div className="w-20 h-20 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={CATEGORY_ICONS[selectedCategory] || '/creative-icons/drawing.jpg'}
+                    alt={selectedCategory}
+                    className="w-full h-full object-contain invert dark:invert-0 animate-gentle-float"
+                  />
                 </div>
-                <p className="text-xs font-semibold text-slate-200">Tap to select video</p>
+                <p className="text-xs font-semibold text-slate-200">Tap to select practice video</p>
                 <p className="text-[10px] text-slate-500">MP4, WebM, MOV (up to 60s)</p>
               </div>
             )}

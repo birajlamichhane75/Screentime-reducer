@@ -34,12 +34,12 @@ export default function LandingPage() {
 
       {/* Main Hero Center: Half-Screen Icon, 5-Word One-Liner, and Button */}
       <main className="flex-1 flex flex-col items-center justify-center text-center my-auto w-full max-w-md mx-auto space-y-6">
-        {/* Big Icon: Creative Routine and Recording (Covers ~half screen, using user's uploaded icons) */}
+        {/* Big Icon: Creative Routine and Recording (Covers ~half screen, using user's uploaded icons with simple movement animation) */}
         <div className="w-[82vw] h-[44vh] max-w-sm max-h-[420px] flex items-center justify-center relative select-none">
           <img
             src={LANDING_ICONS[activeIdx].src}
             alt={LANDING_ICONS[activeIdx].alt}
-            className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen transition-all duration-500 transform hover:scale-102"
+            className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen transition-all duration-500 transform animate-gentle-float hover:scale-105"
           />
         </div>
 
