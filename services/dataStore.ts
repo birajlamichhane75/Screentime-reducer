@@ -1181,7 +1181,8 @@ export class DataStore {
     if (!video) return { isLiked: false, likesCount: 0 };
 
     video.is_liked = !video.is_liked;
-    video.likes_count = video.is_liked ? video.likes_count + 1 : Math.max(0, video.likes_count - 1);
+    const currentLikes = video.likes_count ?? 0;
+    video.likes_count = video.is_liked ? currentLikes + 1 : Math.max(0, currentLikes - 1);
     setStorageItem(STORAGE_KEYS.VIDEOS, videos);
     return { isLiked: video.is_liked, likesCount: video.likes_count };
   }
