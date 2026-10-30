@@ -102,4 +102,114 @@ export class VideoStorage {
     // 4. Default high-speed fallback
     return 'https://www.w3schools.com/html/mov_bbb.mp4';
   }
+
+  /**
+   * Extract a real frame thumbnail directly from a video file using Canvas
+   */
+  static generateVideoThumbnail(file: File): Promise<string> {
+    if (typeof window === 'undefined') return Promise.resolve('');
+
+    return new Promise((resolve) => {
+      let resolved = false;
+      const finish = (result: string, objUrl?: string) => {
+        if (resolved) return;
+        resolved = true;
+        if (objUrl) {
+          try {
+            URL.revokeObjectURL(objUrl);
+          } catch {}
+        }
+        resolve(result);
+      };
+
+      try {
+        const video = document.createElement('video');
+        video.preload = 'metadata';
+        video.muted = true;
+        video.playsInline = true;
+
+        const objectUrl = URL.createObjectURL(file);
+        video.src = objectUrl;
+
+        const captureFrame = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.min(640, video.videoWidth || 480);
+            canvas.height = Math.min(360, video.videoHeight || 270);
+            const ctx = canvas.getContext('2d');
+            if (ctx && canvas.width > 0 && canvas.height > 0) {
+              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+              const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+              finish(dataUrl, objectUrl);
+              return;
+            }
+          } catch {}
+          finish('', objectUrl);
+        };
+
+        video.onloadedmetadata = () => {
+          video.currentTime = Math.min(0.3, (video.duration || 1) / 2);
+        };
+
+        video.onseeked = captureFrame;
+        video.onerror = () => finish('', objectUrl);
+
+        // Safety timeout
+        setTimeout(() => finish('', objectUrl), 4000);
+      } catch {
+        finish('');
+      }
+    });
+  }
+
+  /**
+   * Extract a real frame thumbnail from a video URL using Canvas
+   */
+  static generateThumbnailFromUrl(videoUrl: string): Promise<string> {
+    if (typeof window === 'undefined' || !videoUrl) return Promise.resolve('');
+
+    return new Promise((resolve) => {
+      let resolved = false;
+      const finish = (result: string) => {
+        if (resolved) return;
+        resolved = true;
+        resolve(result);
+      };
+
+      try {
+        const video = document.createElement('video');
+        video.crossOrigin = 'anonymous';
+        video.preload = 'metadata';
+        video.muted = true;
+        video.playsInline = true;
+        video.src = videoUrl;
+
+        video.onloadedmetadata = () => {
+          video.currentTime = Math.min(0.5, (video.duration || 1) / 2);
+        };
+
+        video.onseeked = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.min(640, video.videoWidth || 480);
+            canvas.height = Math.min(360, video.videoHeight || 270);
+            const ctx = canvas.getContext('2d');
+            if (ctx && canvas.width > 0 && canvas.height > 0) {
+              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+              const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+              finish(dataUrl);
+              return;
+            }
+          } catch {}
+          finish('');
+        };
+
+        video.onerror = () => finish('');
+        setTimeout(() => finish(''), 3000);
+      } catch {
+        finish('');
+      }
+    });
+  }
 }
+

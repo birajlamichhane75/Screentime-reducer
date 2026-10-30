@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect, Suspense, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Search,
@@ -9,22 +8,37 @@ import {
   CheckCircle2,
   X,
   ArrowLeft,
-  ChevronRight,
   Play,
-  Flame,
-  Trophy,
-  ChefHat,
-  Activity,
-  Palette,
   Code2,
   Music,
   Mic2,
   Headphones,
-  Zap,
+  Camera,
+  Film,
+  Flame,
+  CircleDot,
+  Dumbbell,
+  Radio,
+  Disc3,
+  Hammer,
+  Palette,
+  Layers,
+  BookOpen,
+  Scissors,
+  Cpu,
+  Gamepad2,
+  Wand2,
+  Shield,
+  UtensilsCrossed,
+  Sparkles,
+  Trophy,
+  HeartPulse,
+  Volume2,
 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
 import { VideoPost, Profile } from '@/types';
+import { VideoThumbnail } from '@/components/video/VideoThumbnail';
 
 interface CategoryBox {
   id: string;
@@ -33,16 +47,91 @@ interface CategoryBox {
   image?: string;
 }
 
-const CATEGORY_BOXES: CategoryBox[] = [
+// 30+ Comprehensive Creative, Athletic & Skill Categories
+const BASE_CATEGORY_BOXES: CategoryBox[] = [
   { id: 'Cooking', name: 'Cooking', image: '/creative-icons/cooking.jpg' },
-  { id: 'Sports', name: 'Soccer', image: '/creative-icons/soccer.jpg' },
-  { id: 'Art', name: 'Drawing', image: '/creative-icons/drawing.jpg' },
-  { id: 'Dance', name: 'Dancing', image: '/creative-icons/dancing.jpg' },
+  { id: 'Soccer', name: 'Soccer', image: '/creative-icons/soccer.jpg' },
+  { id: 'Drawing', name: 'Drawing', image: '/creative-icons/drawing.jpg' },
+  { id: 'Dancing', name: 'Dancing', image: '/creative-icons/dancing.jpg' },
   { id: 'Painting', name: 'Painting', image: '/creative-icons/painting.jpg' },
   { id: 'Coding', name: 'Coding', icon: Code2 },
   { id: 'Singing', name: 'Singing', icon: Mic2 },
-  { id: 'Music', name: 'Music', icon: Headphones },
+  { id: 'Music', name: 'Music', icon: Music },
+  { id: 'Photography', name: 'Photography', icon: Camera },
+  { id: 'Filmmaking', name: 'Filmmaking', icon: Film },
+  { id: 'Skateboarding', name: 'Skateboarding', icon: Flame },
+  { id: 'Basketball', name: 'Basketball', icon: CircleDot },
+  { id: 'Fitness', name: 'Fitness', icon: Dumbbell },
+  { id: 'Guitar', name: 'Guitar', icon: Radio },
+  { id: 'Drums', name: 'Drums', icon: Disc3 },
+  { id: 'Beatboxing', name: 'Beatboxing', icon: Headphones },
+  { id: 'Woodworking', name: 'Woodworking', icon: Hammer },
+  { id: 'Graphic Design', name: 'Graphic Design', icon: Palette },
+  { id: 'Animation', name: 'Animation', icon: Layers },
+  { id: 'Writing', name: 'Writing', icon: BookOpen },
+  { id: 'Fashion', name: 'Fashion', icon: Scissors },
+  { id: 'Robotics', name: 'Robotics', icon: Cpu },
+  { id: 'Gaming', name: 'Gaming', icon: Gamepad2 },
+  { id: 'Magic', name: 'Magic', icon: Wand2 },
+  { id: 'Martial Arts', name: 'Martial Arts', icon: Shield },
+  { id: 'Baking', name: 'Baking', icon: UtensilsCrossed },
+  { id: 'Pottery', name: 'Pottery', icon: Sparkles },
+  { id: 'Gymnastics', name: 'Gymnastics', icon: Trophy },
+  { id: 'Yoga', name: 'Yoga', icon: HeartPulse },
+  { id: 'Debate', name: 'Debate', icon: Volume2 },
 ];
+
+const CATEGORY_SYNONYMS: Record<string, string[]> = {
+  cooking: ['cook', 'baking', 'culinary', 'chef', 'food', 'kitchen', 'recipe'],
+  soccer: ['soccer', 'football', 'futbol', 'kick', 'goal', 'striker', 'ball'],
+  sports: ['sport', 'soccer', 'football', 'futbol', 'athlete', 'athletic', 'drill'],
+  drawing: ['draw', 'drawing', 'sketch', 'illustration', 'pencil', 'portrait'],
+  art: ['art', 'draw', 'drawing', 'sketch', 'illustration', 'pencil', 'portrait', 'canvas'],
+  dancing: ['dance', 'dancing', 'choreography', 'hiphop', 'ballet', 'contemporary'],
+  dance: ['dance', 'dancing', 'choreography', 'hiphop', 'ballet', 'contemporary'],
+  painting: ['paint', 'painting', 'watercolor', 'acrylic', 'oil', 'brush'],
+  coding: ['code', 'coding', 'programming', 'developer', 'react', 'software', 'tech', 'ai', 'dev'],
+  singing: ['sing', 'singing', 'vocal', 'vocals', 'voice', 'song', 'cover'],
+  music: ['music', 'instrument', 'guitar', 'piano', 'drums', 'audio', 'acoustic', 'melody'],
+  photography: ['photo', 'photography', 'camera', 'dslr', 'portrait', 'lens', 'sunset'],
+  filmmaking: ['film', 'filmmaking', 'cinema', 'video', 'directing', 'movie', 'editing'],
+  skateboarding: ['skate', 'skateboarding', 'skateboard', 'skater', 'ollie', 'kickflip'],
+  basketball: ['basketball', 'hoops', 'dunk', 'court'],
+  fitness: ['fitness', 'workout', 'gym', 'calisthenics', 'training', 'exercise'],
+  guitar: ['guitar', 'acoustic', 'electric guitar', 'chords'],
+  drums: ['drum', 'drums', 'percussion', 'beat'],
+  beatboxing: ['beatbox', 'beatboxing', 'vocal percussion'],
+  woodworking: ['wood', 'woodworking', 'carpentry', 'craft', 'furniture'],
+  'graphic design': ['design', 'graphic', 'ui', 'ux', 'vector', 'figma', 'branding'],
+  animation: ['animation', 'animating', 'animate', '3d', 'vfx', 'blender', 'cgi'],
+  writing: ['write', 'writing', 'poetry', 'poem', 'story', 'author', 'screenplay'],
+  fashion: ['fashion', 'styling', 'outfit', 'clothing', 'sewing', 'style'],
+  robotics: ['robot', 'robotics', 'arduino', 'hardware', 'engineering', 'stem'],
+  gaming: ['game', 'gaming', 'esports', 'gameplay', 'streamer'],
+  magic: ['magic', 'magician', 'illusion', 'sleight of hand', 'card trick'],
+  'martial arts': ['martial', 'karate', 'taekwondo', 'judo', 'boxing', 'mma', 'kungfu'],
+  baking: ['bake', 'baking', 'pastry', 'cake', 'bread', 'dessert'],
+  pottery: ['pottery', 'ceramic', 'clay', 'sculpture'],
+  gymnastics: ['gymnastic', 'gymnastics', 'acro', 'tumbling', 'handstand'],
+  yoga: ['yoga', 'flexibility', 'stretch', 'meditation', 'asana'],
+  debate: ['debate', 'speech', 'public speaking', 'presentation', 'oratory'],
+};
+
+function matchesCategory(video: VideoPost, targetCat: string): boolean {
+  if (!targetCat) return true;
+  const target = targetCat.toLowerCase().trim();
+  const vCat = (video.category || '').toLowerCase().trim();
+  const vTitle = (video.title || '').toLowerCase();
+  const vCaption = (video.caption || '').toLowerCase();
+
+  if (vCat === target) return true;
+  if (vCat.includes(target) || target.includes(vCat)) return true;
+
+  const synonyms = CATEGORY_SYNONYMS[target] || [];
+  return synonyms.some(
+    (syn) => vCat.includes(syn) || vTitle.includes(syn) || vCaption.includes(syn)
+  );
+}
 
 function ExploreContent() {
   const router = useRouter();
@@ -76,6 +165,37 @@ function ExploreContent() {
 
   const isOrg = currentUser?.role === 'organization';
 
+  // Merge base categories with any custom categories created by users
+  const allCategoryBoxes = useMemo(() => {
+    const list = [...BASE_CATEGORY_BOXES];
+    const existingIds = new Set(list.map((c) => c.name.toLowerCase()));
+
+    const storeCats = DataStore.getCategories();
+    storeCats.forEach((cat) => {
+      if (cat !== 'All' && !existingIds.has(cat.toLowerCase())) {
+        existingIds.add(cat.toLowerCase());
+        list.push({
+          id: cat,
+          name: cat,
+          icon: Sparkles,
+        });
+      }
+    });
+
+    videos.forEach((v) => {
+      if (v.category && !existingIds.has(v.category.toLowerCase())) {
+        existingIds.add(v.category.toLowerCase());
+        list.push({
+          id: v.category,
+          name: v.category,
+          icon: Sparkles,
+        });
+      }
+    });
+
+    return list;
+  }, [videos]);
+
   const handleSelectWork = (e: React.MouseEvent, vid: VideoPost) => {
     e.stopPropagation();
     if (!currentUser) return;
@@ -105,51 +225,32 @@ function ExploreContent() {
   };
 
   // Filter videos for the selected category
-  const categoryVideos = videos
-    .filter((vid) => {
-      if (!selectedCategory) return true;
-      const catLower = selectedCategory.toLowerCase();
-      const matchesCat =
-        vid.category.toLowerCase().includes(catLower) ||
-        (catLower === 'dance' && vid.category.toLowerCase().includes('dance')) ||
-        (catLower === 'sports' && (vid.category.toLowerCase().includes('sport') || vid.category.toLowerCase().includes('soccer'))) ||
-        (catLower === 'art' && (vid.category.toLowerCase().includes('art') || vid.category.toLowerCase().includes('draw'))) ||
-        (catLower === 'music' && (vid.category.toLowerCase().includes('music') || vid.category.toLowerCase().includes('piano'))) ||
-        (catLower === 'cooking' && (vid.category.toLowerCase().includes('cook') || vid.category.toLowerCase().includes('food'))) ||
-        (catLower === 'singing' && (vid.category.toLowerCase().includes('sing') || vid.category.toLowerCase().includes('vocal'))) ||
-        (catLower === 'coding' && (vid.category.toLowerCase().includes('code') || vid.category.toLowerCase().includes('tech')));
+  const categoryVideos = useMemo(() => {
+    return videos
+      .filter((vid) => {
+        if (!selectedCategory) return true;
+        const matchesCat = matchesCategory(vid, selectedCategory);
 
-      const q = searchQuery.toLowerCase().trim();
-      const matchesQuery =
-        !q ||
-        (vid.title && vid.title.toLowerCase().includes(q)) ||
-        vid.caption.toLowerCase().includes(q) ||
-        vid.creator.username.toLowerCase().includes(q) ||
-        vid.creator.full_name.toLowerCase().includes(q);
+        const q = searchQuery.toLowerCase().trim();
+        const matchesQuery =
+          !q ||
+          (vid.title && vid.title.toLowerCase().includes(q)) ||
+          vid.caption.toLowerCase().includes(q) ||
+          vid.creator?.username.toLowerCase().includes(q) ||
+          vid.creator?.full_name.toLowerCase().includes(q);
 
-      return matchesCat && matchesQuery;
-    })
-    .sort((a, b) => {
-      const rA = a.creator?.consistency_rating ?? 2.0;
-      const rB = b.creator?.consistency_rating ?? 2.0;
-      if (rB !== rA) return rB - rA;
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-    });
+        return matchesCat && matchesQuery;
+      })
+      .sort((a, b) => {
+        const rA = a.creator?.consistency_rating ?? 2.0;
+        const rB = b.creator?.consistency_rating ?? 2.0;
+        if (rB !== rA) return rB - rA;
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
+  }, [videos, selectedCategory, searchQuery]);
 
   const getCategoryCount = (catId: string) => {
-    const catLower = catId.toLowerCase();
-    return videos.filter((vid) => {
-      return (
-        vid.category.toLowerCase().includes(catLower) ||
-        (catLower === 'dance' && vid.category.toLowerCase().includes('dance')) ||
-        (catLower === 'sports' && (vid.category.toLowerCase().includes('sport') || vid.category.toLowerCase().includes('soccer'))) ||
-        (catLower === 'art' && (vid.category.toLowerCase().includes('art') || vid.category.toLowerCase().includes('draw'))) ||
-        (catLower === 'music' && (vid.category.toLowerCase().includes('music') || vid.category.toLowerCase().includes('piano'))) ||
-        (catLower === 'cooking' && (vid.category.toLowerCase().includes('cook') || vid.category.toLowerCase().includes('food'))) ||
-        (catLower === 'singing' && (vid.category.toLowerCase().includes('sing') || vid.category.toLowerCase().includes('vocal'))) ||
-        (catLower === 'coding' && (vid.category.toLowerCase().includes('code') || vid.category.toLowerCase().includes('tech')))
-      );
-    }).length;
+    return videos.filter((vid) => matchesCategory(vid, catId)).length;
   };
 
   return (
@@ -185,7 +286,7 @@ function ExploreContent() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search creators or keywords"
+                  placeholder="Search categories or creators"
                   className="w-full bg-transparent text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-hidden font-medium"
                 />
                 {searchQuery && (
@@ -196,43 +297,48 @@ function ExploreContent() {
               </div>
             </div>
 
-            {/* Grid of Category Boxes: Big Icon and Just Category Name */}
+            {/* Grid of All Categories: Big Icon and Just Category Name + Video Count */}
             <div className="grid grid-cols-2 gap-3.5 pt-1">
-              {CATEGORY_BOXES.map((box) => {
-                const IconComponent = box.icon;
-                const count = getCategoryCount(box.id);
+              {allCategoryBoxes
+                .filter((box) => {
+                  if (!searchQuery) return true;
+                  return box.name.toLowerCase().includes(searchQuery.toLowerCase().trim());
+                })
+                .map((box) => {
+                  const IconComponent = box.icon;
+                  const count = getCategoryCount(box.id);
 
-                return (
-                  <div
-                    key={box.id}
-                    onClick={() => setSelectedCategory(box.id)}
-                    className="p-5 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 hover:border-[#0E0830] dark:hover:border-white transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md flex flex-col items-center text-center space-y-2.5 group active:scale-95"
-                  >
-                    {/* Big Icon */}
-                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center p-2.5 overflow-hidden group-hover:scale-105 transition-transform">
-                      {box.image ? (
-                        <img
-                          src={box.image}
-                          alt={box.name}
-                          className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen"
-                        />
-                      ) : (
-                        IconComponent && <IconComponent className="w-14 h-14 text-[#0E0830] dark:text-white stroke-[1.8]" />
-                      )}
-                    </div>
+                  return (
+                    <div
+                      key={box.id}
+                      onClick={() => setSelectedCategory(box.id)}
+                      className="p-5 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 hover:border-[#0E0830] dark:hover:border-white transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md flex flex-col items-center text-center space-y-2.5 group active:scale-95"
+                    >
+                      {/* Big Icon */}
+                      <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center p-2.5 overflow-hidden group-hover:scale-105 transition-transform">
+                        {box.image ? (
+                          <img
+                            src={box.image}
+                            alt={box.name}
+                            className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen"
+                          />
+                        ) : (
+                          IconComponent && <IconComponent className="w-14 h-14 text-[#0E0830] dark:text-white stroke-[1.8]" />
+                        )}
+                      </div>
 
-                    {/* Category Name and Number of Videos Uploaded */}
-                    <div className="space-y-0.5">
-                      <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-[#0E0830] dark:group-hover:text-white tracking-tight">
-                        {box.name}
-                      </h2>
-                      <span className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 block">
-                        {count} {count === 1 ? 'Video' : 'Videos'}
-                      </span>
+                      {/* Category Name and Number of Videos Uploaded */}
+                      <div className="space-y-0.5">
+                        <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-[#0E0830] dark:group-hover:text-white tracking-tight">
+                          {box.name}
+                        </h2>
+                        <span className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 block">
+                          {count} {count === 1 ? 'Video' : 'Videos'}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
         )}
@@ -263,7 +369,7 @@ function ExploreContent() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={`Search ${selectedCategory}`}
+                  placeholder={`Search in ${selectedCategory}`}
                   className="w-full bg-transparent text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-hidden font-medium"
                 />
                 {searchQuery && (
@@ -274,7 +380,7 @@ function ExploreContent() {
               </div>
             </div>
 
-            {/* Video Grid for Specific Category */}
+            {/* Video Grid for Specific Category with Real Video Thumbnails */}
             {categoryVideos.length > 0 ? (
               <div className="grid grid-cols-2 gap-2.5">
                 {categoryVideos.map((video) => {
@@ -286,10 +392,10 @@ function ExploreContent() {
                       onClick={() => router.push(`/video/${video.id}`)}
                       className="group relative rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:shadow-xs transition-all cursor-pointer flex flex-col"
                     >
-                      {/* Video Thumbnail Box */}
-                      <div className="relative aspect-4/5 w-full bg-slate-900 overflow-hidden">
-                        <img
-                          src={video.thumbnail_url}
+                      {/* Authentic Video Thumbnail (No Unrelated Stock Photos) */}
+                      <div className="relative aspect-4/5 w-full bg-slate-950 overflow-hidden">
+                        <VideoThumbnail
+                          video={video}
                           alt={video.title || video.caption}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
@@ -324,7 +430,7 @@ function ExploreContent() {
                         {/* Bottom Overlay: Creator Name */}
                         <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between text-white text-xs">
                           <span className="font-bold drop-shadow-xs truncate">
-                            {video.creator.full_name}
+                            {video.creator?.full_name || 'Creator'}
                           </span>
                         </div>
                       </div>

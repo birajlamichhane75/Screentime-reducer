@@ -1001,13 +1001,9 @@ export class DataStore {
     const rawVids = getStorageItem<VideoPost[]>(STORAGE_KEYS.VIDEOS, INITIAL_VIDEOS);
     let mapped = rawVids.map((v) => {
       const rating = this.getCreatorRating(v.creator_id);
-      let thumb = v.thumbnail_url;
-      if (thumb && thumb.includes('1579783902614')) {
-        thumb = 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&auto=format&fit=crop&q=80';
-      }
       return {
         ...v,
-        thumbnail_url: thumb,
+        thumbnail_url: v.thumbnail_url,
         creator: {
           ...v.creator,
           consistency_rating: rating.score,

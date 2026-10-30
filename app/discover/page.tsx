@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Search, BookmarkCheck, CheckCircle2 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
+import { VideoThumbnail } from '@/components/video/VideoThumbnail';
 import { VideoPost, Profile } from '@/types';
 
 export default function OrganizationDiscoverPage() {
@@ -91,8 +92,8 @@ export default function OrganizationDiscoverPage() {
               className="group flex flex-col rounded-xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
             >
               <div className="relative aspect-3/4 w-full bg-slate-950 overflow-hidden">
-                <img
-                  src={video.thumbnail_url}
+                <VideoThumbnail
+                  video={video}
                   alt={video.caption}
                   className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300"
                 />

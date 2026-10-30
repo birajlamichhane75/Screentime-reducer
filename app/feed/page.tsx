@@ -244,7 +244,7 @@ export default function CreatorHomePage() {
                   <div className="relative aspect-16/10 w-full rounded-2xl bg-black overflow-hidden shadow-inner">
                     <video
                       src={url}
-                      poster={video.thumbnail_url}
+                      poster={video.thumbnail_url?.startsWith('data:') ? video.thumbnail_url : undefined}
                       controls
                       playsInline
                       preload="metadata"

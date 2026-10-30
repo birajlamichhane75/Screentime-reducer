@@ -38,9 +38,7 @@ export default function UploadVideoPage() {
   const [caption, setCaption] = useState<string>('Daily practice session ✨');
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState<string>(''); // No dummy video by default
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
-    'https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=600&auto=format&fit=crop&q=80'
-  );
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>('');
   const [isCustomCategoryModalOpen, setIsCustomCategoryModalOpen] = useState(false);
   const [customCategoryInput, setCustomCategoryInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,13 +49,23 @@ export default function UploadVideoPage() {
     setCategories(DataStore.getCategories().filter((c) => c !== 'All'));
   }, []);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setVideoFile(file);
       const url = URL.createObjectURL(file);
       setVideoPreviewUrl(url);
       setIsVerified(false);
+
+      // Extract authentic real video frame as the thumbnail
+      try {
+        const realThumbnail = await VideoStorage.generateVideoThumbnail(file);
+        if (realThumbnail) {
+          setThumbnailUrl(realThumbnail);
+        }
+      } catch (err) {
+        console.warn('Could not extract video thumbnail:', err);
+      }
     }
   };
 
@@ -116,13 +124,22 @@ export default function UploadVideoPage() {
     // 2. Save post record to Supabase Database & Local DataStore
     setUploadStatusMessage('Saving post in Supabase...');
 
+    let finalThumbnail = thumbnailUrl;
+    if (!finalThumbnail && videoFile) {
+      try {
+        finalThumbnail = await VideoStorage.generateVideoThumbnail(videoFile);
+      } catch (err) {
+        console.warn('Could not generate thumbnail on submit:', err);
+      }
+    }
+
     DataStore.addVideo({
       id: newVideoId,
       creator_id: currentUser.id,
       caption: caption.trim(),
       category: selectedCategory,
       video_url: finalVideoUrl,
-      thumbnail_url: thumbnailUrl,
+      thumbnail_url: finalThumbnail,
       duration_seconds: 15,
     });
 

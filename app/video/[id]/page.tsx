@@ -192,7 +192,7 @@ function VideoViewerContent({
               <video
                 ref={videoRef}
                 src={playableUrl || video.video_url}
-                poster={video.thumbnail_url}
+                poster={video.thumbnail_url?.startsWith('data:') ? video.thumbnail_url : undefined}
                 loop
                 muted={isMuted}
                 playsInline
