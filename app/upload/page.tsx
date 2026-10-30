@@ -14,6 +14,7 @@ import {
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
 import { SupabaseService } from '@/services/supabaseService';
+import { VideoStorage } from '@/lib/videoStorage';
 import { CreatorConsistencyRating } from '@/types';
 import { TrustSafetyEngine } from '@/components/trust-safety/TrustSafetyEngine';
 
@@ -84,10 +85,23 @@ export default function UploadVideoPage() {
     setIsSubmitting(true);
     const currentUser = DataStore.getCurrentUser();
 
+    const newVideoId = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `vid-${Date.now()}`;
+
     let finalVideoUrl = videoPreviewUrl;
 
-    // 1. If user selected a local video file, upload it directly to Supabase Storage
+    // 1. If user selected a local video file, store in browser IndexedDB so it always plays
     if (videoFile) {
+      try {
+        const localBlobUrl = await VideoStorage.saveVideoBlob(newVideoId, videoFile);
+        if (localBlobUrl) {
+          finalVideoUrl = localBlobUrl;
+        }
+      } catch (e) {
+        console.warn('IndexedDB video cache notice:', e);
+      }
+
       setUploadStatusMessage('Uploading video to Supabase Storage...');
       try {
         const uploadResult = await SupabaseService.uploadVideoFile(videoFile);
@@ -103,6 +117,7 @@ export default function UploadVideoPage() {
     setUploadStatusMessage('Saving post in Supabase...');
 
     DataStore.addVideo({
+      id: newVideoId,
       creator_id: currentUser.id,
       caption: caption.trim(),
       category: selectedCategory,

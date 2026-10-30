@@ -1082,7 +1082,24 @@ export class DataStore {
           is_saved: false,
           created_at: v.created_at,
         }));
-        setStorageItem(STORAGE_KEYS.VIDEOS, mapped);
+        // Merge remote videos with local videos so newly uploaded videos are never overwritten
+        const existingLocal = getStorageItem<VideoPost[]>(STORAGE_KEYS.VIDEOS, []);
+        const combinedMap = new Map<string, VideoPost>();
+        
+        // Add remote videos first
+        mapped.forEach((v) => combinedMap.set(v.id, v));
+        
+        // Add local videos that might be pending or recently posted
+        existingLocal.forEach((v) => {
+          if (!combinedMap.has(v.id)) {
+            combinedMap.set(v.id, v);
+          }
+        });
+
+        const merged = Array.from(combinedMap.values()).sort(
+          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+        setStorageItem(STORAGE_KEYS.VIDEOS, merged);
       }
 
       const { data: cats, error: catErr } = await supabase
@@ -1107,6 +1124,7 @@ export class DataStore {
   }
 
   static addVideo(data: {
+    id?: string;
     creator_id: string;
     caption: string;
     category: string;
@@ -1124,9 +1142,9 @@ export class DataStore {
     const nowISO = new Date().toISOString();
     const newStreak = (creatorProfile.upload_streak_days || 0) + 1;
 
-    const newVideoId = typeof crypto !== 'undefined' && crypto.randomUUID
+    const newVideoId = data.id || (typeof crypto !== 'undefined' && crypto.randomUUID
       ? crypto.randomUUID()
-      : `vid-${Date.now()}`;
+      : `vid-${Date.now()}`);
 
     const newVideo: VideoPost = {
       id: newVideoId,

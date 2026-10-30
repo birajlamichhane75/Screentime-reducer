@@ -200,12 +200,13 @@ function ExploreContent() {
             <div className="grid grid-cols-2 gap-3.5 pt-1">
               {CATEGORY_BOXES.map((box) => {
                 const IconComponent = box.icon;
+                const count = getCategoryCount(box.id);
 
                 return (
                   <div
                     key={box.id}
                     onClick={() => setSelectedCategory(box.id)}
-                    className="p-5 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 hover:border-[#0E0830] dark:hover:border-white transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md flex flex-col items-center text-center space-y-3 group active:scale-95"
+                    className="p-5 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 hover:border-[#0E0830] dark:hover:border-white transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md flex flex-col items-center text-center space-y-2.5 group active:scale-95"
                   >
                     {/* Big Icon */}
                     <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center p-2.5 overflow-hidden group-hover:scale-105 transition-transform">
@@ -220,10 +221,15 @@ function ExploreContent() {
                       )}
                     </div>
 
-                    {/* Just Category Name (No descriptive text, no video count) */}
-                    <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-[#0E0830] dark:group-hover:text-white tracking-tight">
-                      {box.name}
-                    </h2>
+                    {/* Category Name and Number of Videos Uploaded */}
+                    <div className="space-y-0.5">
+                      <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-[#0E0830] dark:group-hover:text-white tracking-tight">
+                        {box.name}
+                      </h2>
+                      <span className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 block">
+                        {count} {count === 1 ? 'Video' : 'Videos'}
+                      </span>
+                    </div>
                   </div>
                 );
               })}

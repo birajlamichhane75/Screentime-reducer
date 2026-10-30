@@ -32,7 +32,7 @@ describe('Talent Videos & Discovery Engine', () => {
       creator_id: 'usr-student-001',
       caption: 'Testing frontside kickflip 🛹',
       category: 'Sports',
-      video_url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+      video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
       thumbnail_url: 'https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=600&auto=format&fit=crop&q=80',
     });
 
@@ -159,7 +159,7 @@ describe('Talent Videos & Discovery Engine', () => {
       creator_id: 'usr-student-003',
       caption: 'Daily morning soccer freestyle practice ⚽',
       category: 'Sports',
-      video_url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+      video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
       thumbnail_url: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=600&auto=format&fit=crop&q=80',
     });
 

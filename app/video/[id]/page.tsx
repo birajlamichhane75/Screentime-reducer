@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
+import { VideoStorage } from '@/lib/videoStorage';
 import { ContactTalentModal } from '@/components/talent/ContactTalentModal';
 import { VideoPost, Profile, WorkSelectionEmail } from '@/types';
 
@@ -34,6 +35,7 @@ function VideoViewerContent({
 
   const [currentUser, setCurrentUser] = useState<Profile | null>(null);
   const [video, setVideo] = useState<VideoPost | null>(null);
+  const [playableUrl, setPlayableUrl] = useState<string>('');
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(12);
@@ -52,6 +54,9 @@ function VideoViewerContent({
     if (vid) {
       setVideo(vid);
       setIsWorkSelected(DataStore.isWorkSelected(user.id, vid.id));
+      VideoStorage.resolvePlayableUrl(vid.id, vid.video_url).then((url) => {
+        setPlayableUrl(url);
+      });
     }
   }, [videoId]);
 
@@ -186,7 +191,7 @@ function VideoViewerContent({
             >
               <video
                 ref={videoRef}
-                src={video.video_url}
+                src={playableUrl || video.video_url}
                 poster={video.thumbnail_url}
                 loop
                 muted={isMuted}
