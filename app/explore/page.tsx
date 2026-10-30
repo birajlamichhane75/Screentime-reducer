@@ -30,18 +30,19 @@ interface CategoryBox {
   id: string;
   name: string;
   description: string;
-  icon: React.ElementType;
+  icon?: React.ElementType;
+  image?: string;
 }
 
 const CATEGORY_BOXES: CategoryBox[] = [
-  { id: 'Cooking', name: 'Cooking', description: 'Culinary routines & kitchen creations', icon: ChefHat },
-  { id: 'Sports', name: 'Soccer & Athletics', description: 'Soccer drills, goals & training', icon: Activity },
-  { id: 'Art', name: 'Drawing & Art', description: 'Sketches, digital art & painting', icon: Palette },
+  { id: 'Cooking', name: 'Cooking', description: 'Culinary routines & kitchen creations', image: '/creative-icons/cooking.jpg' },
+  { id: 'Sports', name: 'Soccer & Athletics', description: 'Soccer drills, goals & training', image: '/creative-icons/soccer.jpg' },
+  { id: 'Art', name: 'Drawing & Art', description: 'Sketches, digital art & painting', image: '/creative-icons/drawing.jpg' },
+  { id: 'Dance', name: 'Dancing', description: 'Choreography, balance & routines', image: '/creative-icons/dancing.jpg' },
+  { id: 'Painting', name: 'Studio Painting', description: 'Brushwork, canvas & acrylic craft', image: '/creative-icons/painting.jpg' },
   { id: 'Coding', name: 'Coding & Tech', description: 'Algorithms, websites & app craft', icon: Code2 },
-  { id: 'Dance', name: 'Dancing', description: 'Choreography, balance & routines', icon: Music },
   { id: 'Singing', name: 'Singing', description: 'Vocal covers, songwriting & acoustics', icon: Mic2 },
   { id: 'Music', name: 'Instrumental Music', description: 'Piano, guitar, drums & beats', icon: Headphones },
-  { id: 'Fitness', name: 'Fitness & Tricks', description: 'Calisthenics, skate & acrobatics', icon: Zap },
 ];
 
 function ExploreContent() {
@@ -213,8 +214,16 @@ function ExploreContent() {
                     onClick={() => setSelectedCategory(box.id)}
                     className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0E0830] dark:hover:border-white transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md flex flex-col items-center text-center space-y-2.5 group"
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[#0E0830] dark:text-white group-hover:scale-105 transition-transform shadow-2xs">
-                      <IconComponent className="w-7 h-7 stroke-[1.8]" />
+                    <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-1 overflow-hidden group-hover:scale-105 transition-transform shadow-2xs">
+                      {box.image ? (
+                        <img
+                          src={box.image}
+                          alt={box.name}
+                          className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen"
+                        />
+                      ) : (
+                        IconComponent && <IconComponent className="w-7 h-7 text-[#0E0830] dark:text-white stroke-[1.8]" />
+                      )}
                     </div>
 
                     <div className="space-y-0.5">

@@ -1,10 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
+const LANDING_ICONS = [
+  { src: '/creative-icons/drawing.jpg', alt: 'Drawing and Recording Creative Routine' },
+  { src: '/creative-icons/cooking.jpg', alt: 'Cooking and Recording Creative Routine' },
+  { src: '/creative-icons/dancing.jpg', alt: 'Dancing and Recording Creative Routine' },
+  { src: '/creative-icons/soccer.jpg', alt: 'Playing Soccer and Recording Creative Routine' },
+  { src: '/creative-icons/painting.jpg', alt: 'Painting and Recording Creative Routine' },
+];
+
 export default function LandingPage() {
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIdx((prev) => (prev + 1) % LANDING_ICONS.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white dark:bg-[#0b071e] text-slate-900 dark:text-white flex flex-col justify-between px-6 py-6 transition-colors">
       {/* Minimal Top Brand Bar */}
@@ -15,65 +32,31 @@ export default function LandingPage() {
         <ThemeToggle />
       </header>
 
-      {/* Main Hero Center: Half-Screen Outline Icon, 5-Word One-Liner, and Button */}
-      <main className="flex-1 flex flex-col items-center justify-center text-center my-auto w-full max-w-md mx-auto space-y-8">
-        {/* Big Outline Icon: Doing Creative Routine & Recording (Covers ~half screen, outline only, no color) */}
-        <div className="w-[82vw] h-[44vh] max-w-sm max-h-[420px] flex items-center justify-center">
-          <svg
-            viewBox="0 0 320 320"
-            className="w-full h-full stroke-[#0E0830] dark:stroke-white stroke-[2] fill-none stroke-linecap-round stroke-linejoin-round"
-            aria-label="Creative Routine and Recording"
-          >
-            {/* Recording Camera Tripod */}
-            <path d="M70 230 L50 290" />
-            <path d="M90 230 L110 290" />
-            <path d="M80 230 L80 290" />
-            <path d="M60 270 L100 270" />
+      {/* Main Hero Center: Half-Screen Icon, 5-Word One-Liner, and Button */}
+      <main className="flex-1 flex flex-col items-center justify-center text-center my-auto w-full max-w-md mx-auto space-y-6">
+        {/* Big Icon: Creative Routine and Recording (Covers ~half screen, using user's uploaded icons) */}
+        <div className="w-[82vw] h-[44vh] max-w-sm max-h-[420px] flex items-center justify-center relative select-none">
+          <img
+            src={LANDING_ICONS[activeIdx].src}
+            alt={LANDING_ICONS[activeIdx].alt}
+            className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen transition-all duration-500 transform hover:scale-102"
+          />
+        </div>
 
-            {/* Video Camera Body */}
-            <rect x="45" y="160" width="70" height="50" rx="8" />
-            {/* Camera Lens */}
-            <polygon points="115,172 145,155 145,215 115,198" />
-            {/* Top Handle */}
-            <path d="M60 160 L60 145 L100 145 L100 160" />
-            {/* Tape Reel / Viewfinder */}
-            <circle cx="65" cy="185" r="9" />
-            <circle cx="95" cy="185" r="9" />
-            {/* Recording Indicator */}
-            <circle cx="58" cy="170" r="3" />
-
-            {/* Recording Sight Lines / Focus Frame */}
-            <path d="M165 140 L180 140" />
-            <path d="M165 140 L165 155" />
-            <path d="M295 140 L280 140" />
-            <path d="M295 140 L295 155" />
-            <path d="M165 260 L180 260" />
-            <path d="M165 260 L165 245" />
-            <path d="M295 260 L280 260" />
-            <path d="M295 260 L295 245" />
-
-            {/* Creator Doing Routine: Head & Body */}
-            <circle cx="230" cy="90" r="22" />
-            <path d="M230 112 L230 185" />
-
-            {/* Creator Arms Active In Routine (Painting / Instrument / Athletic) */}
-            <path d="M230 135 L195 160 L185 190" />
-            <path d="M230 135 L265 155 L285 140" />
-
-            {/* Creative Canvas / Easel / Craft */}
-            <path d="M180 170 L180 265" />
-            <path d="M180 190 L160 270" />
-            <path d="M180 190 L200 270" />
-            <rect x="155" y="170" width="50" height="40" rx="4" />
-
-            {/* Creative Waves / Routine Rhythm */}
-            <path d="M245 80 Q255 70 265 80 T285 80" />
-            <path d="M250 100 Q265 92 275 105" />
-
-            {/* Athletic / Dance Pose Legs */}
-            <path d="M230 185 L210 265" />
-            <path d="M230 185 L255 255 L275 265" />
-          </svg>
+        {/* 3-Second Cycle Dots Indicator */}
+        <div className="flex items-center justify-center gap-1.5 pt-1">
+          {LANDING_ICONS.map((icon, i) => (
+            <button
+              key={icon.src}
+              onClick={() => setActiveIdx(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === activeIdx
+                  ? 'w-6 bg-[#0E0830] dark:bg-white'
+                  : 'w-1.5 bg-slate-200 dark:bg-slate-700'
+              }`}
+              aria-label={`Show ${icon.alt}`}
+            />
+          ))}
         </div>
 
         {/* One Liner with Exactly 5 Words */}

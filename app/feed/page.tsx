@@ -7,185 +7,42 @@ import {
   Upload,
   Compass,
   ArrowRight,
-  Sparkles,
 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
 import { Profile } from '@/types';
 
-// The 6 creative activities with people doing creative work and recording
+// The creative activities using the user's uploaded icons
 const CREATIVE_ACTIVITIES = [
   {
     id: 'cooking',
     title: 'Cooking',
     subtitle: 'Culinary routines & kitchen creations',
-    // Cooking with recording camera icon
-    icon: (
-      <svg
-        viewBox="0 0 160 160"
-        className="w-32 h-32 stroke-[#0E0830] dark:stroke-white stroke-[2.2] fill-none stroke-linecap-round stroke-linejoin-round transition-all duration-300"
-      >
-        {/* Chef Hat */}
-        <path d="M55 52 C45 52 40 42 48 34 C44 24 55 16 66 22 C72 14 88 14 94 22 C105 16 116 24 112 34 C120 42 115 52 105 52 Z" />
-        <path d="M52 52 L108 52 L105 66 L55 66 Z" />
-        {/* Cooking Pan & Whisk / Utensil */}
-        <ellipse cx="80" cy="100" rx="36" ry="12" />
-        <path d="M44 100 L48 118 C48 126 62 132 80 132 C98 132 112 126 112 118 L116 100" />
-        <path d="M116 106 L144 94" />
-        {/* Recording Camera in top corner */}
-        <rect x="110" y="24" width="28" height="20" rx="4" />
-        <polygon points="138,29 150,22 150,39 138,32" />
-        <circle cx="118" cy="34" r="3" />
-        {/* Steam waves */}
-        <path d="M68 88 Q72 80 68 74" />
-        <path d="M80 88 Q84 78 80 72" />
-        <path d="M92 88 Q96 80 92 74" />
-      </svg>
-    ),
+    image: '/creative-icons/cooking.jpg',
   },
   {
     id: 'soccer',
     title: 'Playing Soccer',
     subtitle: 'Athletic drills, juggles & field skills',
-    // Soccer with recording camera icon
-    icon: (
-      <svg
-        viewBox="0 0 160 160"
-        className="w-32 h-32 stroke-[#0E0830] dark:stroke-white stroke-[2.2] fill-none stroke-linecap-round stroke-linejoin-round transition-all duration-300"
-      >
-        {/* Player Running / Kicking Pose */}
-        <circle cx="68" cy="32" r="12" />
-        <path d="M68 44 L60 82 L42 108" />
-        <path d="M60 76 L86 98 L104 94" />
-        <path d="M68 54 L92 48 L104 62" />
-        <path d="M68 54 L44 64 L36 54" />
-        {/* Soccer Ball */}
-        <circle cx="118" cy="116" r="18" />
-        <polygon points="118,104 126,110 123,120 113,120 110,110" />
-        <path d="M118 104 L118 98" />
-        <path d="M126 110 L134 110" />
-        <path d="M123 120 L128 128" />
-        <path d="M113 120 L108 128" />
-        <path d="M110 110 L102 110" />
-        {/* Recording Camera in corner */}
-        <rect x="18" y="22" width="28" height="20" rx="4" />
-        <polygon points="46,27 58,20 58,37 46,30" />
-        <circle cx="26" cy="32" r="3" />
-        {/* Motion Speed Lines */}
-        <path d="M96 114 L90 114" />
-        <path d="M94 122 L86 122" />
-      </svg>
-    ),
+    image: '/creative-icons/soccer.jpg',
   },
   {
     id: 'drawing',
     title: 'Drawing',
-    subtitle: 'Sketches, canvas art & digital illustration',
-    // Drawing on easel with recording camera
-    icon: (
-      <svg
-        viewBox="0 0 160 160"
-        className="w-32 h-32 stroke-[#0E0830] dark:stroke-white stroke-[2.2] fill-none stroke-linecap-round stroke-linejoin-round transition-all duration-300"
-      >
-        {/* Art Easel */}
-        <path d="M80 20 L44 140" />
-        <path d="M80 20 L116 140" />
-        <path d="M80 20 L80 140" />
-        <path d="M36 100 L124 100" />
-        {/* Canvas Board */}
-        <rect x="48" y="38" width="64" height="52" rx="4" />
-        {/* Artwork Sketch on Canvas */}
-        <path d="M60 76 Q72 52 84 68 T102 60" />
-        <circle cx="68" cy="52" r="5" />
-        {/* Artist Hand holding brush */}
-        <path d="M104 88 L126 72" />
-        <path d="M126 72 L132 66" />
-        {/* Recording Camera */}
-        <rect x="18" y="24" width="28" height="20" rx="4" />
-        <polygon points="46,29 58,22 58,39 46,32" />
-        <circle cx="26" cy="34" r="3" />
-      </svg>
-    ),
-  },
-  {
-    id: 'coding',
-    title: 'Coding',
-    subtitle: 'Software, algorithms & digital architecture',
-    // Coding on screen with recording camera
-    icon: (
-      <svg
-        viewBox="0 0 160 160"
-        className="w-32 h-32 stroke-[#0E0830] dark:stroke-white stroke-[2.2] fill-none stroke-linecap-round stroke-linejoin-round transition-all duration-300"
-      >
-        {/* Laptop / Monitor */}
-        <rect x="36" y="44" width="88" height="58" rx="6" />
-        <path d="M22 110 L138 110 L126 122 L34 122 Z" />
-        {/* Code Brackets on Screen */}
-        <path d="M62 64 L52 73 L62 82" />
-        <path d="M98 64 L108 73 L98 82" />
-        <path d="M84 62 L76 84" />
-        {/* Recording Camera */}
-        <rect x="110" y="18" width="28" height="20" rx="4" />
-        <polygon points="138,23 150,16 150,33 138,26" />
-        <circle cx="118" cy="28" r="3" />
-      </svg>
-    ),
+    subtitle: 'Sketches, canvas art & illustration',
+    image: '/creative-icons/drawing.jpg',
   },
   {
     id: 'dancing',
     title: 'Dancing',
     subtitle: 'Choreography, balance & rhythm routines',
-    // Dancer with recording camera
-    icon: (
-      <svg
-        viewBox="0 0 160 160"
-        className="w-32 h-32 stroke-[#0E0830] dark:stroke-white stroke-[2.2] fill-none stroke-linecap-round stroke-linejoin-round transition-all duration-300"
-      >
-        {/* Dancer Body Pose */}
-        <circle cx="80" cy="28" r="12" />
-        <path d="M80 40 L80 80 L62 114 L50 142" />
-        <path d="M80 74 L104 94 L128 90" />
-        {/* Expressive Dancer Arms */}
-        <path d="M80 50 Q104 38 122 46" />
-        <path d="M80 50 Q56 42 38 28" />
-        {/* Musical Flow / Sparkles */}
-        <path d="M120 22 Q128 14 136 22" />
-        <path d="M48 68 Q40 76 34 70" />
-        {/* Recording Camera */}
-        <rect x="18" y="88" width="28" height="20" rx="4" />
-        <polygon points="46,93 58,86 58,103 46,96" />
-        <circle cx="26" cy="98" r="3" />
-      </svg>
-    ),
+    image: '/creative-icons/dancing.jpg',
   },
   {
-    id: 'singing',
-    title: 'Singing',
-    subtitle: 'Vocal performance, acoustic & lyrics practice',
-    // Singer / Microphone with soundwaves and recording camera
-    icon: (
-      <svg
-        viewBox="0 0 160 160"
-        className="w-32 h-32 stroke-[#0E0830] dark:stroke-white stroke-[2.2] fill-none stroke-linecap-round stroke-linejoin-round transition-all duration-300"
-      >
-        {/* Studio Microphone */}
-        <rect x="68" y="28" width="24" height="42" rx="12" />
-        <line x1="68" y1="42" x2="92" y2="42" />
-        <line x1="68" y1="52" x2="92" y2="52" />
-        <path d="M58 48 C58 68 102 68 102 48" />
-        <line x1="80" y1="70" x2="80" y2="108" />
-        <line x1="60" y1="108" x2="100" y2="108" />
-        {/* Audio Soundwaves */}
-        <path d="M46 36 Q38 48 46 60" />
-        <path d="M36 28 Q26 48 36 68" />
-        <path d="M114 36 Q122 48 114 60" />
-        <path d="M124 28 Q134 48 124 68" />
-        {/* Recording Camera */}
-        <rect x="110" y="88" width="28" height="20" rx="4" />
-        <polygon points="138,93 150,86 150,103 138,96" />
-        <circle cx="118" cy="98" r="3" />
-      </svg>
-    ),
+    id: 'painting',
+    title: 'Painting & Art',
+    subtitle: 'Studio painting, brushwork & craft routines',
+    image: '/creative-icons/painting.jpg',
   },
 ];
 
@@ -255,7 +112,7 @@ export default function CreatorHomePage() {
         {/* BIG UPLOAD BOX (Centerpiece of Home) */}
         <div
           onClick={handleBoxClick}
-          className="relative w-full aspect-[4/5] sm:aspect-square max-h-[480px] rounded-3xl border-2 border-dashed border-[#0E0830]/30 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-[#0E0830] dark:hover:border-white transition-all duration-300 cursor-pointer shadow-xs p-6 flex flex-col items-center justify-between text-center select-none group"
+          className="relative w-full aspect-[4/5] sm:aspect-square max-h-[500px] rounded-3xl border-2 border-dashed border-[#0E0830]/30 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-[#0E0830] dark:hover:border-white transition-all duration-300 cursor-pointer shadow-xs p-6 flex flex-col items-center justify-between text-center select-none group"
         >
           {/* Subtle Record Dot Header */}
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold text-slate-600 dark:text-slate-300">
@@ -263,13 +120,17 @@ export default function CreatorHomePage() {
             <span>Daily Practice Record</span>
           </div>
 
-          {/* Animated Big Icon Area (Changes every 3 seconds) */}
-          <div className="my-auto flex flex-col items-center justify-center space-y-4">
-            <div className="transform transition-transform duration-500 group-hover:scale-105">
-              {currentActivity.icon}
+          {/* Animated Big Icon Area (User's uploaded icons changing every 3 seconds) */}
+          <div className="my-auto flex flex-col items-center justify-center space-y-3">
+            <div className="w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center overflow-hidden">
+              <img
+                src={currentActivity.image}
+                alt={currentActivity.title}
+                className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen transition-all duration-300 transform group-hover:scale-105"
+              />
             </div>
 
-            <div className="space-y-1 transition-opacity duration-300">
+            <div className="space-y-0.5 transition-opacity duration-300">
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                 {currentActivity.title}
               </h2>
@@ -322,7 +183,7 @@ export default function CreatorHomePage() {
                 Explore Talent Directory
               </h3>
               <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Browse cooking, soccer, drawing, coding, dancing, singing
+                Browse cooking, soccer, drawing, dancing, and art
               </p>
             </div>
           </div>
