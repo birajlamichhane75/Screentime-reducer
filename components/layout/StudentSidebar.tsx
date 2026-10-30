@@ -17,6 +17,9 @@ import {
   Settings,
   Layers,
   BookmarkCheck,
+  Upload,
+  Shield,
+  Gift,
 } from 'lucide-react';
 import { RoleSwitcher } from './RoleSwitcher';
 import { ThemeToggle } from './ThemeToggle';
@@ -29,12 +32,11 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Talent Feed', href: '/feed', icon: Layers },
+  { label: 'Home & Upload', href: '/feed', icon: Upload },
+  { label: 'Consistency Rating', href: '/rating', icon: Shield },
+  { label: 'Creator Rewards', href: '/rewards', icon: Gift },
   { label: 'Explore Directory', href: '/explore', icon: Compass },
   { label: 'Selected Works', href: '/saved', icon: BookmarkCheck },
-  { label: 'Focus & Practice', href: '/focus', icon: Timer },
-  { label: 'My Portfolio', href: '/portfolio', icon: Briefcase },
-  { label: 'Challenges', href: '/challenges', icon: Trophy },
   { label: 'Notifications & Emails', href: '/notifications', icon: Bell },
   { label: 'Settings', href: '/settings', icon: Settings },
 ];

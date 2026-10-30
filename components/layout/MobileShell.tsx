@@ -14,6 +14,7 @@ import {
   Plus,
   Trophy,
   Gift,
+  Upload,
 } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { DataStore } from '@/services/dataStore';
@@ -142,7 +143,7 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
             aria-label="Bottom Navigation"
             className="sticky bottom-0 z-40 border-t bg-white/95 dark:bg-[#111827]/95 border-slate-200/80 dark:border-slate-800/80 text-slate-500 dark:text-slate-400 backdrop-blur-md px-4 sm:px-8 py-2 flex items-center justify-around"
           >
-            {/* 1. Feed / Showcase */}
+            {/* 1. Home / Upload Feature */}
             <Link
               href="/feed"
               className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
@@ -151,8 +152,8 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Layers className="w-5 h-5 stroke-[1.9]" />
-              <span className="text-[11px] tracking-tight">Work</span>
+              <Upload className="w-5 h-5 stroke-[1.9]" />
+              <span className="text-[11px] tracking-tight">Home</span>
             </Link>
 
             {/* 2. Rating Page */}

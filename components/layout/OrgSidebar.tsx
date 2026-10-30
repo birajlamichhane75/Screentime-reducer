@@ -18,7 +18,7 @@ import { DataStore } from '@/services/dataStore';
 
 const orgNavItems = [
   { label: 'Overview', href: '/org-dashboard', icon: LayoutDashboard },
-  { label: 'Discover Talent Work', href: '/feed', icon: Users },
+  { label: 'Discover Talent', href: '/explore', icon: Users },
   { label: 'Selected Shortlist', href: '/saved', icon: BookmarkCheck },
   { label: 'Post Opportunity', href: '/post-opportunity', icon: PlusCircle },
   { label: 'Applications', href: '/org-applications', icon: FileCheck2 },
