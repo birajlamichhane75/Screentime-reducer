@@ -100,13 +100,7 @@ export default function CreatorHomePage() {
               SkillBridge
             </span>
           </div>
-          <Link
-            href="/explore"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-[#0E0830] dark:text-white text-xs font-semibold transition-colors"
-          >
-            <Compass className="w-3.5 h-3.5" />
-            <span>Explore</span>
-          </Link>
+          <span className="text-xs text-slate-400 font-medium">Daily Showcase</span>
         </div>
 
         {/* BIG UPLOAD BOX (Centerpiece of Home) */}

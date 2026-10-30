@@ -68,7 +68,7 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
             </div>
           </Link>
 
-          {/* Right Controls: Role Switcher, Quick Links & Theme Toggle */}
+          {/* Right Controls: Role Switcher & Notifications */}
           <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 text-[11px] font-medium text-slate-700 dark:text-slate-300">
               {isOrg ? (
@@ -89,18 +89,7 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
               </select>
             </div>
 
-            {/* Quick Explore Icon */}
-            <Link
-              href="/explore"
-              className={`p-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${
-                pathname === '/explore' ? 'text-[#0E0830] dark:text-[#c4bbf0]' : 'text-slate-500'
-              }`}
-              title="Explore directory"
-            >
-              <Compass className="w-4 h-4" />
-            </Link>
-
-            {/* Updates Bell */}
+            {/* Updates Bell (Notification is kept) */}
             <Link
               href="/notifications"
               className={`p-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors relative ${
@@ -115,20 +104,6 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
                 </span>
               )}
             </Link>
-
-            {!isOrg && (
-              <Link
-                href="/upload"
-                className="px-2.5 py-1 rounded-md bg-[#0E0830] hover:bg-[#1a1147] text-white font-medium text-[11px] flex items-center gap-1 shadow-xs transition-colors"
-                title="Upload daily craft to increase rating"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Upload</span>
-              </Link>
-            )}
-
-            {/* Quick 1-Click Theme Toggle Button */}
-            <ThemeToggle className="border border-slate-200/70 dark:border-slate-700/70 bg-slate-50 dark:bg-slate-800/80" />
           </div>
         </header>
 
@@ -156,7 +131,20 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
               <span className="text-[11px] tracking-tight">Home</span>
             </Link>
 
-            {/* 2. Rating Page */}
+            {/* 2. Explore Page (Moved to Bottom Nav) */}
+            <Link
+              href="/explore"
+              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
+                pathname === '/explore'
+                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
+                  : 'hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <Compass className="w-5 h-5 stroke-[1.9]" />
+              <span className="text-[11px] tracking-tight">Explore</span>
+            </Link>
+
+            {/* 3. Rating Page */}
             <Link
               href="/rating"
               className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
@@ -169,7 +157,7 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
               <span className="text-[11px] tracking-tight">Rating</span>
             </Link>
 
-            {/* 3. Rewards Page (Replaces message page) */}
+            {/* 4. Rewards Page */}
             <Link
               href="/rewards"
               className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
@@ -182,22 +170,7 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
               <span className="text-[11px] tracking-tight">Rewards</span>
             </Link>
 
-            {/* 4. Selected Work / Shortlist */}
-            <Link
-              href="/saved"
-              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
-                pathname === '/saved'
-                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
-                  : 'hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              <BookmarkCheck className="w-5 h-5 stroke-[1.9]" />
-              <span className="text-[11px] tracking-tight">
-                {isOrg ? 'Shortlist' : 'Selected'}
-              </span>
-            </Link>
-
-            {/* 5. Profile & Settings */}
+            {/* 5. Profile */}
             <Link
               href="/profile"
               className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${

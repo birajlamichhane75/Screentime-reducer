@@ -69,10 +69,18 @@ export default function RatingPage() {
 
         {/* Big Hero Card: Only 2 font sizes (text-2xl and text-sm) */}
         <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 text-center space-y-3">
-          {/* Single Sign Filled with Tier Color with Shining Inside */}
+          {/* 3D Shield Badge with Shining Inside */}
           <div className="flex items-center justify-center">
-            <div className="relative w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shadow-xs overflow-hidden">
-              <Shield className={`w-9 h-9 ${getTierFillAndColor(tier)} drop-shadow-xs`} />
+            <div
+              className={`relative w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden border-t-2 border-white/60 ${
+                tier === 'Platinum'
+                  ? 'bg-gradient-to-br from-indigo-300 via-indigo-500 to-indigo-700 shadow-[0_6px_0_#312e81,0_10px_20px_rgba(79,70,229,0.4),inset_0_2px_4px_rgba(255,255,255,0.8)]'
+                  : tier === 'Gold'
+                  ? 'bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-[0_6px_0_#78350f,0_10px_20px_rgba(245,158,11,0.4),inset_0_2px_4px_rgba(255,255,255,0.8)]'
+                  : 'bg-gradient-to-br from-slate-100 via-slate-300 to-slate-500 shadow-[0_6px_0_#334155,0_10px_20px_rgba(100,116,139,0.4),inset_0_2px_4px_rgba(255,255,255,0.8)]'
+              }`}
+            >
+              <Shield className="w-9 h-9 fill-white text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
               <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
             </div>
           </div>
@@ -87,7 +95,7 @@ export default function RatingPage() {
             </span>
           </div>
 
-          {/* Progress Bar with Same Sign and Tier Colors */}
+          {/* Progress Bar with 3 Checkpoints (0 and 100 removed) */}
           <div className="space-y-2 pt-1 max-w-xs mx-auto">
             <div className="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
               <div
@@ -95,29 +103,25 @@ export default function RatingPage() {
                 style={{ width: `${Math.min(100, Math.max(5, score))}%` }}
               />
             </div>
-            {/* Checkpoint Signs on Progress Bar */}
-            <div className="flex items-center justify-between text-sm">
-              <span className="font-semibold text-slate-400">0</span>
-
+            {/* Exactly 3 Checkpoint Signs on Progress Bar (Silver, Gold, Platinum) */}
+            <div className="flex items-center justify-between text-sm px-1">
               {/* Silver Checkpoint Sign */}
               <div className="flex items-center gap-1 text-slate-400">
                 <Shield className="w-3.5 h-3.5 text-slate-400 fill-slate-300" />
-                <span className="font-bold">65</span>
+                <span className="font-bold">65 Silver</span>
               </div>
 
               {/* Gold Checkpoint Sign */}
-              <div className="flex items-center gap-1 text-amber-400">
-                <Shield className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                <span className="font-bold">80</span>
+              <div className="flex items-center gap-1 text-amber-500">
+                <Shield className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
+                <span className="font-bold">80 Gold</span>
               </div>
 
               {/* Platinum Checkpoint Sign */}
-              <div className="flex items-center gap-1 text-indigo-400">
-                <Shield className="w-3.5 h-3.5 text-indigo-400 fill-indigo-400" />
-                <span className="font-bold">95</span>
+              <div className="flex items-center gap-1 text-indigo-500">
+                <Shield className="w-3.5 h-3.5 text-indigo-500 fill-indigo-400" />
+                <span className="font-bold">95 Plat</span>
               </div>
-
-              <span className="font-semibold text-slate-400">100</span>
             </div>
           </div>
         </div>
@@ -167,8 +171,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="relative w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden shadow-inner">
-                  <Shield className="w-6 h-6 text-indigo-400 fill-indigo-400 drop-shadow-xs" />
+                {/* 3D Platinum Shield Coin with Shining Inside */}
+                <div className="relative w-13 h-13 rounded-2xl bg-gradient-to-br from-[#c7d2fe] via-[#6366f1] to-[#3730a3] shadow-[0_5px_0_#1e1b4b,0_8px_16px_rgba(79,70,229,0.35),inset_0_2px_4px_rgba(255,255,255,0.8)] border-t-2 border-white/60 flex items-center justify-center overflow-hidden">
+                  <Shield className="w-6 h-6 fill-white text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
                   <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
                 </div>
                 <div>
@@ -180,9 +185,9 @@ export default function RatingPage() {
                   </span>
                 </div>
               </div>
-              {/* Descriptive 2 Words on Right in Big Font */}
-              <span className="text-2xl font-black text-slate-900 dark:text-white text-right">
-                Daily Practice
+              {/* Right Side: Medium Font with Interval */}
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 text-right">
+                Every 24 hours
               </span>
             </div>
           </div>
@@ -197,8 +202,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="relative w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden shadow-inner">
-                  <Shield className="w-6 h-6 text-amber-400 fill-amber-400 drop-shadow-xs" />
+                {/* 3D Gold Shield Coin with Shining Inside */}
+                <div className="relative w-13 h-13 rounded-2xl bg-gradient-to-br from-[#fef08a] via-[#eab308] to-[#854d0e] shadow-[0_5px_0_#451a03,0_8px_16px_rgba(234,179,8,0.35),inset_0_2px_4px_rgba(255,255,255,0.8)] border-t-2 border-white/60 flex items-center justify-center overflow-hidden">
+                  <Shield className="w-6 h-6 fill-white text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
                   <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
                 </div>
                 <div>
@@ -210,9 +216,9 @@ export default function RatingPage() {
                   </span>
                 </div>
               </div>
-              {/* Descriptive 2 Words on Right in Big Font */}
-              <span className="text-2xl font-black text-slate-900 dark:text-white text-right">
-                Alternate Days
+              {/* Right Side: Medium Font with Interval */}
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 text-right">
+                Every 48 hours
               </span>
             </div>
           </div>
@@ -227,8 +233,9 @@ export default function RatingPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="relative w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden shadow-inner">
-                  <Shield className="w-6 h-6 text-slate-400 fill-slate-300 drop-shadow-xs" />
+                {/* 3D Silver Shield Coin with Shining Inside */}
+                <div className="relative w-13 h-13 rounded-2xl bg-gradient-to-br from-[#f1f5f9] via-[#94a3b8] to-[#475569] shadow-[0_5px_0_#1e293b,0_8px_16px_rgba(100,116,139,0.35),inset_0_2px_4px_rgba(255,255,255,0.8)] border-t-2 border-white/60 flex items-center justify-center overflow-hidden">
+                  <Shield className="w-6 h-6 fill-white text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
                   <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
                 </div>
                 <div>
@@ -240,39 +247,9 @@ export default function RatingPage() {
                   </span>
                 </div>
               </div>
-              {/* Descriptive 2 Words on Right in Big Font */}
-              <span className="text-2xl font-black text-slate-900 dark:text-white text-right">
-                Weekly Practice
-              </span>
-            </div>
-          </div>
-
-          {/* Bronze Checkpoint */}
-          <div
-            className={`p-4 rounded-2xl border transition-all ${
-              score < 65
-                ? 'bg-slate-50 dark:bg-slate-800 border-[#0E0830] dark:border-white shadow-xs'
-                : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 opacity-60'
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="relative w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden shadow-inner">
-                  <Shield className="w-6 h-6 text-amber-700 fill-amber-700 drop-shadow-xs" />
-                  <span className="absolute inset-0 -translate-x-full animate-shine-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
-                </div>
-                <div>
-                  <span className="text-2xl font-black text-amber-700 block">
-                    Bronze
-                  </span>
-                  <span className="text-sm text-slate-500 dark:text-slate-400">
-                    Score &lt; 65
-                  </span>
-                </div>
-              </div>
-              {/* Descriptive 2 Words on Right in Big Font */}
-              <span className="text-2xl font-black text-slate-900 dark:text-white text-right">
-                Occasional Practice
+              {/* Right Side: Medium Font with Interval */}
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-200 text-right">
+                Every 72 hours
               </span>
             </div>
           </div>
