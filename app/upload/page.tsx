@@ -20,6 +20,7 @@ import {
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
 import { CreatorConsistencyRating } from '@/types';
+import { TrustSafetyEngine } from '@/components/trust-safety/TrustSafetyEngine';
 
 const CATEGORY_ICONS: Record<string, string> = {
   Cooking: '/creative-icons/cooking.jpg',
@@ -50,6 +51,7 @@ export default function UploadVideoPage() {
   const [customCategoryInput, setCustomCategoryInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userRating, setUserRating] = useState<CreatorConsistencyRating | null>(null);
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     setCategories(DataStore.getCategories().filter((c) => c !== 'All'));
@@ -63,7 +65,13 @@ export default function UploadVideoPage() {
       setVideoFile(file);
       const url = URL.createObjectURL(file);
       setVideoPreviewUrl(url);
+      setIsVerified(false);
     }
+  };
+
+  const handleSelectCategory = (cat: string) => {
+    setSelectedCategory(cat);
+    setIsVerified(false);
   };
 
   const handleAddCustomCategory = (e: React.FormEvent) => {
@@ -73,6 +81,7 @@ export default function UploadVideoPage() {
     const updated = DataStore.addCategory(customCategoryInput.trim());
     setCategories(updated.filter((c) => c !== 'All'));
     setSelectedCategory(customCategoryInput.trim());
+    setIsVerified(false);
     setCustomCategoryInput('');
     setIsCustomCategoryModalOpen(false);
   };
@@ -227,7 +236,7 @@ export default function UploadVideoPage() {
                 <button
                   key={cat}
                   type="button"
-                  onClick={() => setSelectedCategory(cat)}
+                  onClick={() => handleSelectCategory(cat)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                     selectedCategory.toLowerCase() === cat.toLowerCase()
                       ? 'bg-[#0E0830] text-white shadow-xs'
@@ -249,22 +258,34 @@ export default function UploadVideoPage() {
               </button>
             </div>
           </div>
+
+          {/* AI Trust & Safety Engine Verification Panel */}
+          <TrustSafetyEngine
+            hasVideo={Boolean(videoPreviewUrl || videoFile)}
+            selectedCategory={selectedCategory}
+            videoTitle={caption.trim() || 'My Daily Practice'}
+            onVerificationPassed={() => setIsVerified(true)}
+            onVerificationFailed={() => setIsVerified(false)}
+            onResetVerification={() => setIsVerified(false)}
+          />
         </div>
 
-        {/* Post Video Submit Button */}
-        <div className="pt-6">
+        {/* Post Video Submit Button (Locked until verification passes) */}
+        <div className="pt-4 pb-2">
           <button
             type="button"
             onClick={handlePostVideo}
-            disabled={isSubmitting || !caption.trim()}
-            className="w-full py-3.5 px-4 rounded-xl bg-[#0E0830] hover:bg-[#1a1147] active:scale-98 text-white font-semibold text-xs tracking-wide shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            disabled={isSubmitting || !caption.trim() || !isVerified}
+            className="w-full py-3.5 px-4 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] active:scale-98 text-white font-semibold text-xs tracking-wide shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed group"
           >
             {isSubmitting ? (
-              <span>Uploading & Processing...</span>
+              <span>Uploading &amp; Processing...</span>
+            ) : !isVerified ? (
+              <span>Upload Locked &bull; AI Safety Check Required</span>
             ) : (
               <>
-                <Sparkles className="w-4 h-4" />
-                <span>Post Video</span>
+                <Sparkles className="w-4 h-4 text-emerald-300 group-hover:rotate-12 transition-transform" />
+                <span>Post Verified Video</span>
               </>
             )}
           </button>
