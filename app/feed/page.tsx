@@ -109,7 +109,7 @@ export default function CreatorHomePage() {
         <div className="flex items-center justify-between pb-1">
           <div className="flex items-center gap-2">
             <span className="font-black text-base tracking-tight text-slate-900 dark:text-white">
-              SkillBridge
+              ShowUp!
             </span>
           </div>
           <span className="text-xs font-bold text-slate-400">Creator Studio</span>

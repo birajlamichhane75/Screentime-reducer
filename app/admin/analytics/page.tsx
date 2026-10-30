@@ -76,7 +76,7 @@ export default function AdminAnalyticsPage() {
           Platform Ecosystem Analytics
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-          Measure how effective SkillBridge is at shifting time from passive social feeds into tangible craft.
+          Measure how effective ShowUp! is at shifting time from passive social feeds into tangible craft.
         </p>
       </div>
 

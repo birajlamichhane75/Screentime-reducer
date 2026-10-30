@@ -18,7 +18,7 @@ interface ContactTalentModalProps {
 export function ContactTalentModal({ isOpen, onClose, creator }: ContactTalentModalProps) {
   const [opportunityTitle, setOpportunityTitle] = useState('Program & Project Invitation');
   const [message, setMessage] = useState(
-    "We reviewed your portfolio on SkillBridge and were impressed by your talent. We'd love to connect with you regarding an upcoming opportunity."
+    "We reviewed your portfolio on ShowUp! and were impressed by your talent. We'd love to connect with you regarding an upcoming opportunity."
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);

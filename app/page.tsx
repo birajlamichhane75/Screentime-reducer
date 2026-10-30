@@ -27,7 +27,7 @@ export default function LandingPage() {
       {/* Minimal Top Brand Bar */}
       <header className="flex items-center justify-between w-full max-w-md mx-auto">
         <span className="font-extrabold text-lg tracking-tight text-[#0E0830] dark:text-white">
-          SkillBridge
+          ShowUp!
         </span>
         <ThemeToggle />
       </header>
@@ -77,7 +77,7 @@ export default function LandingPage() {
 
       {/* Minimal Footer */}
       <footer className="w-full text-center text-xs text-slate-400 pb-2">
-        <span>SkillBridge &bull; Creator Platform</span>
+        <span>ShowUp! &bull; Creator Platform</span>
       </footer>
     </div>
   );

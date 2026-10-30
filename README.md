@@ -1,5 +1,5 @@
-# SkillBridge — Turning Screen Time into Real-World Talent
-> **TikTok is built to keep you scrolling and watching other people. SkillBridge is built to get you off your screen, practicing your own passion, and getting discovered by real-world organizations.**
+# ShowUp! — Turning Screen Time into Real-World Talent
+> **TikTok is built to keep you scrolling and watching other people. ShowUp! is built to get you off your screen, practicing your own passion, and getting discovered by real-world organizations.**
 
 ---
 
@@ -28,7 +28,7 @@ At the same time, **universities, art schools, athletic clubs, and talent recrui
 
 ## 2. What Is the Solution?
 
-**SkillBridge** is a calm, habit-building platform that replaces social media addiction with real-world talent discovery.
+**ShowUp!** is a calm, habit-building platform that replaces social media addiction with real-world talent discovery.
 
 ```
 THE OLD WAY (TikTok / Instagram):

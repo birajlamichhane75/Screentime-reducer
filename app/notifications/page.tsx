@@ -44,7 +44,7 @@ export default function NotificationsPage() {
   }, []);
 
   const accountEmail =
-    currentUser?.email || `${currentUser?.username || 'user'}@talent.skillbridge.dev`;
+    currentUser?.email || `${currentUser?.username || 'user'}@talent.showup.dev`;
 
   return (
     <MobileShell>
@@ -255,7 +255,7 @@ export default function NotificationsPage() {
               </p>
               <p>
                 <strong className="text-slate-800 dark:text-slate-200">From:</strong>{' '}
-                {activeEmailModal.org_name} &lt;notifications@skillbridge.dev&gt;
+                {activeEmailModal.org_name} &lt;notifications@showup.dev&gt;
               </p>
               <p>
                 <strong className="text-slate-800 dark:text-slate-200">Subject:</strong>{' '}

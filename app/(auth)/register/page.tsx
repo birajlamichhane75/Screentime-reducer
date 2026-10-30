@@ -94,7 +94,7 @@ export default function RegisterPage() {
               Create your account
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Join SkillBridge to turn focus into real opportunities.
+              Join ShowUp! to turn focus into real opportunities.
             </p>
           </div>
 

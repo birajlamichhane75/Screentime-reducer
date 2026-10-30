@@ -42,7 +42,7 @@ export class EmailService {
     }
     // Standard mock domain fallback
     const userHandle = creator.username.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-    return `${userHandle}@talent.skillbridge.dev`;
+    return `${userHandle}@talent.showup.dev`;
   }
 
   /**
@@ -82,10 +82,10 @@ export class EmailService {
       work_id: params.work.id,
       work_title: workTitle,
       work_category: params.work.category,
-      subject: `[SkillBridge] ${params.organization.name} selected your work: "${workTitle}"`,
+      subject: `[ShowUp!] ${params.organization.name} selected your work: "${workTitle}"`,
       body_text: `Hi ${params.creator.full_name},
 
-Great news! ${params.organization.name} discovered your talent on SkillBridge and selected your work "${workTitle}" (${params.work.category}) for upcoming opportunities.
+Great news! ${params.organization.name} discovered your talent on ShowUp! and selected your work "${workTitle}" (${params.work.category}) for upcoming opportunities.
 
 Our verified organizations curate and shortlist talent directly. When an organization selects your work, it is saved into their scouting pipeline. They may reach out with invitations for scholarships, internships, or creative collaborations.
 
@@ -96,11 +96,11 @@ Details:
 • Date Selected: ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
 ${params.notes ? `• Note from Organization: "${params.notes}"` : ''}
 
-You can log into SkillBridge anytime to view your portfolio and organization interest.
+You can log into ShowUp! anytime to view your portfolio and organization interest.
 
 Best regards,
-The SkillBridge Talent Team
-https://skillbridge.dev`,
+The ShowUp! Talent Team
+https://showup.dev`,
       sent_at: new Date().toISOString(),
       status: 'delivered',
     };
@@ -135,8 +135,8 @@ https://skillbridge.dev`,
         work_id: 'vid-001',
         work_title: 'Contemporary Dance Routine',
         work_category: 'Dance',
-        subject: '[SkillBridge] Creative Arts University selected your work: "Contemporary Dance Routine"',
-        body_text: `Hi Sarah Johnson,\n\nGreat news! Creative Arts University discovered your talent on SkillBridge and selected your work "Contemporary Dance Routine" (Dance) for upcoming opportunities.\n\nOur verified organizations curate and shortlist talent directly. When an organization selects your work, it is saved into their scouting pipeline.\n\nBest regards,\nThe SkillBridge Talent Team`,
+        subject: '[ShowUp!] Creative Arts University selected your work: "Contemporary Dance Routine"',
+        body_text: `Hi Sarah Johnson,\n\nGreat news! Creative Arts University discovered your talent on ShowUp! and selected your work "Contemporary Dance Routine" (Dance) for upcoming opportunities.\n\nOur verified organizations curate and shortlist talent directly. When an organization selects your work, it is saved into their scouting pipeline.\n\nBest regards,\nThe ShowUp! Talent Team`,
         sent_at: new Date(Date.now() - 3600000 * 4).toISOString(),
         status: 'delivered',
       },

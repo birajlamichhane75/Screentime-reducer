@@ -278,7 +278,7 @@ export default function StudentOnboardingPage() {
           {step === 3 && (
             <div className="space-y-3 animate-in fade-in">
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                What do you want to achieve on SkillBridge?
+                What do you want to achieve on ShowUp!?
               </label>
               {availableGoals.map((g) => {
                 const checked = goals.includes(g);
@@ -349,7 +349,7 @@ export default function StudentOnboardingPage() {
                   className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-sm"
                 />
                 <p className="text-[11px] text-slate-400 mt-1">
-                  SkillBridge will calculate your annualized reclaimed hours as you complete focus blocks!
+                  ShowUp! will calculate your annualized reclaimed hours as you complete focus blocks!
                 </p>
               </div>
             </div>

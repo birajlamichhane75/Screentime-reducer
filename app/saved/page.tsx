@@ -65,8 +65,8 @@ export default function SelectedWorksPage() {
         work_id: work.video_id,
         work_title: work.work_title,
         work_category: work.work_category,
-        subject: `[SkillBridge] ${work.org_name} selected your work: "${work.work_title}"`,
-        body_text: `Hi ${work.creator_name},\n\nGreat news! ${work.org_name} reviewed your work on SkillBridge and selected "${work.work_title}" for upcoming program opportunities.\n\nDelivered to: ${work.creator_email}`,
+        subject: `[ShowUp!] ${work.org_name} selected your work: "${work.work_title}"`,
+        body_text: `Hi ${work.creator_name},\n\nGreat news! ${work.org_name} reviewed your work on ShowUp! and selected "${work.work_title}" for upcoming program opportunities.\n\nDelivered to: ${work.creator_email}`,
         sent_at: work.selected_at,
         status: 'delivered',
       });
@@ -226,7 +226,7 @@ export default function SelectedWorksPage() {
                 <strong className="text-slate-800 dark:text-slate-200">Recipient Account:</strong> {previewEmail.recipient_email}
               </p>
               <p>
-                <strong className="text-slate-800 dark:text-slate-200">Sender:</strong> {previewEmail.org_name} via SkillBridge
+                <strong className="text-slate-800 dark:text-slate-200">Sender:</strong> {previewEmail.org_name} via ShowUp!
               </p>
               <p>
                 <strong className="text-slate-800 dark:text-slate-200">Subject:</strong> {previewEmail.subject}

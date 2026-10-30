@@ -144,8 +144,10 @@ function ExploreContent() {
   const [videos, setVideos] = useState<VideoPost[]>([]);
   const [selectedWorkNotice, setSelectedWorkNotice] = useState<string | null>(null);
   const [selectionState, setSelectionState] = useState<Record<string, boolean>>({});
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const user = DataStore.getCurrentUser();
     setCurrentUser(user);
 
@@ -165,9 +167,11 @@ function ExploreContent() {
 
   const isOrg = currentUser?.role === 'organization';
 
-  // Merge base categories with any custom categories created by users
+  // Merge base categories with any custom categories created by users once mounted
   const allCategoryBoxes = useMemo(() => {
     const list = [...BASE_CATEGORY_BOXES];
+    if (!isMounted) return list;
+
     const existingIds = new Set(list.map((c) => c.name.toLowerCase()));
 
     const storeCats = DataStore.getCategories();
@@ -194,7 +198,7 @@ function ExploreContent() {
     });
 
     return list;
-  }, [videos]);
+  }, [videos, isMounted]);
 
   const handleSelectWork = (e: React.MouseEvent, vid: VideoPost) => {
     e.stopPropagation();

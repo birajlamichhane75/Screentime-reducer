@@ -23,11 +23,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'SkillBridge — Turn Your Passion Into Opportunity',
+  title: 'ShowUp! — Turn Your Passion Into Opportunity',
   description:
-    'Help Gen Z replace passive social-media consumption with focused hobby practice, creative skill development, portfolio building, and real-world opportunities.',
+    'ShowUp! helps Gen Z replace passive social-media consumption with focused hobby practice, creative skill development, portfolio building, and real-world opportunities.',
   keywords: [
-    'SkillBridge',
+    'ShowUp!',
+    'ShowUp',
     'screen time reducer',
     'hobby tracking',
     'portfolio builder',
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     'internships',
     'mentorships',
   ],
-  authors: [{ name: 'SkillBridge Team' }],
+  authors: [{ name: 'ShowUp! Team' }],
 };
 
 export default function RootLayout({

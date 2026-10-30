@@ -27,7 +27,7 @@ export function VerificationResult({
           <span>Verification Complete</span>
         </div>
         <p className="text-xs text-emerald-900/90 dark:text-emerald-200/90 leading-relaxed">
-          Your video has passed the SkillBridge Trust &amp; Safety checks. You can now upload your content.
+          Your video has passed the ShowUp! Trust &amp; Safety checks. You can now upload your content.
         </p>
         <p className="text-[10px] text-emerald-700/70 dark:text-emerald-400/60 font-mono pt-0.5">
           Simulated check for development preview &bull; Upload authorized
@@ -45,7 +45,7 @@ export function VerificationResult({
         </div>
 
         <p className="text-xs text-slate-700 dark:text-slate-300">
-          Your video could not pass the SkillBridge AI Trust &amp; Safety verification.
+          Your video could not pass the ShowUp! AI Trust &amp; Safety verification.
         </p>
 
         <div className="p-3 rounded-xl bg-white dark:bg-slate-900/80 border border-red-200/80 dark:border-red-900/40 space-y-1.5 text-xs">
@@ -60,7 +60,7 @@ export function VerificationResult({
             <span className="font-bold text-slate-900 dark:text-white">Explanation: </span>
             <span className="text-slate-600 dark:text-slate-300">
               {failureDetails?.explanation ||
-                'This video appears to conflict with community trust criteria. SkillBridge encourages genuine, safe, and original creative routines.'}
+                'This video appears to conflict with community trust criteria. ShowUp! encourages genuine, safe, and original creative routines.'}
             </span>
           </div>
         </div>

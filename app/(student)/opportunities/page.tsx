@@ -78,7 +78,7 @@ export default function OpportunitiesPage() {
           Explore Opportunities
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
-          Apply to scholarships, internships, mentorships, and student clubs vetted by SkillBridge.
+          Apply to scholarships, internships, mentorships, and student clubs vetted by ShowUp!.
         </p>
       </div>
 

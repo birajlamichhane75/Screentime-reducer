@@ -56,11 +56,11 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
         <header className="flex items-center justify-between px-3 sm:px-6 py-2.5 text-xs border-b border-slate-100 dark:border-slate-800/80 bg-white/95 dark:bg-[#111827]/95 backdrop-blur-md sticky top-0 z-40">
           <Link href="/feed" className="flex items-center gap-2 group">
             <div className="w-6 h-6 rounded-md bg-[#0E0830] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-              S
+              S!
             </div>
             <div className="flex items-baseline gap-1.5">
               <span className="font-semibold text-slate-900 dark:text-white text-sm tracking-tight">
-                SkillBridge
+                ShowUp!
               </span>
               <span className="text-[10px] text-slate-400 font-normal hidden sm:inline">
                 {isOrg ? 'Organization Portal' : 'Creative Studio'}

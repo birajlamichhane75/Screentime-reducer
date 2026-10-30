@@ -31,7 +31,7 @@ function SignupRoleSelectionContent() {
             </Link>
             <div className="flex items-center gap-1.5 font-bold text-xs text-slate-900 dark:text-white px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
               <Sparkles className="w-3.5 h-3.5 text-[#0E0830] dark:text-indigo-400" />
-              <span>SkillBridge Auth</span>
+              <span>ShowUp! Auth</span>
             </div>
             <div className="w-8" />
           </div>

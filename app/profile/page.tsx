@@ -37,7 +37,7 @@ export default function MobileProfilePage() {
   }, []);
 
   const accountEmail =
-    profileData?.email || `${profileData?.username || 'user'}@skillbridge.dev`;
+    profileData?.email || `${profileData?.username || 'user'}@showup.dev`;
 
   return (
     <MobileShell hideBottomNav={false}>

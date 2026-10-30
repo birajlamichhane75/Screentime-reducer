@@ -211,7 +211,7 @@ export function TrustSafetyEngine({
             <div className="text-center space-y-1 pt-1">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/80 text-xs font-bold text-[#0E0830] dark:text-indigo-300">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>SkillBridge AI Engine</span>
+                <span>ShowUp! AI Engine</span>
               </span>
               <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight pt-1">
                 {isAllComplete ? 'Verification Approved' : 'AI Safety Scan'}

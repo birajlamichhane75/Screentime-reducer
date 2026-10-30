@@ -114,7 +114,7 @@ function VideoViewerContent({
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: `SkillBridge - ${video?.creator.full_name}`,
+        title: `ShowUp! - ${video?.creator.full_name}`,
         text: video?.caption,
         url: window.location.href,
       }).catch(() => {});

@@ -51,11 +51,11 @@ export function StudentSidebar() {
       <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
         <Link href="/feed" className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-md bg-[#0E0830] text-white flex items-center justify-center font-bold text-xs">
-            S
+            S!
           </div>
           <div>
             <span className="font-semibold text-sm text-slate-900 dark:text-white tracking-tight">
-              SkillBridge
+              ShowUp!
             </span>
           </div>
         </Link>
@@ -69,7 +69,7 @@ export function StudentSidebar() {
             {currentUser.full_name}
           </p>
           <p className="text-[10px] text-slate-400 truncate">
-            {currentUser.email || `${currentUser.username}@talent.skillbridge.dev`}
+            {currentUser.email || `${currentUser.username}@talent.showup.dev`}
           </p>
         </div>
       </div>

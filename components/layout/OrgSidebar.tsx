@@ -38,7 +38,7 @@ export function OrgSidebar() {
           </div>
           <div>
             <span className="font-semibold text-sm text-slate-900 dark:text-white tracking-tight">
-              SkillBridge
+              ShowUp!
             </span>
             <p className="text-[10px] text-[#0E0830] dark:text-[#c4bbf0] font-semibold uppercase tracking-wider">
               Org Portal

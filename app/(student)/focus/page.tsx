@@ -391,7 +391,7 @@ function FocusModeContent() {
       <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 flex items-start gap-3 text-xs text-slate-500 dark:text-slate-400">
         <ShieldAlert className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
         <p>
-          <strong>Self-Reported Craft Practice:</strong> A completed timer represents self-reported effort unless backed by verifiable evidence uploaded to your portfolio. SkillBridge rewards deliberate practice consistency over passive scrolling.
+          <strong>Self-Reported Craft Practice:</strong> A completed timer represents self-reported effort unless backed by verifiable evidence uploaded to your portfolio. ShowUp! rewards deliberate practice consistency over passive scrolling.
         </p>
       </div>
     </div>

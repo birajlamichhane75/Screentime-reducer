@@ -56,11 +56,11 @@ function ProfileContent({
       if (matchVid) {
         const generated: Profile = {
           id: matchVid.creator_id,
-          email: matchVid.creator.email || `${matchVid.creator.username}@talent.skillbridge.dev`,
+          email: matchVid.creator.email || `${matchVid.creator.username}@talent.showup.dev`,
           username: matchVid.creator.username,
           full_name: matchVid.creator.full_name,
           avatar_url: matchVid.creator.avatar_url,
-          bio: matchVid.creator.bio || 'Talented Creator showcasing work on SkillBridge.',
+          bio: matchVid.creator.bio || 'Talented Creator showcasing work on ShowUp!.',
           location: matchVid.creator.location || 'United States',
           role: 'student',
           daily_goal_minutes: 45,
@@ -109,7 +109,7 @@ function ProfileContent({
   };
 
   const recipientEmail =
-    creatorProfile?.email || `${creatorProfile?.username || 'talent'}@talent.skillbridge.dev`;
+    creatorProfile?.email || `${creatorProfile?.username || 'talent'}@talent.showup.dev`;
 
   return (
     <MobileShell>
@@ -229,7 +229,7 @@ function ProfileContent({
           </div>
         ) : (
           <div className="mt-3 p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 text-center text-[11px] text-slate-500 dark:text-slate-400">
-            Discoverable Talent Portfolio · Verified on SkillBridge
+            Discoverable Talent Portfolio · Verified on ShowUp!
           </div>
         )}
 

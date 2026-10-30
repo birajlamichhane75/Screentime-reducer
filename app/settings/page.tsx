@@ -31,7 +31,7 @@ export default function MobileSettingsPage() {
   useEffect(() => {
     const user = DataStore.getCurrentUser();
     setCurrentUser(user);
-    setEmail(user.email || `${user.username}@talent.skillbridge.dev`);
+    setEmail(user.email || `${user.username}@talent.showup.dev`);
     setIsDiscoverable(user.is_discoverable ?? true);
     setAllowOrgContact(user.allow_org_contact ?? true);
 
