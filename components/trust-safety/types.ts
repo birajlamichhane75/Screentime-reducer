@@ -41,3 +41,4 @@ export interface SupportTicketData {
   aiExplanation: string;
   additionalDetails: string;
 }
+

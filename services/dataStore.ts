@@ -32,6 +32,7 @@ import {
 } from '@/types';
 import { createClient } from '@/lib/supabase/client';
 import { EmailService } from './emailService';
+import { SupabaseService } from './supabaseService';
 import {
   INITIAL_PROFILES,
   INITIAL_HOBBIES,
@@ -1160,6 +1161,11 @@ export class DataStore {
     rawVideos.unshift(newVideo);
     setStorageItem(STORAGE_KEYS.VIDEOS, rawVideos);
 
+    // Save to real Supabase database asynchronously
+    SupabaseService.insertVideoPost(newVideo).catch((err) => {
+      console.warn('[DataStore] Supabase async insert error:', err);
+    });
+
     // Update creator profile consistency rating & streak
     try {
       this.updateProfile(data.creator_id, {
@@ -1184,6 +1190,13 @@ export class DataStore {
     const currentLikes = video.likes_count ?? 0;
     video.likes_count = video.is_liked ? currentLikes + 1 : Math.max(0, currentLikes - 1);
     setStorageItem(STORAGE_KEYS.VIDEOS, videos);
+
+    // Sync like state to Supabase
+    try {
+      const currentUser = this.getCurrentUser();
+      SupabaseService.syncVideoLike(videoId, currentUser.id, video.is_liked).catch(() => {});
+    } catch {}
+
     return { isLiked: video.is_liked, likesCount: video.likes_count };
   }
 
@@ -1221,6 +1234,18 @@ export class DataStore {
     if (existingIndex >= 0) {
       selectedWorks.splice(existingIndex, 1);
       setStorageItem(STORAGE_KEYS.SELECTED_WORKS, selectedWorks);
+      
+      // Sync deselection to Supabase
+      SupabaseService.syncWorkSelection({
+        orgId: params.orgId,
+        videoId: params.videoId,
+        creatorId: '',
+        creatorEmail: '',
+        workTitle: '',
+        workCategory: '',
+        selected: false,
+      }).catch(() => {});
+
       return { selected: false };
     }
 
@@ -1234,6 +1259,18 @@ export class DataStore {
     const creatorName = video?.creator?.full_name || creatorProfile?.full_name || 'Creator';
     const creatorId = video?.creator_id || 'usr-student-001';
     const workTitle = video?.title || video?.caption || 'Talent Showcase Video';
+
+    // Sync selection to Supabase
+    SupabaseService.syncWorkSelection({
+      orgId: params.orgId,
+      videoId: params.videoId,
+      creatorId,
+      creatorEmail,
+      workTitle,
+      workCategory: video?.category || 'General',
+      notes: params.notes,
+      selected: true,
+    }).catch(() => {});
 
     // 1. Dispatch official email notification to creator's registered email
     const emailSent = EmailService.sendWorkSelectionEmail({

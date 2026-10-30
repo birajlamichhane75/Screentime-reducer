@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-jakarta',
   display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space',
+  display: 'swap',
+  weight: ['500', '600', '700'],
 });
 
 export const viewport: Viewport = {
@@ -37,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${jakarta.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <script
@@ -55,7 +63,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-white dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 antialiased selection:bg-[#0E0830] selection:text-white">
+      <body className="min-h-screen bg-white dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 antialiased selection:bg-[#0E0830] selection:text-white font-sans">
         {children}
       </body>
     </html>

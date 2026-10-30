@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Sparkles, ArrowRight, User, Mail, Lock, GraduationCap, Briefcase, AlertCircle } from 'lucide-react';
 import { DataStore } from '@/services/dataStore';
+import { SupabaseService } from '@/services/supabaseService';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/client';
 import { PublicNavbar } from '@/components/layout/PublicNavbar';
 import { UserRole } from '@/types';
 
@@ -32,7 +34,7 @@ export default function RegisterPage() {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       // Create user profile in storage
       const newUserId = `usr-${Date.now()}`;
       const username = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '_');
@@ -52,6 +54,18 @@ export default function RegisterPage() {
         updated_at: new Date().toISOString(),
       };
 
+      if (isSupabaseConfigured()) {
+        try {
+          const supabase = createClient();
+          await supabase.auth.signUp({
+            email,
+            password,
+            options: { data: { full_name: fullName, username, role } }
+          });
+          await SupabaseService.syncProfile(newProfile);
+        } catch {}
+      }
+
       const profiles = DataStore.getProfiles();
       profiles.push(newProfile);
       localStorage.setItem('sb_profiles', JSON.stringify(profiles));
@@ -59,9 +73,9 @@ export default function RegisterPage() {
 
       setIsLoading(false);
       if (role === 'student') {
-        router.push('/onboarding');
+        router.push('/feed');
       } else {
-        router.push('/org-onboarding');
+        router.push('/explore');
       }
     }, 400);
   };

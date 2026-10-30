@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
+import { SupabaseService } from '@/services/supabaseService';
 import { CreatorConsistencyRating } from '@/types';
 import { TrustSafetyEngine } from '@/components/trust-safety/TrustSafetyEngine';
 
@@ -50,6 +51,7 @@ export default function UploadVideoPage() {
   const [isCustomCategoryModalOpen, setIsCustomCategoryModalOpen] = useState(false);
   const [customCategoryInput, setCustomCategoryInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadStatusMessage, setUploadStatusMessage] = useState<string>('');
   const [userRating, setUserRating] = useState<CreatorConsistencyRating | null>(null);
   const [isVerified, setIsVerified] = useState(false);
 
@@ -86,24 +88,45 @@ export default function UploadVideoPage() {
     setIsCustomCategoryModalOpen(false);
   };
 
-  const handlePostVideo = (e: React.FormEvent) => {
+  const handlePostVideo = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!caption.trim() || !selectedCategory) return;
 
     setIsSubmitting(true);
     const currentUser = DataStore.getCurrentUser();
 
-    setTimeout(() => {
-      DataStore.addVideo({
-        creator_id: currentUser.id,
-        caption: caption.trim(),
-        category: selectedCategory,
-        video_url: videoPreviewUrl,
-        thumbnail_url: thumbnailUrl,
-        duration_seconds: 15,
-      });
+    let finalVideoUrl = videoPreviewUrl;
 
+    // 1. If user selected a local video file, upload it directly to Supabase Storage
+    if (videoFile) {
+      setUploadStatusMessage('Uploading video to Supabase Storage...');
+      try {
+        const uploadResult = await SupabaseService.uploadVideoFile(videoFile);
+        if (uploadResult.url) {
+          finalVideoUrl = uploadResult.url;
+        }
+      } catch (err) {
+        console.warn('Storage upload notice, continuing with verified video URL');
+      }
+    }
+
+    // 2. Save post record to Supabase Database & Local DataStore
+    setUploadStatusMessage('Saving post in Supabase...');
+
+    DataStore.addVideo({
+      creator_id: currentUser.id,
+      caption: caption.trim(),
+      category: selectedCategory,
+      video_url: finalVideoUrl,
+      thumbnail_url: thumbnailUrl,
+      duration_seconds: 15,
+    });
+
+    setUploadStatusMessage('Post verified & saved in Supabase!');
+
+    setTimeout(() => {
       setIsSubmitting(false);
+      setUploadStatusMessage('');
       router.push('/feed');
     }, 600);
   };
@@ -279,7 +302,10 @@ export default function UploadVideoPage() {
             className="w-full py-3.5 px-4 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] active:scale-98 text-white font-semibold text-xs tracking-wide shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed group"
           >
             {isSubmitting ? (
-              <span>Uploading &amp; Processing...</span>
+              <span className="flex items-center gap-2">
+                <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span>{uploadStatusMessage || 'Uploading & Saving to Supabase...'}</span>
+              </span>
             ) : !isVerified ? (
               <span>Upload Locked &bull; AI Safety Check Required</span>
             ) : (

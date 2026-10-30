@@ -127,6 +127,7 @@ export interface Profile {
   avatar_url?: string;
   bio?: string;
   location?: string;
+  is_verified?: boolean;
   education_level?: string;
   daily_goal_minutes: number;
   is_private: boolean;
