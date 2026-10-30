@@ -174,3 +174,24 @@ body {
   animation: shine-sweep 2.6s ease-in-out infinite;
 }
 
+/* AI Video Scan Laser Animation */
+@keyframes laser-scan {
+  0% {
+    top: 2%;
+    opacity: 0.8;
+  }
+  50% {
+    top: 96%;
+    opacity: 1;
+  }
+  100% {
+    top: 2%;
+    opacity: 0.8;
+  }
+}
+
+.animate-laser-scan {
+  animation: laser-scan 2s ease-in-out infinite;
+}
+
+

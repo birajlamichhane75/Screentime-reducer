@@ -29,20 +29,19 @@ import { VideoPost, Profile } from '@/types';
 interface CategoryBox {
   id: string;
   name: string;
-  description: string;
   icon?: React.ElementType;
   image?: string;
 }
 
 const CATEGORY_BOXES: CategoryBox[] = [
-  { id: 'Cooking', name: 'Cooking', description: 'Culinary routines & kitchen creations', image: '/creative-icons/cooking.jpg' },
-  { id: 'Sports', name: 'Soccer & Athletics', description: 'Soccer drills, goals & training', image: '/creative-icons/soccer.jpg' },
-  { id: 'Art', name: 'Drawing & Art', description: 'Sketches, digital art & painting', image: '/creative-icons/drawing.jpg' },
-  { id: 'Dance', name: 'Dancing', description: 'Choreography, balance & routines', image: '/creative-icons/dancing.jpg' },
-  { id: 'Painting', name: 'Studio Painting', description: 'Brushwork, canvas & acrylic craft', image: '/creative-icons/painting.jpg' },
-  { id: 'Coding', name: 'Coding & Tech', description: 'Algorithms, websites & app craft', icon: Code2 },
-  { id: 'Singing', name: 'Singing', description: 'Vocal covers, songwriting & acoustics', icon: Mic2 },
-  { id: 'Music', name: 'Instrumental Music', description: 'Piano, guitar, drums & beats', icon: Headphones },
+  { id: 'Cooking', name: 'Cooking', image: '/creative-icons/cooking.jpg' },
+  { id: 'Sports', name: 'Soccer', image: '/creative-icons/soccer.jpg' },
+  { id: 'Art', name: 'Drawing', image: '/creative-icons/drawing.jpg' },
+  { id: 'Dance', name: 'Dancing', image: '/creative-icons/dancing.jpg' },
+  { id: 'Painting', name: 'Painting', image: '/creative-icons/painting.jpg' },
+  { id: 'Coding', name: 'Coding', icon: Code2 },
+  { id: 'Singing', name: 'Singing', icon: Mic2 },
+  { id: 'Music', name: 'Music', icon: Headphones },
 ];
 
 function ExploreContent() {
@@ -173,48 +172,43 @@ function ExploreContent() {
         {!selectedCategory && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-1">
-              <div>
-                <h1 className="text-base font-bold text-slate-900 dark:text-white">
-                  Explore by Category
-                </h1>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Select a category to view specific talent videos
-                </p>
-              </div>
+              <h1 className="text-xl font-black text-slate-900 dark:text-white">
+                Explore Categories
+              </h1>
             </div>
 
             {/* Search Bar */}
             <div className="relative">
-              <div className="flex items-center w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 focus-within:border-[#0E0830] focus-within:bg-white transition-colors">
-                <Search className="w-4 h-4 text-slate-400 shrink-0 mr-2" />
+              <div className="flex items-center w-full px-3.5 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 focus-within:border-[#0E0830] focus-within:bg-white transition-colors">
+                <Search className="w-5 h-5 text-slate-400 shrink-0 mr-2" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search creators or keywords..."
-                  className="w-full bg-transparent text-xs text-slate-900 dark:text-white placeholder:text-slate-400 outline-hidden"
+                  placeholder="Search creators or keywords"
+                  className="w-full bg-transparent text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-hidden font-medium"
                 />
                 {searchQuery && (
                   <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-slate-600">
-                    <X className="w-3.5 h-3.5" />
+                    <X className="w-4 h-4" />
                   </button>
                 )}
               </div>
             </div>
 
-            {/* Grid of Category Boxes */}
-            <div className="grid grid-cols-2 gap-3">
+            {/* Grid of Category Boxes: Big Icon and Just Category Name */}
+            <div className="grid grid-cols-2 gap-3.5 pt-1">
               {CATEGORY_BOXES.map((box) => {
                 const IconComponent = box.icon;
-                const count = getCategoryCount(box.id);
 
                 return (
                   <div
                     key={box.id}
                     onClick={() => setSelectedCategory(box.id)}
-                    className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0E0830] dark:hover:border-white transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md flex flex-col items-center text-center space-y-2.5 group"
+                    className="p-5 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 hover:border-[#0E0830] dark:hover:border-white transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md flex flex-col items-center text-center space-y-3 group active:scale-95"
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-1 overflow-hidden group-hover:scale-105 transition-transform shadow-2xs">
+                    {/* Big Icon */}
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center p-2.5 overflow-hidden group-hover:scale-105 transition-transform">
                       {box.image ? (
                         <img
                           src={box.image}
@@ -222,22 +216,14 @@ function ExploreContent() {
                           className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen"
                         />
                       ) : (
-                        IconComponent && <IconComponent className="w-7 h-7 text-[#0E0830] dark:text-white stroke-[1.8]" />
+                        IconComponent && <IconComponent className="w-14 h-14 text-[#0E0830] dark:text-white stroke-[1.8]" />
                       )}
                     </div>
 
-                    <div className="space-y-0.5">
-                      <h3 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#0E0830] dark:group-hover:text-white">
-                        {box.name}
-                      </h3>
-                      <p className="text-[10px] text-slate-400 line-clamp-1">
-                        {box.description}
-                      </p>
-                    </div>
-
-                    <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-[10px] font-semibold text-slate-600 dark:text-slate-300">
-                      {count} videos
-                    </span>
+                    {/* Just Category Name (No descriptive text, no video count) */}
+                    <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-[#0E0830] dark:group-hover:text-white tracking-tight">
+                      {box.name}
+                    </h2>
                   </div>
                 );
               })}
@@ -247,41 +233,36 @@ function ExploreContent() {
 
         {/* VIEW 2: SPECIFIC CATEGORY VIDEOS (When category is clicked) */}
         {selectedCategory && (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {/* Header with Back Button */}
             <div className="flex items-center justify-between pb-1">
               <button
                 onClick={() => setSelectedCategory(null)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-[#0E0830] dark:text-white text-xs font-semibold transition-colors"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-[#0E0830] dark:text-white text-sm font-bold transition-colors"
               >
-                <ArrowLeft className="w-3.5 h-3.5" />
+                <ArrowLeft className="w-4 h-4" />
                 <span>All Categories</span>
               </button>
 
-              <div className="text-right">
-                <span className="text-xs font-bold text-slate-900 dark:text-white">
-                  {selectedCategory}
-                </span>
-                <span className="block text-[10px] text-slate-400 font-medium">
-                  {categoryVideos.length} videos found
-                </span>
-              </div>
+              <span className="text-base font-black text-slate-900 dark:text-white">
+                {selectedCategory}
+              </span>
             </div>
 
             {/* Search Input for Category */}
             <div className="relative">
-              <div className="flex items-center w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 focus-within:border-[#0E0830] focus-within:bg-white transition-colors">
+              <div className="flex items-center w-full px-3.5 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 focus-within:border-[#0E0830] focus-within:bg-white transition-colors">
                 <Search className="w-4 h-4 text-slate-400 shrink-0 mr-2" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={`Search in ${selectedCategory}...`}
-                  className="w-full bg-transparent text-xs text-slate-900 dark:text-white placeholder:text-slate-400 outline-hidden"
+                  placeholder={`Search ${selectedCategory}`}
+                  className="w-full bg-transparent text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-hidden font-medium"
                 />
                 {searchQuery && (
                   <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-slate-600">
-                    <X className="w-3.5 h-3.5" />
+                    <X className="w-4 h-4" />
                   </button>
                 )}
               </div>
@@ -308,7 +289,7 @@ function ExploreContent() {
                         />
 
                         {/* Top Overlay: Category Badge */}
-                        <div className="absolute top-2 left-2 flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-black/60 text-white text-[9px] font-semibold backdrop-blur-xs">
+                        <div className="absolute top-2 left-2 flex items-center px-2 py-1 rounded-md bg-black/60 text-white text-xs font-bold backdrop-blur-xs">
                           <span>{video.category}</span>
                         </div>
 
@@ -323,31 +304,28 @@ function ExploreContent() {
                             }`}
                             title="Select Work"
                           >
-                            <BookmarkCheck className={`w-3.5 h-3.5 ${isSelected ? 'fill-white' : ''}`} />
+                            <BookmarkCheck className={`w-4 h-4 ${isSelected ? 'fill-white' : ''}`} />
                           </button>
                         )}
 
                         {/* Play Indicator */}
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
-                          <div className="w-8 h-8 rounded-full bg-white/90 text-[#0E0830] flex items-center justify-center shadow-md">
+                          <div className="w-9 h-9 rounded-full bg-white/95 text-[#0E0830] flex items-center justify-center shadow-md">
                             <Play className="w-4 h-4 fill-current ml-0.5" />
                           </div>
                         </div>
 
-                        {/* Bottom Overlay: Consistency Score */}
-                        <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-white text-[10px]">
-                          <span className="font-semibold drop-shadow-xs truncate">
+                        {/* Bottom Overlay: Creator Name */}
+                        <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between text-white text-xs">
+                          <span className="font-bold drop-shadow-xs truncate">
                             {video.creator.full_name}
-                          </span>
-                          <span className="px-1.5 py-0.5 rounded bg-black/60 font-mono font-bold text-[9px]">
-                            {(video.creator.consistency_rating ?? 2.0).toFixed(1)}★
                           </span>
                         </div>
                       </div>
 
                       {/* Video Caption & Info */}
-                      <div className="p-2 space-y-1">
-                        <p className="text-[11px] font-medium text-slate-800 dark:text-slate-200 line-clamp-2 leading-tight">
+                      <div className="p-2.5">
+                        <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 leading-snug">
                           {video.title || video.caption}
                         </p>
                       </div>

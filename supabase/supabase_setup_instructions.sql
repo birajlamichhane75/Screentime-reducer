@@ -64,3 +64,4 @@ DO $$ BEGIN
         CREATE POLICY "Allow toggle likes" ON public.video_likes FOR ALL USING (true);
     END IF;
 END $$;
+

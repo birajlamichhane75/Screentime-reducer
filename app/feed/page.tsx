@@ -135,17 +135,14 @@ export default function CreatorHomePage() {
           </div>
 
           {/* Action Prompt */}
-          <div className="w-full space-y-2 pt-2">
+          <div className="w-full pt-2">
             <button
               type="button"
-              className="w-full py-3.5 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 group-hover:shadow-lg"
+              className="w-full py-4 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] text-white text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 group-hover:shadow-lg active:scale-95"
             >
               <Upload className="w-4 h-4" />
-              <span>Tap to Upload Video</span>
+              <span>Upload Video</span>
             </button>
-            <p className="text-[10px] text-slate-400 font-medium">
-              3-sec showcase &bull; Updates daily consistency score
-            </p>
           </div>
 
           {/* 3-Second Activity Progress Dots */}
@@ -173,12 +170,9 @@ export default function CreatorHomePage() {
               <Compass className="w-5 h-5" />
             </div>
             <div className="text-left">
-              <h3 className="text-xs font-bold text-slate-900 dark:text-white">
-                Explore Talent Directory
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                Explore Categories
               </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Browse cooking, soccer, drawing, dancing, and art
-              </p>
             </div>
           </div>
           <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#0E0830] group-hover:translate-x-0.5 transition-all shrink-0" />
