@@ -55,8 +55,12 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
         {/* Top Minimal Role, Status Bar & Theme Toggle */}
         <header className="flex items-center justify-between px-3 sm:px-6 py-2.5 text-xs border-b border-slate-100 dark:border-slate-800/80 bg-white/95 dark:bg-[#111827]/95 backdrop-blur-md sticky top-0 z-40">
           <Link href="/feed" className="flex items-center gap-2 group">
-            <div className="w-6 h-6 rounded-md bg-[#0E0830] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-              S!
+            <div className="w-7 h-7 rounded-lg overflow-hidden shadow-xs border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 p-0.5">
+              <img
+                src="/showup-logo.jpg"
+                alt="ShowUp!"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="flex items-baseline gap-1.5">
               <span className="font-semibold text-slate-900 dark:text-white text-sm tracking-tight">

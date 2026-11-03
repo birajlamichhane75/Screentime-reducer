@@ -34,6 +34,7 @@ import {
   Trophy,
   HeartPulse,
   Volume2,
+  PenTool,
 } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DataStore } from '@/services/dataStore';
@@ -49,11 +50,11 @@ interface CategoryBox {
 
 // 30+ Comprehensive Creative, Athletic & Skill Categories
 const BASE_CATEGORY_BOXES: CategoryBox[] = [
-  { id: 'Cooking', name: 'Cooking', image: '/creative-icons/cooking.jpg' },
-  { id: 'Soccer', name: 'Soccer', image: '/creative-icons/soccer.jpg' },
-  { id: 'Drawing', name: 'Drawing', image: '/creative-icons/drawing.jpg' },
-  { id: 'Dancing', name: 'Dancing', image: '/creative-icons/dancing.jpg' },
-  { id: 'Painting', name: 'Painting', image: '/creative-icons/painting.jpg' },
+  { id: 'Cooking', name: 'Cooking', icon: UtensilsCrossed },
+  { id: 'Soccer', name: 'Soccer', icon: CircleDot },
+  { id: 'Drawing', name: 'Drawing', icon: PenTool },
+  { id: 'Dancing', name: 'Dancing', icon: Sparkles },
+  { id: 'Painting', name: 'Painting', icon: Palette },
   { id: 'Coding', name: 'Coding', icon: Code2 },
   { id: 'Singing', name: 'Singing', icon: Mic2 },
   { id: 'Music', name: 'Music', icon: Music },
@@ -276,10 +277,23 @@ function ExploreContent() {
         {/* VIEW 1: CATEGORY BOXES (When no category is selected) */}
         {!selectedCategory && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between pb-1">
-              <h1 className="text-xl font-black text-slate-900 dark:text-white">
-                Explore Categories
-              </h1>
+            {/* ShowUp! Header Banner */}
+            <div className="p-4 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between shadow-2xs">
+              <div className="space-y-0.5">
+                <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
+                  Explore Categories
+                </h1>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  Show up daily &bull; Practice &amp; get discovered
+                </p>
+              </div>
+              <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white dark:bg-slate-800 p-1 border border-slate-200/80 dark:border-slate-700 shrink-0 shadow-xs">
+                <img
+                  src="/showup-logo.jpg"
+                  alt="ShowUp!"
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </div>
 
             {/* Search Bar */}

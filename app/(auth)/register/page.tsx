@@ -87,8 +87,12 @@ export default function RegisterPage() {
       <div className="flex-1 flex items-center justify-center p-4 py-12">
         <div className="w-full max-w-md p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl">
           <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-600 text-white shadow-md shadow-indigo-600/30 mb-3">
-              <Sparkles className="w-6 h-6" />
+            <div className="w-16 h-16 mx-auto rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-800 p-1 border border-slate-200/80 dark:border-slate-800 shadow-md mb-3">
+              <img
+                src="/showup-hero.jpg"
+                alt="ShowUp!"
+                className="w-full h-full object-contain"
+              />
             </div>
             <h1 className="text-2xl font-black text-slate-900 dark:text-white">
               Create your account

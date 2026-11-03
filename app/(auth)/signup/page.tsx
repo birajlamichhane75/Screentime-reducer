@@ -37,7 +37,14 @@ function SignupRoleSelectionContent() {
           </div>
 
           {/* Heading */}
-          <div className="space-y-1.5 text-center pt-2">
+          <div className="space-y-2 text-center pt-2">
+            <div className="w-20 h-20 mx-auto rounded-3xl overflow-hidden bg-slate-50 dark:bg-slate-800/60 p-1.5 border border-slate-200/80 dark:border-slate-800 shadow-md">
+              <img
+                src="/showup-hero.jpg"
+                alt="ShowUp!"
+                className="w-full h-full object-contain"
+              />
+            </div>
             <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white font-space">
               Create Your Account
             </h1>

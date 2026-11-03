@@ -1,62 +1,38 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
-const LANDING_ICONS = [
-  { src: '/creative-icons/drawing.jpg', alt: 'Drawing and Recording Creative Routine' },
-  { src: '/creative-icons/cooking.jpg', alt: 'Cooking and Recording Creative Routine' },
-  { src: '/creative-icons/dancing.jpg', alt: 'Dancing and Recording Creative Routine' },
-  { src: '/creative-icons/soccer.jpg', alt: 'Playing Soccer and Recording Creative Routine' },
-  { src: '/creative-icons/painting.jpg', alt: 'Painting and Recording Creative Routine' },
-];
-
 export default function LandingPage() {
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIdx((prev) => (prev + 1) % LANDING_ICONS.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
     <div className="min-h-screen bg-white dark:bg-[#0b071e] text-slate-900 dark:text-white flex flex-col justify-between px-6 py-6 transition-colors">
       {/* Minimal Top Brand Bar */}
       <header className="flex items-center justify-between w-full max-w-md mx-auto">
-        <span className="font-extrabold text-lg tracking-tight text-[#0E0830] dark:text-white">
-          ShowUp!
-        </span>
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-xl overflow-hidden shadow-xs border border-slate-200/60 dark:border-slate-800">
+            <img
+              src="/showup-logo.jpg"
+              alt="ShowUp! Logo"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <span className="font-extrabold text-lg tracking-tight text-[#0E0830] dark:text-white">
+            ShowUp!
+          </span>
+        </div>
         <ThemeToggle />
       </header>
 
-      {/* Main Hero Center: Half-Screen Icon, 5-Word One-Liner, and Button */}
+      {/* Main Hero Center: 3D ShowUp! Hero Visual, 5-Word One-Liner, and Button */}
       <main className="flex-1 flex flex-col items-center justify-center text-center my-auto w-full max-w-md mx-auto space-y-6">
-        {/* Big Icon: Creative Routine and Recording (Covers ~half screen, using user's uploaded icons with simple movement animation) */}
-        <div className="w-[82vw] h-[44vh] max-w-sm max-h-[420px] flex items-center justify-center relative select-none">
+        {/* Big 3D Logo / Icon: Stepping out of screen and recording */}
+        <div className="w-[85vw] h-[46vh] max-w-sm max-h-[440px] flex items-center justify-center relative select-none rounded-3xl overflow-hidden bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 shadow-sm p-3 group">
           <img
-            src={LANDING_ICONS[activeIdx].src}
-            alt={LANDING_ICONS[activeIdx].alt}
-            className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen transition-all duration-500 transform animate-gentle-float hover:scale-105"
+            src="/showup-hero.jpg"
+            alt="ShowUp! - Step out and record your craft"
+            className="w-full h-full object-contain transition-all duration-500 transform animate-gentle-float group-hover:scale-105"
           />
-        </div>
-
-        {/* 3-Second Cycle Dots Indicator */}
-        <div className="flex items-center justify-center gap-1.5 pt-1">
-          {LANDING_ICONS.map((icon, i) => (
-            <button
-              key={icon.src}
-              onClick={() => setActiveIdx(i)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === activeIdx
-                  ? 'w-6 bg-[#0E0830] dark:bg-white'
-                  : 'w-1.5 bg-slate-200 dark:bg-slate-700'
-              }`}
-              aria-label={`Show ${icon.alt}`}
-            />
-          ))}
         </div>
 
         {/* One Liner with Exactly 5 Words */}

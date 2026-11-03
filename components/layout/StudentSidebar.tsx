@@ -50,8 +50,12 @@ export function StudentSidebar() {
       {/* Brand Header */}
       <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
         <Link href="/feed" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md bg-[#0E0830] text-white flex items-center justify-center font-bold text-xs">
-            S!
+          <div className="w-8 h-8 rounded-lg overflow-hidden shadow-xs border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 p-0.5">
+            <img
+              src="/showup-logo.jpg"
+              alt="ShowUp!"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <span className="font-semibold text-sm text-slate-900 dark:text-white tracking-tight">

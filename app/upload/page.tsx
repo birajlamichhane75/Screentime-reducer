@@ -18,17 +18,6 @@ import { VideoStorage } from '@/lib/videoStorage';
 import { CreatorConsistencyRating } from '@/types';
 import { TrustSafetyEngine } from '@/components/trust-safety/TrustSafetyEngine';
 
-const CATEGORY_ICONS: Record<string, string> = {
-  Cooking: '/creative-icons/cooking.jpg',
-  Sports: '/creative-icons/soccer.jpg',
-  Soccer: '/creative-icons/soccer.jpg',
-  Art: '/creative-icons/drawing.jpg',
-  Drawing: '/creative-icons/drawing.jpg',
-  Dance: '/creative-icons/dancing.jpg',
-  Dancing: '/creative-icons/dancing.jpg',
-  Painting: '/creative-icons/painting.jpg',
-};
-
 export default function UploadVideoPage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -194,16 +183,12 @@ export default function UploadVideoPage() {
                 onClick={() => fileInputRef.current?.click()}
                 className="flex flex-col items-center justify-center p-6 text-slate-400 space-y-3 cursor-pointer w-full h-full hover:bg-slate-900/60 transition-colors group select-none"
               >
-                <div className="w-20 h-20 rounded-2xl bg-slate-900 flex items-center justify-center overflow-hidden border border-slate-800 group-hover:scale-105 transition-transform">
-                  {CATEGORY_ICONS[selectedCategory] ? (
-                    <img
-                      src={CATEGORY_ICONS[selectedCategory]}
-                      alt={selectedCategory}
-                      className="w-full h-full object-contain invert group-hover:scale-105 transition-transform"
-                    />
-                  ) : (
-                    <Upload className="w-8 h-8 text-white stroke-[1.8]" />
-                  )}
+                <div className="w-24 h-24 rounded-2xl bg-slate-900 flex items-center justify-center overflow-hidden border border-slate-800 shadow-md group-hover:scale-105 transition-transform p-1">
+                  <img
+                    src="/showup-hero.jpg"
+                    alt="ShowUp! Practice"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <div className="text-center">
                   <span className="text-sm font-bold text-white block">

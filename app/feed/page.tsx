@@ -15,44 +15,9 @@ import { DataStore } from '@/services/dataStore';
 import { VideoStorage } from '@/lib/videoStorage';
 import { VideoPost, Profile } from '@/types';
 
-// The creative activities using the user's uploaded icons
-const CREATIVE_ACTIVITIES = [
-  {
-    id: 'cooking',
-    title: 'Cooking',
-    subtitle: 'Culinary routines & kitchen creations',
-    image: '/creative-icons/cooking.jpg',
-  },
-  {
-    id: 'soccer',
-    title: 'Playing Soccer',
-    subtitle: 'Athletic drills, juggles & field skills',
-    image: '/creative-icons/soccer.jpg',
-  },
-  {
-    id: 'drawing',
-    title: 'Drawing',
-    subtitle: 'Sketches, canvas art & illustration',
-    image: '/creative-icons/drawing.jpg',
-  },
-  {
-    id: 'dancing',
-    title: 'Dancing',
-    subtitle: 'Choreography, balance & rhythm routines',
-    image: '/creative-icons/dancing.jpg',
-  },
-  {
-    id: 'painting',
-    title: 'Painting & Art',
-    subtitle: 'Studio painting, brushwork & craft routines',
-    image: '/creative-icons/painting.jpg',
-  },
-];
-
 export default function CreatorHomePage() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<Profile | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [recentVideos, setRecentVideos] = useState<VideoPost[]>([]);
   const [playableUrls, setPlayableUrls] = useState<Record<string, string>>({});
 
@@ -87,16 +52,6 @@ export default function CreatorHomePage() {
     loadVideos();
   }, []);
 
-  // Cycle through creative activities every 3 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % CREATIVE_ACTIVITIES.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const currentActivity = CREATIVE_ACTIVITIES[activeIndex];
-
   // Navigate directly to the upload form (DO NOT open computer drive here)
   const handleGoToUpload = () => {
     router.push('/upload');
@@ -126,22 +81,22 @@ export default function CreatorHomePage() {
             <span>Daily Practice Record</span>
           </div>
 
-          {/* Animated Big Icon Area (User's uploaded icons changing every 3 seconds with gentle movement animation) */}
+          {/* Animated Big 3D Icon Area (ShowUp! 3D Hero Art) */}
           <div className="my-auto flex flex-col items-center justify-center space-y-3">
-            <div className="w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center overflow-hidden">
+            <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center overflow-hidden rounded-3xl bg-slate-50 dark:bg-slate-800/40 p-2 border border-slate-100 dark:border-slate-800 shadow-xs">
               <img
-                src={currentActivity.image}
-                alt={currentActivity.title}
-                className="w-full h-full object-contain mix-blend-multiply dark:invert dark:mix-blend-screen transition-all duration-300 transform animate-gentle-float group-hover:scale-105"
+                src="/showup-hero.jpg"
+                alt="ShowUp! Daily Routine"
+                className="w-full h-full object-contain transition-all duration-300 transform animate-gentle-float group-hover:scale-105"
               />
             </div>
 
-            <div className="space-y-0.5 transition-opacity duration-300">
+            <div className="space-y-0.5">
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-                {currentActivity.title}
+                Show Up &amp; Record
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                {currentActivity.subtitle}
+                Practice your craft daily &bull; Get discovered directly
               </p>
             </div>
           </div>
@@ -156,20 +111,6 @@ export default function CreatorHomePage() {
               <Upload className="w-4 h-4" />
               <span>Upload Video</span>
             </button>
-          </div>
-
-          {/* 3-Second Activity Progress Dots */}
-          <div className="flex items-center gap-1.5 pt-1">
-            {CREATIVE_ACTIVITIES.map((act, i) => (
-              <span
-                key={act.id}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === activeIndex
-                    ? 'w-6 bg-[#0E0830] dark:bg-white'
-                    : 'w-1.5 bg-slate-200 dark:bg-slate-800'
-                }`}
-              />
-            ))}
           </div>
         </div>
 

@@ -77,6 +77,13 @@ export default function LoginPage() {
         <div className="space-y-6 pt-2">
           {/* Header & Logo */}
           <div className="text-center space-y-2">
+            <div className="w-24 h-24 mx-auto rounded-3xl overflow-hidden bg-slate-50 dark:bg-slate-800/60 p-1.5 border border-slate-200/80 dark:border-slate-800 shadow-md">
+              <img
+                src="/showup-hero.jpg"
+                alt="ShowUp!"
+                className="w-full h-full object-contain"
+              />
+            </div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-[11px] font-bold text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
               <Sparkles className="w-3.5 h-3.5 text-[#0E0830] dark:text-indigo-400" />
               <span>ShowUp! Portal</span>
