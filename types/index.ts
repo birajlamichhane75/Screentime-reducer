@@ -326,6 +326,8 @@ export interface Opportunity {
   location?: string;
   location_type: LocationType;
   compensation_details?: string;
+  reward_amount?: string;
+  image_url?: string;
   deadline: string;
   openings_count: number;
   application_instructions?: string;
