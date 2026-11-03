@@ -26,10 +26,10 @@ import {
 export const INITIAL_PROFILES: Profile[] = [
   {
     id: 'usr-student-001',
-    email: 'sarah@dance.showup.dev',
+    email: 'radha@showup.dev',
     role: 'student',
-    full_name: 'Sarah Johnson',
-    username: 'sarahdance',
+    full_name: 'Radha',
+    username: 'radha',
     avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
     bio: 'Dancer | Choreographer | Dreamer ✨ Turning passion into opportunities.',
     location: 'New York, USA',
@@ -480,7 +480,7 @@ export const INITIAL_OPPORTUNITIES: Opportunity[] = [
   {
     id: 'opp-01',
     organization_id: 'org-01',
-    title: 'The Future of Tech 2027',
+    title: 'Propel The Future of Tech 2027',
     reward_amount: '$100K Scholarship',
     image_url: '/opportunities/future-tech-scholarship-check.jpg',
     description: 'A 10-week summer fellowship providing $2,500 in non-dilutive project funding, 1-on-1 mentorship with senior digital creators, and portfolio review sessions.',
@@ -1011,9 +1011,9 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     id: 'vid-01',
     creator_id: 'usr-student-001',
     creator: {
-      username: 'sarahmusic',
-      full_name: 'Sarah Music',
-      email: 'sarah@dance.showup.dev',
+      username: 'radha',
+      full_name: 'Radha',
+      email: 'radha@showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Practicing a new song ✨ Singer & Acoustic Guitarist.',
@@ -1038,7 +1038,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
         org_id: 'usr-org-001',
         org_name: 'Creative Arts University',
         selected_at: '2026-10-28T09:15:00Z',
-        email_sent_to: 'sarah@dance.showup.dev',
+        email_sent_to: 'radha@showup.dev',
       },
     ],
     created_at: '2026-10-28T09:00:00Z',
@@ -1385,7 +1385,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'sarahguitar',
       full_name: 'Sarah Chen',
-      email: 'sarah@dance.showup.dev',
+      email: 'radha@showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Acoustic fingerstyle player 🎸',

@@ -29,10 +29,10 @@ export default function RewardsPage() {
     // Get all opportunities from DataStore
     const allOpps = DataStore.getOpportunities();
 
-    // Ensure "The Future of Tech 2027" is always placed FIRST at position #1
+    // Ensure "Propel The Future of Tech 2027" is always placed FIRST at position #1
     const prioritized = [...allOpps].sort((a, b) => {
-      const isAFirst = a.title.toLowerCase().includes('the future of tech 2027');
-      const isBFirst = b.title.toLowerCase().includes('the future of tech 2027');
+      const isAFirst = a.title.toLowerCase().includes('propel') || a.title.toLowerCase().includes('future of tech');
+      const isBFirst = b.title.toLowerCase().includes('propel') || b.title.toLowerCase().includes('future of tech');
       if (isAFirst && !isBFirst) return -1;
       if (!isAFirst && isBFirst) return 1;
       return 0;
@@ -73,13 +73,10 @@ export default function RewardsPage() {
         </div>
 
         {/* Minimal Clean Hero Header */}
-        <div className="space-y-1">
+        <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
             Scholarships &amp; Hiring
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-            Daily practice qualifies you for verified awards &bull; Tag orgs in captions to get scouted
-          </p>
         </div>
 
         {/* Streamlined Visual Opportunity Cards: Check/Hiring Image + Just 1 Headline & Reward */}

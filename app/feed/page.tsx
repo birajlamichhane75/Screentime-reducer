@@ -75,29 +75,20 @@ export default function CreatorHomePage() {
           onClick={handleGoToUpload}
           className="card-3d card-3d-interactive relative w-full aspect-[4/5] sm:aspect-square max-h-[490px] rounded-3xl p-6 flex flex-col items-center justify-between text-center select-none cursor-pointer group"
         >
-          {/* Subtle Record Dot Header */}
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 shadow-xs text-xs font-bold text-slate-700 dark:text-slate-200">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
-            <span>Daily Practice Record</span>
-          </div>
-
           {/* Animated Big 3D Icon Area (ShowUp! 3D Hero Art) */}
-          <div className="my-auto flex flex-col items-center justify-center space-y-3.5">
-            <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-b from-purple-500/5 to-amber-500/5 dark:from-purple-500/10 dark:to-amber-500/10 p-3 border border-purple-200/40 dark:border-purple-900/30 shadow-[0_12px_32px_rgba(14,8,48,0.06)] group-hover:scale-105 transition-all duration-300">
+          <div className="my-auto flex flex-col items-center justify-center space-y-4 pt-4">
+            <div className="w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-b from-purple-500/5 to-amber-500/5 dark:from-purple-500/10 dark:to-amber-500/10 p-3 border border-purple-200/40 dark:border-purple-900/30 shadow-[0_12px_32px_rgba(14,8,48,0.06)] group-hover:scale-105 transition-all duration-300">
               <img
                 src="/showup-hero.jpg"
-                alt="ShowUp! Daily Routine"
+                alt="ShowUp!"
                 className="w-full h-full object-contain animate-gentle-float"
               />
             </div>
 
-            <div className="space-y-1">
+            <div>
               <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                 Show Up &amp; Record
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium max-w-[260px] mx-auto">
-                Practice your craft daily &bull; Build streak &bull; Get discovered
-              </p>
             </div>
           </div>
 
@@ -124,12 +115,9 @@ export default function CreatorHomePage() {
               <Compass className="w-5 h-5" />
             </div>
             <div className="text-left">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 Explore Categories
               </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                Browse videos by passion &amp; talent
-              </p>
             </div>
           </div>
           <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#0E0830] dark:group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />

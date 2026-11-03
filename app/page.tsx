@@ -43,9 +43,6 @@ export default function LandingPage() {
           <p className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-space">
             Practice daily. Get discovered directly.
           </p>
-          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium max-w-xs mx-auto">
-            Replace passive doomscrolling with authentic daily craft
-          </p>
         </div>
 
         {/* Button to Sign In / Get Started */}
@@ -59,11 +56,6 @@ export default function LandingPage() {
           </Link>
         </div>
       </main>
-
-      {/* Minimal Footer */}
-      <footer className="w-full text-center text-xs text-slate-400 pb-2 font-medium">
-        <span>ShowUp! &bull; Creator Platform</span>
-      </footer>
     </div>
   );
 }

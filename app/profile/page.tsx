@@ -77,10 +77,10 @@ export default function MobileProfilePage() {
 
           <div className="space-y-1">
             <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-              {profileData?.full_name || 'Sarah Johnson'}
+              {profileData?.full_name || 'Radha'}
             </h1>
             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-              @{profileData?.username || 'sarahdance'}
+              @{profileData?.username || 'radha'}
             </p>
           </div>
 

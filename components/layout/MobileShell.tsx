@@ -86,7 +86,7 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
                 className="bg-transparent border-none text-[11px] font-medium text-slate-800 dark:text-slate-200 focus:outline-hidden cursor-pointer"
                 title="Switch persona"
               >
-                <option value="usr-student-001">Sarah (Creator)</option>
+                <option value="usr-student-001">Radha (Creator)</option>
                 <option value="usr-student-002">Emma (Creator)</option>
                 <option value="usr-student-003">Mike (Creator)</option>
                 <option value="usr-org-001">Creative Arts (Org)</option>

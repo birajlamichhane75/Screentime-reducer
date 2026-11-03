@@ -279,13 +279,10 @@ function ExploreContent() {
           <div className="space-y-4">
             {/* ShowUp! Header Banner */}
             <div className="card-3d p-4 rounded-3xl flex items-center justify-between">
-              <div className="space-y-0.5">
+              <div>
                 <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
                   Explore Categories
                 </h1>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                  Show up daily &bull; Practice &amp; get discovered
-                </p>
               </div>
               <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white dark:bg-slate-800 p-1 border border-slate-200/80 dark:border-slate-700 shrink-0 shadow-xs">
                 <img
