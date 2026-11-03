@@ -162,13 +162,13 @@ export function TrustSafetyEngine({
           type="button"
           onClick={openVerificationModal}
           disabled={!hasVideo || !selectedCategory}
-          className="w-full py-4 px-5 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] active:scale-98 text-white font-black text-sm tracking-wide shadow-md transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed group"
+          className="btn-3d w-full py-4 px-5 rounded-2xl text-white font-black text-sm tracking-wide flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed group"
         >
           <Sparkles className="w-5 h-5 text-indigo-300 group-hover:rotate-12 transition-transform" />
           <span>AI Trust &amp; Safety Check</span>
         </button>
       ) : (
-        <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-500/80 dark:border-emerald-700 flex items-center justify-between shadow-xs">
+        <div className="card-3d p-4 rounded-2xl border-emerald-500/50 dark:border-emerald-500/50 flex items-center justify-between shadow-xs">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
               <CheckCircle2 className="w-5 h-5" />
@@ -195,7 +195,7 @@ export function TrustSafetyEngine({
       {/* 2. AI TRUST & SAFETY MODAL WITH BACKGROUND BLUR */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-7 shadow-2xl space-y-5 relative select-none">
+          <div className="card-3d w-full max-w-md rounded-3xl p-6 sm:p-7 space-y-5 relative select-none">
             {/* Top Close Button (allowed when complete) */}
             {isAllComplete && (
               <button

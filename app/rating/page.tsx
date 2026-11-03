@@ -68,7 +68,7 @@ export default function RatingPage() {
         </div>
 
         {/* Big Hero Card: Only 2 font sizes (text-2xl and text-sm) */}
-        <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 text-center space-y-3">
+        <div className="card-3d rounded-3xl p-6 text-center space-y-3">
           {/* 3D Shield Badge with Shining Inside */}
           <div className="flex items-center justify-center">
             <div
@@ -129,9 +129,9 @@ export default function RatingPage() {
         {/* Just Daily Ratio & Active Streak (No Org Search or Org Selected) */}
         <div className="grid grid-cols-2 gap-3">
           {/* Daily Ratio */}
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center space-y-1 shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-              <Clock className="w-5 h-5 text-slate-700 dark:text-slate-200" />
+          <div className="card-3d p-4 rounded-2xl flex flex-col items-center text-center space-y-1">
+            <div className="w-10 h-10 rounded-xl bg-purple-500/10 dark:bg-purple-400/15 flex items-center justify-center">
+              <Clock className="w-5 h-5 text-purple-600 dark:text-purple-300" />
             </div>
             <span className="text-2xl font-black text-slate-900 dark:text-white">
               {userRating?.avg_interval_hours ?? 24}h
@@ -142,9 +142,9 @@ export default function RatingPage() {
           </div>
 
           {/* Active Streak */}
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center space-y-1 shadow-2xs">
-            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-              <Flame className="w-5 h-5 text-slate-700 dark:text-slate-200" />
+          <div className="card-3d p-4 rounded-2xl flex flex-col items-center text-center space-y-1">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 dark:bg-amber-400/15 flex items-center justify-center">
+              <Flame className="w-5 h-5 text-amber-500 dark:text-amber-400" />
             </div>
             <span className="text-2xl font-black text-slate-900 dark:text-white">
               {userRating?.streak_days ?? 7}d
@@ -163,10 +163,10 @@ export default function RatingPage() {
 
           {/* Platinum Checkpoint */}
           <div
-            className={`p-4 rounded-2xl border transition-all ${
+            className={`card-3d p-4 rounded-2xl transition-all ${
               score >= 95
-                ? 'bg-slate-50 dark:bg-slate-800 border-[#0E0830] dark:border-white shadow-xs'
-                : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 opacity-60'
+                ? 'border-indigo-400/80 shadow-[0_12px_30px_rgba(99,102,241,0.2)]'
+                : 'opacity-70'
             }`}
           >
             <div className="flex items-center justify-between">
@@ -194,10 +194,10 @@ export default function RatingPage() {
 
           {/* Gold Checkpoint */}
           <div
-            className={`p-4 rounded-2xl border transition-all ${
+            className={`card-3d p-4 rounded-2xl transition-all ${
               score >= 80 && score < 95
-                ? 'bg-slate-50 dark:bg-slate-800 border-[#0E0830] dark:border-white shadow-xs'
-                : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800'
+                ? 'border-amber-400/80 shadow-[0_12px_30px_rgba(245,158,11,0.2)]'
+                : 'opacity-70'
             }`}
           >
             <div className="flex items-center justify-between">
@@ -225,10 +225,10 @@ export default function RatingPage() {
 
           {/* Silver Checkpoint */}
           <div
-            className={`p-4 rounded-2xl border transition-all ${
+            className={`card-3d p-4 rounded-2xl transition-all ${
               score >= 65 && score < 80
-                ? 'bg-slate-50 dark:bg-slate-800 border-[#0E0830] dark:border-white shadow-xs'
-                : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800'
+                ? 'border-slate-400/80 shadow-[0_12px_30px_rgba(148,163,184,0.2)]'
+                : 'opacity-70'
             }`}
           >
             <div className="flex items-center justify-between">
@@ -259,7 +259,7 @@ export default function RatingPage() {
         <div className="pt-2">
           <Link
             href="/upload"
-            className="w-full py-4 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] text-white text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2"
+            className="btn-3d w-full py-4 rounded-2xl text-white text-sm font-bold flex items-center justify-center gap-2"
           >
             <Upload className="w-4 h-4" />
             <span>Upload Today&apos;s Craft</span>

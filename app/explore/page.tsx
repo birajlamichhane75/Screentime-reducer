@@ -278,7 +278,7 @@ function ExploreContent() {
         {!selectedCategory && (
           <div className="space-y-4">
             {/* ShowUp! Header Banner */}
-            <div className="p-4 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between shadow-2xs">
+            <div className="card-3d p-4 rounded-3xl flex items-center justify-between">
               <div className="space-y-0.5">
                 <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
                   Explore Categories
@@ -298,7 +298,7 @@ function ExploreContent() {
 
             {/* Search Bar */}
             <div className="relative">
-              <div className="flex items-center w-full px-3.5 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 focus-within:border-[#0E0830] focus-within:bg-white transition-colors">
+              <div className="card-3d flex items-center w-full px-3.5 py-2.5 rounded-2xl focus-within:border-[#0E0830] dark:focus-within:border-white transition-all">
                 <Search className="w-5 h-5 text-slate-400 shrink-0 mr-2" />
                 <input
                   type="text"
@@ -330,10 +330,10 @@ function ExploreContent() {
                     <div
                       key={box.id}
                       onClick={() => setSelectedCategory(box.id)}
-                      className="p-5 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 hover:border-[#0E0830] dark:hover:border-white transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md flex flex-col items-center text-center space-y-2.5 group active:scale-95"
+                      className="card-3d card-3d-interactive p-5 rounded-3xl cursor-pointer flex flex-col items-center text-center space-y-2.5 group"
                     >
                       {/* Big Icon */}
-                      <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center p-2.5 overflow-hidden group-hover:scale-105 transition-transform">
+                      <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-50/80 dark:bg-slate-800/80 shadow-inner flex items-center justify-center p-2.5 overflow-hidden group-hover:scale-105 transition-transform">
                         {box.image ? (
                           <img
                             src={box.image}
@@ -381,7 +381,7 @@ function ExploreContent() {
 
             {/* Search Input for Category */}
             <div className="relative">
-              <div className="flex items-center w-full px-3.5 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 focus-within:border-[#0E0830] focus-within:bg-white transition-colors">
+              <div className="card-3d flex items-center w-full px-3.5 py-2.5 rounded-2xl focus-within:border-[#0E0830] dark:focus-within:border-white transition-all">
                 <Search className="w-4 h-4 text-slate-400 shrink-0 mr-2" />
                 <input
                   type="text"
@@ -400,7 +400,7 @@ function ExploreContent() {
 
             {/* Video Grid for Specific Category with Real Video Thumbnails */}
             {categoryVideos.length > 0 ? (
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 gap-3">
                 {categoryVideos.map((video) => {
                   const isSelected = !!selectionState[video.id];
 
@@ -408,7 +408,7 @@ function ExploreContent() {
                     <div
                       key={video.id}
                       onClick={() => router.push(`/video/${video.id}`)}
-                      className="group relative rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:shadow-xs transition-all cursor-pointer flex flex-col"
+                      className="card-3d card-3d-interactive group relative rounded-2xl overflow-hidden cursor-pointer flex flex-col"
                     >
                       {/* Authentic Video Thumbnail (No Unrelated Stock Photos) */}
                       <div className="relative aspect-4/5 w-full bg-slate-950 overflow-hidden">
@@ -464,13 +464,13 @@ function ExploreContent() {
                 })}
               </div>
             ) : (
-              <div className="p-8 text-center rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-2">
+              <div className="card-3d p-8 text-center rounded-2xl space-y-2">
                 <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                   No videos found in {selectedCategory}
                 </p>
                 <button
                   onClick={() => setSelectedCategory(null)}
-                  className="px-3 py-1.5 rounded-lg bg-[#0E0830] text-white text-xs font-medium"
+                  className="btn-3d px-4 py-2 rounded-xl text-white text-xs font-medium"
                 >
                   View All Categories
                 </button>

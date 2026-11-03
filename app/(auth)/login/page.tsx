@@ -11,7 +11,7 @@ import { createClient, isSupabaseConfigured } from '@/lib/supabase/client';
 export default function LoginPage() {
   const router = useRouter();
   const [role, setRole] = useState<'student' | 'organization'>('student');
-  const [email, setEmail] = useState('sarah@dance.skillbridge.dev');
+  const [email, setEmail] = useState('sarah@dance.showup.dev');
   const [password, setPassword] = useState('password123');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ export default function LoginPage() {
     if (selected === 'organization') {
       setEmail('scouts@creativearts.edu');
     } else {
-      setEmail('sarah@dance.skillbridge.dev');
+      setEmail('sarah@dance.showup.dev');
     }
   };
 
@@ -136,19 +136,19 @@ export default function LoginPage() {
                 <>
                   <button
                     type="button"
-                    onClick={() => handleQuickPreset('sarah@dance.skillbridge.dev', 'usr-student-001', 'student')}
-                    className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-left hover:border-[#0E0830] transition-colors"
+                    onClick={() => handleQuickPreset('sarah@dance.showup.dev', 'usr-student-001', 'student')}
+                    className="p-2.5 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-left hover:border-[#0E0830] dark:hover:border-white shadow-2xs hover:shadow-xs transition-all active:scale-98"
                   >
-                    <span className="text-xs font-bold text-slate-900 dark:text-white block">Sarah Johnson</span>
-                    <span className="text-[10px] text-slate-400 block">Dancer &bull; 98 Rating</span>
+                    <span className="text-xs font-black text-slate-900 dark:text-white block">Sarah Johnson</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block">Dancer &bull; 98 Rating</span>
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleQuickPreset('emma@singing.skillbridge.dev', 'usr-student-002', 'student')}
-                    className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-left hover:border-[#0E0830] transition-colors"
+                    onClick={() => handleQuickPreset('emma@singing.showup.dev', 'usr-student-002', 'student')}
+                    className="p-2.5 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-left hover:border-[#0E0830] dark:hover:border-white shadow-2xs hover:shadow-xs transition-all active:scale-98"
                   >
-                    <span className="text-xs font-bold text-slate-900 dark:text-white block">Emma Watson</span>
-                    <span className="text-[10px] text-slate-400 block">Vocalist &bull; 85 Rating</span>
+                    <span className="text-xs font-black text-slate-900 dark:text-white block">Emma Watson</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block">Vocalist &bull; 85 Rating</span>
                   </button>
                 </>
               ) : (
@@ -156,18 +156,18 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => handleQuickPreset('scouts@creativearts.edu', 'usr-org-001', 'organization')}
-                    className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-left hover:border-[#0E0830] transition-colors"
+                    className="p-2.5 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-left hover:border-[#0E0830] dark:hover:border-white shadow-2xs hover:shadow-xs transition-all active:scale-98"
                   >
-                    <span className="text-xs font-bold text-slate-900 dark:text-white block">Creative Arts Univ</span>
-                    <span className="text-[10px] text-slate-400 block">Talent Scout Partner</span>
+                    <span className="text-xs font-black text-slate-900 dark:text-white block">Creative Arts Univ</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block">Talent Scout Partner</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => handleQuickPreset('scouts@apextechguild.org', 'usr-org-001', 'organization')}
-                    className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-left hover:border-[#0E0830] transition-colors"
+                    className="p-2.5 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-left hover:border-[#0E0830] dark:hover:border-white shadow-2xs hover:shadow-xs transition-all active:scale-98"
                   >
-                    <span className="text-xs font-bold text-slate-900 dark:text-white block">Apex Tech Guild</span>
-                    <span className="text-[10px] text-slate-400 block">Apprentice Grants</span>
+                    <span className="text-xs font-black text-slate-900 dark:text-white block">Apex Tech Guild</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block">Apprentice Grants</span>
                   </button>
                 </>
               )}
@@ -229,7 +229,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 px-4 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] active:scale-98 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
+              className="btn-3d w-full py-4 px-4 rounded-2xl text-white font-extrabold text-xs shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 mt-2 tracking-wide uppercase"
             >
               {loading ? (
                 <span>Signing in...</span>

@@ -59,7 +59,7 @@ describe('Talent Videos & Discovery Engine', () => {
 
     expect(selection.selected).toBe(true);
     expect(selection.emailSent).toBeDefined();
-    expect(selection.emailSent?.recipient_email).toBe('sarah@dance.skillbridge.dev');
+    expect(selection.emailSent?.recipient_email).toBe('sarah@dance.showup.dev');
     expect(selection.emailSent?.org_name).toBe(orgName);
     expect(selection.emailSent?.subject).toContain('Creative Arts University selected your work');
     expect(selection.emailSent?.status).toBe('delivered');
@@ -73,12 +73,12 @@ describe('Talent Videos & Discovery Engine', () => {
       creatorNotifs.some(
         (n) =>
           n.title.includes('selected your work') &&
-          n.message.includes('sarah@dance.skillbridge.dev')
+          n.message.includes('sarah@dance.showup.dev')
       )
     ).toBe(true);
 
     // Confirm email appears in creator's email inbox query
-    const emails = DataStore.getEmailsForUser('sarah@dance.skillbridge.dev');
+    const emails = DataStore.getEmailsForUser('sarah@dance.showup.dev');
     expect(emails.some((e) => e.work_id === videoId)).toBe(true);
   });
 

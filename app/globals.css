@@ -121,6 +121,90 @@ body {
   border: 1px solid rgba(31, 41, 55, 0.85);
 }
 
+/* 3D Tech Lining Grid Background System */
+.bg-3d-lining {
+  background-color: #fcfcfd;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.06) 0px, transparent 45%),
+    radial-gradient(at 100% 0%, rgba(249, 115, 22, 0.05) 0px, transparent 40%),
+    radial-gradient(at 50% 100%, rgba(14, 8, 48, 0.04) 0px, transparent 50%),
+    linear-gradient(to right, rgba(14, 8, 48, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(14, 8, 48, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px, 28px 28px;
+}
+
+.dark .bg-3d-lining {
+  background-color: #070414;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.14) 0px, transparent 45%),
+    radial-gradient(at 100% 0%, rgba(249, 115, 22, 0.09) 0px, transparent 40%),
+    radial-gradient(at 50% 100%, rgba(14, 8, 48, 0.5) 0px, transparent 50%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px, 28px 28px;
+}
+
+/* 3D Elevated Glass Cards */
+.card-3d {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 
+    0 1px 3px rgba(14, 8, 48, 0.03),
+    0 10px 28px -4px rgba(14, 8, 48, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .card-3d {
+  background: rgba(15, 11, 35, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 
+    0 4px 20px -2px rgba(0, 0, 0, 0.4),
+    0 12px 32px -4px rgba(14, 8, 48, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-3d-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 12px rgba(14, 8, 48, 0.05),
+    0 16px 36px -4px rgba(14, 8, 48, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.dark .card-3d-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 4px 24px -2px rgba(0, 0, 0, 0.6),
+    0 16px 40px -4px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* 3D Tactile Buttons */
+.btn-3d {
+  background: linear-gradient(180deg, #181048 0%, #0E0830 100%);
+  box-shadow: 
+    0 4px 14px 0 rgba(14, 8, 48, 0.25),
+    0 1px 2px 0 rgba(14, 8, 48, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-3d:hover {
+  box-shadow: 
+    0 6px 22px 0 rgba(14, 8, 48, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-3d:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 6px 0 rgba(14, 8, 48, 0.2);
+}
+
 /* Subtle, Calm Scrollbars */
 ::-webkit-scrollbar {
   width: 5px;

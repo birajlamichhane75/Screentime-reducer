@@ -153,31 +153,35 @@ function ProfileContent({
 
         {/* Profile Card */}
         <div className="flex items-center gap-4 py-2">
-          {/* Avatar */}
-          <img
-            src={
-              creatorProfile?.avatar_url ||
-              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80'
-            }
-            alt={creatorProfile?.full_name || 'Creator'}
-            className="w-16 h-16 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-          />
+          {/* Avatar with 3D Ring */}
+          <div className="relative">
+            <div className="w-18 h-18 rounded-full p-1 bg-gradient-to-tr from-purple-500 via-pink-500 to-amber-400 shadow-[0_8px_20px_rgba(139,92,246,0.3)]">
+              <img
+                src={
+                  creatorProfile?.avatar_url ||
+                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80'
+                }
+                alt={creatorProfile?.full_name || 'Creator'}
+                className="w-full h-full rounded-full object-cover border-2 border-white dark:border-slate-900"
+              />
+            </div>
+          </div>
 
           {/* Meaningful Purpose Metrics: Works Shared & Org Selections (NO followers/following) */}
           <div className="flex-1 grid grid-cols-2 gap-2 text-center">
-            <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-              <p className="text-base font-semibold text-slate-900 dark:text-white">
+            <div className="card-3d p-2.5 rounded-2xl">
+              <p className="text-base font-bold text-slate-900 dark:text-white">
                 {videos.length || 1}
               </p>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">
                 Works Shared
               </p>
             </div>
-            <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-              <p className="text-base font-semibold text-[#0E0830] dark:text-[#c4bbf0]">
+            <div className="card-3d p-2.5 rounded-2xl">
+              <p className="text-base font-bold text-[#0E0830] dark:text-[#c4bbf0]">
                 {(creatorProfile as any)?.selected_works_count || 2}
               </p>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">
                 Org Selections
               </p>
             </div>
@@ -210,17 +214,17 @@ function ProfileContent({
           <div className="flex items-center gap-2 mt-4">
             <button
               onClick={() => setIsContactModalOpen(true)}
-              className="flex-1 py-2 px-3 rounded-lg bg-[#0E0830] hover:bg-[#1a1147] text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-xs transition-colors"
+              className="btn-3d flex-1 py-3 px-3 rounded-2xl text-white text-xs font-bold flex items-center justify-center gap-1.5"
             >
               <Mail className="w-3.5 h-3.5" />
               <span>Contact Talent</span>
             </button>
             <button
               onClick={handleToggleSelectCreator}
-              className={`py-2 px-3 rounded-lg border text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors ${
+              className={`py-3 px-4 rounded-2xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                 isSaved
-                  ? 'border-[#0E0830] bg-[#0E0830] text-white shadow-xs'
-                  : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                  ? 'btn-3d text-white'
+                  : 'card-3d text-slate-700 dark:text-slate-300'
               }`}
             >
               <BookmarkCheck className={`w-3.5 h-3.5 ${isSaved ? 'fill-white' : ''}`} />
@@ -228,8 +232,8 @@ function ProfileContent({
             </button>
           </div>
         ) : (
-          <div className="mt-3 p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 text-center text-[11px] text-slate-500 dark:text-slate-400">
-            Discoverable Talent Portfolio · Verified on ShowUp!
+          <div className="card-3d mt-3 p-3 rounded-2xl text-center text-xs font-medium text-slate-600 dark:text-slate-300">
+            Discoverable Talent Portfolio &bull; Verified on ShowUp!
           </div>
         )}
 

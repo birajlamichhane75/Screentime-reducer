@@ -26,7 +26,7 @@ import {
 export const INITIAL_PROFILES: Profile[] = [
   {
     id: 'usr-student-001',
-    email: 'sarah@dance.skillbridge.dev',
+    email: 'sarah@dance.showup.dev',
     role: 'student',
     full_name: 'Sarah Johnson',
     username: 'sarahdance',
@@ -48,7 +48,7 @@ export const INITIAL_PROFILES: Profile[] = [
   },
   {
     id: 'usr-student-002',
-    email: 'alex@music.skillbridge.dev',
+    email: 'alex@music.showup.dev',
     role: 'student',
     full_name: 'Alex Chen',
     username: 'alexmusic',
@@ -70,7 +70,7 @@ export const INITIAL_PROFILES: Profile[] = [
   },
   {
     id: 'usr-student-003',
-    email: 'mike@soccer.skillbridge.dev',
+    email: 'mike@soccer.showup.dev',
     role: 'student',
     full_name: 'Mike Roberts',
     username: 'mikessoccer',
@@ -92,7 +92,7 @@ export const INITIAL_PROFILES: Profile[] = [
   },
   {
     id: 'usr-student-004',
-    email: 'emma@singing.skillbridge.dev',
+    email: 'emma@singing.showup.dev',
     role: 'student',
     full_name: 'Emma Wilson',
     username: 'emmasing',
@@ -131,12 +131,12 @@ export const INITIAL_PROFILES: Profile[] = [
   },
   {
     id: 'usr-admin-001',
-    email: 'admin@skillbridge.dev',
+    email: 'admin@showup.dev',
     role: 'admin',
     full_name: 'Jordan Vance',
     username: 'admin_jordan',
     avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-    bio: 'SkillBridge Platform Safety & Ecosystem Operations Administrator.',
+    bio: 'ShowUp! Platform Safety & Ecosystem Operations Administrator.',
     location: 'Seattle, WA',
     daily_goal_minutes: 60,
     is_private: false,
@@ -999,7 +999,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'sarahmusic',
       full_name: 'Sarah Music',
-      email: 'sarah@dance.skillbridge.dev',
+      email: 'sarah@dance.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Practicing a new song ✨ Singer & Acoustic Guitarist.',
@@ -1024,7 +1024,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
         org_id: 'usr-org-001',
         org_name: 'Creative Arts University',
         selected_at: '2026-10-28T09:15:00Z',
-        email_sent_to: 'sarah@dance.skillbridge.dev',
+        email_sent_to: 'sarah@dance.showup.dev',
       },
     ],
     created_at: '2026-10-28T09:00:00Z',
@@ -1035,7 +1035,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'emmadance',
       full_name: 'Emma Dance',
-      email: 'emma@singing.skillbridge.dev',
+      email: 'emma@singing.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Contemporary dancer & choreographer ✨',
@@ -1063,7 +1063,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'artbylucas',
       full_name: 'Lucas Silva',
-      email: 'lucas@art.skillbridge.dev',
+      email: 'lucas@art.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
       is_verified: false,
       bio: 'Portrait artist & visual illustrator 🎨',
@@ -1091,7 +1091,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'mikesoccer',
       full_name: 'Mike Soccer',
-      email: 'mike@soccer.skillbridge.dev',
+      email: 'mike@soccer.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Freestyle football & agility drills ⚽',
@@ -1119,7 +1119,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'emmamusic',
       full_name: 'Emma Music',
-      email: 'alex@music.skillbridge.dev',
+      email: 'alex@music.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Live acoustic vocals & pop covers 🎤',
@@ -1147,7 +1147,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'alexdev',
       full_name: 'Alex Dev',
-      email: 'alex@dev.skillbridge.dev',
+      email: 'alex@dev.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Fullstack developer & creative technologist 💻',
@@ -1175,7 +1175,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'jamesphoto',
       full_name: 'James Photo',
-      email: 'james@photo.skillbridge.dev',
+      email: 'james@photo.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&auto=format&fit=crop&q=80',
       is_verified: false,
       bio: 'Landscape & golden hour photography 📷',
@@ -1203,7 +1203,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'davidskates',
       full_name: 'David Skates',
-      email: 'david@skate.skillbridge.dev',
+      email: 'david@skate.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Street skater & air trick enthusiast 🛹',
@@ -1231,7 +1231,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'chefchloe',
       full_name: 'Chloe Gourmet',
-      email: 'chloe@cook.skillbridge.dev',
+      email: 'chloe@cook.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Handmade pasta & culinary craft 🍳',
@@ -1259,7 +1259,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'artbylucas',
       full_name: 'Lucas Silva',
-      email: 'lucas@art.skillbridge.dev',
+      email: 'lucas@art.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
       is_verified: false,
       bio: 'Portrait artist & visual illustrator 🎨',
@@ -1287,7 +1287,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'mikesoccer',
       full_name: 'Mike Soccer',
-      email: 'mike@soccer.skillbridge.dev',
+      email: 'mike@soccer.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Freestyle football & agility drills ⚽',
@@ -1315,7 +1315,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'jamesphoto',
       full_name: 'James Photo',
-      email: 'james@photo.skillbridge.dev',
+      email: 'james@photo.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&auto=format&fit=crop&q=80',
       is_verified: false,
       bio: 'Landscape & golden hour photography 📷',
@@ -1343,7 +1343,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'emmadance',
       full_name: 'Emma Dance',
-      email: 'emma@singing.skillbridge.dev',
+      email: 'emma@singing.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Contemporary dancer & choreographer ✨',
@@ -1371,7 +1371,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'sarahguitar',
       full_name: 'Sarah Chen',
-      email: 'sarah@dance.skillbridge.dev',
+      email: 'sarah@dance.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Acoustic fingerstyle player 🎸',
@@ -1399,7 +1399,7 @@ export const INITIAL_VIDEOS: VideoPost[] = [
     creator: {
       username: 'alexdev',
       full_name: 'Alex Dev',
-      email: 'alex@dev.skillbridge.dev',
+      email: 'alex@dev.showup.dev',
       avatar_url: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80',
       is_verified: true,
       bio: 'Fullstack developer & creative technologist 💻',
@@ -1518,7 +1518,7 @@ export const INITIAL_SELECTED_WORKS: SelectedWork[] = [
     video_id: 'vid-04',
     creator_id: 'usr-student-003',
     creator_name: 'Mike Soccer',
-    creator_email: 'mike@soccer.skillbridge.dev',
+    creator_email: 'mike@soccer.showup.dev',
     work_title: 'Freestyle football session',
     work_category: 'Sports',
     video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',
@@ -1533,7 +1533,7 @@ export const INITIAL_SELECTED_WORKS: SelectedWork[] = [
     video_id: 'vid-05',
     creator_id: 'usr-student-004',
     creator_name: 'Emma Music',
-    creator_email: 'alex@music.skillbridge.dev',
+    creator_email: 'alex@music.showup.dev',
     work_title: 'Cover Song - Someone Like You',
     work_category: 'Music',
     video_url: 'https://www.w3schools.com/html/mov_bbb.mp4',

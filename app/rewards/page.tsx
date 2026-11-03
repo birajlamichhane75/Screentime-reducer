@@ -168,7 +168,7 @@ export default function RewardsPage() {
             return (
               <div
                 key={opp.id}
-                className="p-6 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 space-y-4 shadow-sm"
+                className="card-3d p-6 rounded-3xl space-y-4"
               >
                 {/* Organization Name & Mention Handle in Notice */}
                 <div className="space-y-1">
@@ -196,7 +196,7 @@ export default function RewardsPage() {
                 </div>
 
                 {/* How to get noticed by this organization */}
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+                <div className="p-4 rounded-2xl bg-purple-500/5 dark:bg-purple-400/10 border border-purple-500/20 dark:border-purple-400/20 space-y-1">
                   <span className="text-base font-bold text-slate-900 dark:text-white block">
                     How to get noticed:
                   </span>
@@ -209,7 +209,7 @@ export default function RewardsPage() {
                 <div className="pt-1">
                   <Link
                     href="/upload"
-                    className="block text-center w-full py-4 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] text-white text-base font-bold transition-all shadow-md active:scale-98"
+                    className="btn-3d block text-center w-full py-4 rounded-2xl text-white text-base font-bold"
                   >
                     Upload Practice & Mention {orgHandle}
                   </Link>
@@ -233,7 +233,7 @@ export default function RewardsPage() {
                 return (
                   <div
                     key={opp.id}
-                    className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm"
+                    className="card-3d p-6 rounded-3xl space-y-4"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
@@ -258,7 +258,7 @@ export default function RewardsPage() {
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+                    <div className="p-4 rounded-2xl bg-purple-500/5 dark:bg-purple-400/10 border border-purple-500/20 dark:border-purple-400/20 space-y-1">
                       <span className="text-base font-bold text-slate-900 dark:text-white block">
                         How to get noticed:
                       </span>
@@ -270,7 +270,7 @@ export default function RewardsPage() {
                     <div className="pt-1">
                       <Link
                         href="/upload"
-                        className="block text-center w-full py-4 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] text-white text-base font-bold transition-all shadow-md active:scale-98"
+                        className="btn-3d block text-center w-full py-4 rounded-2xl text-white text-base font-bold"
                       >
                         Upload Practice & Mention {orgHandle}
                       </Link>

@@ -160,9 +160,9 @@ export default function UploadVideoPage() {
           </div>
 
           {/* Actual Selected Video Box (No dummy video by default) */}
-          <div className="relative aspect-16/10 w-full rounded-3xl bg-slate-950 overflow-hidden border-2 border-slate-200 dark:border-slate-800 shadow-md flex items-center justify-center">
+          <div className="card-3d relative aspect-16/10 w-full rounded-3xl overflow-hidden flex items-center justify-center">
             {videoPreviewUrl ? (
-              <div className="relative w-full h-full">
+              <div className="relative w-full h-full bg-slate-950">
                 <video
                   src={videoPreviewUrl}
                   controls
@@ -181,9 +181,9 @@ export default function UploadVideoPage() {
             ) : (
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className="flex flex-col items-center justify-center p-6 text-slate-400 space-y-3 cursor-pointer w-full h-full hover:bg-slate-900/60 transition-colors group select-none"
+                className="flex flex-col items-center justify-center p-6 text-slate-400 space-y-3 cursor-pointer w-full h-full hover:bg-white/40 dark:hover:bg-slate-800/40 transition-colors group select-none"
               >
-                <div className="w-24 h-24 rounded-2xl bg-slate-900 flex items-center justify-center overflow-hidden border border-slate-800 shadow-md group-hover:scale-105 transition-transform p-1">
+                <div className="w-24 h-24 rounded-2xl bg-white/80 dark:bg-slate-800/80 shadow-md flex items-center justify-center overflow-hidden border border-slate-200/80 dark:border-white/10 group-hover:scale-105 transition-transform p-1">
                   <img
                     src="/showup-hero.jpg"
                     alt="ShowUp! Practice"
@@ -191,10 +191,10 @@ export default function UploadVideoPage() {
                   />
                 </div>
                 <div className="text-center">
-                  <span className="text-sm font-bold text-white block">
+                  <span className="text-sm font-bold text-slate-900 dark:text-white block">
                     Select Practice Video
                   </span>
-                  <span className="text-xs text-slate-400 font-medium">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                     Tap to choose from device
                   </span>
                 </div>
@@ -220,7 +220,7 @@ export default function UploadVideoPage() {
               onChange={(e) => setCaption(e.target.value.slice(0, 200))}
               rows={2}
               placeholder="Describe your creative work or mention organization..."
-              className="w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-medium focus:ring-2 focus:ring-[#0E0830] outline-hidden resize-none shadow-2xs"
+              className="card-3d w-full px-4 py-3 rounded-2xl text-slate-900 dark:text-white text-sm font-medium focus:border-purple-500 outline-hidden resize-none"
               required
             />
           </div>
@@ -283,7 +283,7 @@ export default function UploadVideoPage() {
             type="button"
             onClick={handlePostVideo}
             disabled={isSubmitting || !caption.trim() || !videoPreviewUrl || !isVerified}
-            className="w-full py-4 px-5 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] active:scale-98 text-white font-black text-sm tracking-wide shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed group"
+            className="btn-3d w-full py-4 px-5 rounded-2xl text-white font-black text-sm tracking-wide flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed group"
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2">
@@ -304,7 +304,7 @@ export default function UploadVideoPage() {
         {/* Custom Category Modal */}
         {isCustomCategoryModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-            <div className="w-full max-w-xs bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+            <div className="card-3d w-full max-w-xs rounded-3xl p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="font-black text-base text-slate-900 dark:text-white">
                   Add Category
@@ -337,9 +337,9 @@ export default function UploadVideoPage() {
                 <button
                   type="button"
                   onClick={handleAddCustomCategory}
-                  className="flex-1 py-2.5 rounded-xl bg-[#0E0830] hover:bg-[#1a1147] text-white text-xs font-bold transition-colors"
+                  className="btn-3d flex-1 py-2.5 rounded-xl text-white text-xs font-bold"
                 >
-                  Add
+                  Add Category
                 </button>
               </div>
             </div>

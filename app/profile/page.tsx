@@ -63,73 +63,73 @@ export default function MobileProfilePage() {
         </div>
 
         {/* User Info Section: Clean, Centered & Legible */}
-        <div className="flex flex-col items-center text-center space-y-3">
-          <img
-            src={
-              profileData?.avatar_url ||
-              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80'
-            }
-            alt={profileData?.full_name || 'Creator'}
-            className="w-24 h-24 rounded-full object-cover border-2 border-slate-200 dark:border-slate-700 shadow-sm"
-          />
+        <div className="flex flex-col items-center text-center space-y-3.5">
+          <div className="relative group">
+            <img
+              src={
+                profileData?.avatar_url ||
+                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80'
+              }
+              alt={profileData?.full_name || 'Creator'}
+              className="w-24 h-24 rounded-full object-cover border-4 border-white dark:border-slate-800 shadow-md ring-2 ring-purple-500/30 group-hover:scale-105 transition-transform"
+            />
+          </div>
 
           <div className="space-y-1">
-            <h1 className="text-2xl font-black text-slate-900 dark:text-white">
+            <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
               {profileData?.full_name || 'Sarah Johnson'}
             </h1>
-            <p className="text-base text-slate-500 dark:text-slate-400">
+            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
               @{profileData?.username || 'sarahdance'}
             </p>
           </div>
 
-          <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed max-w-md">
+          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed max-w-md font-medium">
             {profileData?.bio ||
               'Creative talent practicing daily routines and connecting directly with scouting organizations.'}
           </p>
 
-          {/* Verified Account Email Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-            <Mail className="w-4 h-4 text-[#0E0830] dark:text-[#c4bbf0]" />
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              {accountEmail}
-            </span>
+          {/* Verified Account Email Pill with 3D finish */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full card-3d text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-xs">
+            <Mail className="w-3.5 h-3.5 text-[#0E0830] dark:text-[#c4bbf0]" />
+            <span>{accountEmail}</span>
           </div>
         </div>
 
-        {/* 2 Clean Metrics Cards */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center space-y-1 shadow-xs">
-            <span className="text-2xl font-black text-slate-900 dark:text-white block">
+        {/* 2 Clean Metrics Cards with 3D Depth */}
+        <div className="grid grid-cols-2 gap-3.5">
+          <div className="card-3d card-3d-interactive p-4 text-center space-y-1">
+            <span className="text-3xl font-black text-slate-900 dark:text-white block tracking-tight font-space">
               {videos.length}
             </span>
-            <span className="text-sm font-medium text-slate-500 dark:text-slate-400 block">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block uppercase tracking-wider">
               Works Shared
             </span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center space-y-1 shadow-xs">
-            <span className="text-2xl font-black text-[#0E0830] dark:text-[#c4bbf0] block">
+          <div className="card-3d card-3d-interactive p-4 text-center space-y-1">
+            <span className="text-3xl font-black text-[#0E0830] dark:text-[#c4bbf0] block tracking-tight font-space">
               {selectedWorksCount || 2}
             </span>
-            <span className="text-sm font-medium text-slate-500 dark:text-slate-400 block">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block uppercase tracking-wider">
               Org Selections
             </span>
           </div>
         </div>
 
-        {/* Clean Action Buttons */}
+        {/* Clean Action Buttons with 3D Tactile Touch */}
         <div className="grid grid-cols-2 gap-3">
           <Link
             href="/profile/edit"
-            className="py-3 px-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-white text-base font-bold text-center transition-colors"
+            className="card-3d card-3d-interactive py-3.5 px-4 rounded-2xl text-slate-900 dark:text-white text-sm font-black text-center tracking-wide shadow-xs active:scale-98 transition-all"
           >
             Edit Profile
           </Link>
           <Link
             href="/upload"
-            className="py-3 px-4 rounded-2xl bg-[#0E0830] hover:bg-[#1a1147] text-white text-base font-bold text-center transition-colors shadow-md flex items-center justify-center gap-2"
+            className="btn-3d py-3.5 px-4 rounded-2xl text-white text-sm font-black text-center shadow-md flex items-center justify-center gap-2 tracking-wide active:scale-98 transition-all"
           >
-            <Upload className="w-4 h-4" />
+            <Upload className="w-4 h-4 stroke-[2.5]" />
             <span>Upload Work</span>
           </Link>
         </div>

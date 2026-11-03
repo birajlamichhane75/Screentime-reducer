@@ -49,13 +49,13 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
   const isOrg = currentUser?.role === 'organization';
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 selection:bg-[#0E0830] selection:text-white flex flex-col antialiased">
-      {/* Responsive Shell: 100% width on Mobile, 60% Centered on Desktop */}
-      <main className="w-full lg:w-[60%] mx-auto min-h-screen flex flex-col relative border-x-0 lg:border-x border-slate-200/70 dark:border-slate-800/80 shadow-xs bg-white dark:bg-[#111827] text-slate-900 dark:text-slate-100">
+    <div className="min-h-screen bg-3d-lining text-slate-900 dark:text-slate-100 selection:bg-[#0E0830] selection:text-white flex flex-col antialiased">
+      {/* Responsive Shell: 100% width on Mobile, 60% Centered on Desktop with smooth 3D depth */}
+      <main className="w-full lg:w-[60%] mx-auto min-h-screen flex flex-col relative border-x-0 lg:border-x border-slate-200/80 dark:border-slate-800/80 shadow-2xl bg-white/90 dark:bg-[#0b071e]/90 backdrop-blur-md text-slate-900 dark:text-slate-100">
         {/* Top Minimal Role, Status Bar & Theme Toggle */}
-        <header className="flex items-center justify-between px-3 sm:px-6 py-2.5 text-xs border-b border-slate-100 dark:border-slate-800/80 bg-white/95 dark:bg-[#111827]/95 backdrop-blur-md sticky top-0 z-40">
+        <header className="flex items-center justify-between px-3 sm:px-6 py-3 text-xs border-b border-slate-200/60 dark:border-slate-800/60 bg-white/85 dark:bg-[#070414]/85 backdrop-blur-xl sticky top-0 z-40 shadow-xs">
           <Link href="/feed" className="flex items-center gap-2 group">
-            <div className="w-7 h-7 rounded-lg overflow-hidden shadow-xs border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 p-0.5">
+            <div className="w-8 h-8 rounded-xl overflow-hidden shadow-xs border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 p-0.5 group-hover:scale-105 transition-transform">
               <img
                 src="/showup-logo.jpg"
                 alt="ShowUp!"
@@ -63,11 +63,11 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
               />
             </div>
             <div className="flex items-baseline gap-1.5">
-              <span className="font-semibold text-slate-900 dark:text-white text-sm tracking-tight">
+              <span className="font-extrabold text-slate-900 dark:text-white text-base tracking-tight">
                 ShowUp!
               </span>
-              <span className="text-[10px] text-slate-400 font-normal hidden sm:inline">
-                {isOrg ? 'Organization Portal' : 'Creative Studio'}
+              <span className="text-[10px] text-slate-400 font-semibold hidden sm:inline tracking-wide uppercase">
+                {isOrg ? 'Organization Portal' : 'Creator Studio'}
               </span>
             </div>
           </Link>
@@ -116,74 +116,74 @@ export function MobileShell({ children, hideBottomNav = false }: MobileShellProp
           {children}
         </div>
 
-        {/* Relaxing Big-Tech Bottom Navigation Bar */}
+        {/* Relaxing Big-Tech Bottom Navigation Bar with 3D Depth */}
         {!hideBottomNav && (
           <nav
             aria-label="Bottom Navigation"
-            className="sticky bottom-0 z-40 border-t bg-white/95 dark:bg-[#111827]/95 border-slate-200/80 dark:border-slate-800/80 text-slate-500 dark:text-slate-400 backdrop-blur-md px-4 sm:px-8 py-2 flex items-center justify-around"
+            className="sticky bottom-0 z-40 border-t bg-white/90 dark:bg-[#070414]/90 border-slate-200/80 dark:border-slate-800/80 text-slate-500 dark:text-slate-400 backdrop-blur-xl shadow-[0_-6px_25px_rgba(0,0,0,0.04)] px-3 sm:px-8 py-2.5 flex items-center justify-around"
           >
             {/* 1. Home / Upload Feature */}
             <Link
               href="/feed"
-              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
+              className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-2xl transition-all ${
                 pathname === '/feed' || pathname === '/'
-                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
+                  ? 'text-[#0E0830] dark:text-white font-black bg-slate-100/90 dark:bg-slate-800/90 shadow-xs'
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Upload className="w-5 h-5 stroke-[1.9]" />
+              <Upload className="w-5 h-5 stroke-[2.2]" />
               <span className="text-[11px] tracking-tight">Home</span>
             </Link>
 
-            {/* 2. Explore Page (Moved to Bottom Nav) */}
+            {/* 2. Explore Page */}
             <Link
               href="/explore"
-              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
+              className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-2xl transition-all ${
                 pathname === '/explore'
-                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
+                  ? 'text-[#0E0830] dark:text-white font-black bg-slate-100/90 dark:bg-slate-800/90 shadow-xs'
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Compass className="w-5 h-5 stroke-[1.9]" />
+              <Compass className="w-5 h-5 stroke-[2.2]" />
               <span className="text-[11px] tracking-tight">Explore</span>
             </Link>
 
             {/* 3. Rating Page */}
             <Link
               href="/rating"
-              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
+              className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-2xl transition-all ${
                 pathname === '/rating'
-                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
+                  ? 'text-[#0E0830] dark:text-white font-black bg-slate-100/90 dark:bg-slate-800/90 shadow-xs'
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Trophy className="w-5 h-5 stroke-[1.9]" />
+              <Trophy className="w-5 h-5 stroke-[2.2]" />
               <span className="text-[11px] tracking-tight">Rating</span>
             </Link>
 
             {/* 4. Rewards Page */}
             <Link
               href="/rewards"
-              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
+              className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-2xl transition-all ${
                 pathname === '/rewards' || pathname === '/messages'
-                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
+                  ? 'text-[#0E0830] dark:text-white font-black bg-slate-100/90 dark:bg-slate-800/90 shadow-xs'
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Gift className="w-5 h-5 stroke-[1.9]" />
+              <Gift className="w-5 h-5 stroke-[2.2]" />
               <span className="text-[11px] tracking-tight">Rewards</span>
             </Link>
 
             {/* 5. Profile */}
             <Link
               href="/profile"
-              className={`flex flex-col items-center gap-1 py-1 px-3 transition-colors ${
+              className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-2xl transition-all ${
                 pathname === '/profile'
-                  ? 'text-[#0E0830] dark:text-[#c4bbf0] font-bold'
+                  ? 'text-[#0E0830] dark:text-white font-black bg-slate-100/90 dark:bg-slate-800/90 shadow-xs'
                   : 'hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <User className="w-5 h-5 stroke-[1.9]" />
+              <User className="w-5 h-5 stroke-[2.2]" />
               <span className="text-[11px] tracking-tight">Profile</span>
             </Link>
           </nav>
